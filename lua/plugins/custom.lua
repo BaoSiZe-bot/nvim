@@ -188,45 +188,99 @@ return {
     "lambdalisue/vim-suda",
     cmd = { "SudaRead", "SudaWrite" },
   },
-  -- lazy.nvim spec
   {
-    url = "https://gitee.com/sunn4room/codegeex.nvim",
+    "chrisgrieser/nvim-spider",
     keys = {
       {
-        "<F1>",
-        function()
-          if require("codegeex").visible() then
-            require("codegeex").confirm()
-          else
-            require("codegeex").complete()
-          end
-        end,
-        mode = "i",
+        "e",
+        "<cmd>lua require('spider').motion('e')<CR>",
+        mode = { "n", "o", "x" },
       },
       {
-        "<F2>",
-        function()
-          require("codegeex").cancel()
-        end,
-        mode = "i",
+        "w",
+        "<cmd>lua require('spider').motion('w')<CR>",
+        mode = { "n", "o", "x" },
       },
-    },
-    opts = {
-      timeout = 5000, -- request timeout
-      highlight = "NonText", -- highlight group for suggestions
-      ft2lang = { -- filetype to lang for codegeex request
-        python = "Python",
-        cpp = "Cpp",
+      {
+        "b",
+        "<cmd>lua require('spider').motion('b')<CR>",
+        mode = { "n", "o", "x" },
       },
     },
   },
   {
-    "s1n7ax/nvim-window-picker",
-    name = "window-picker",
+    url = "https://mirror.ghproxy.com/github.com/folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    opts = {},
+    keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
+  },
+  {
+    url = "https://mirror.ghproxy.com/github.com/folke/twilight.nvim",
+    cmd = { "Twilight", "TwilightEnable", "TwilightDisable" },
+    opts = {},
+    keys = { { "<leader>T", "<cmd>Twilight<cr>", desc = "Twilight Toggle" } },
+  },
+  {
+    url = "https://mirror.ghproxy.com/github.com/mikavilpas/yazi.nvim",
+    keys = {
+      -- 👇 in this section, choose your own keymappings!
+      {
+        "<leader>fy",
+        function()
+          require("yazi").yazi()
+        end,
+        desc = "Open the file manager",
+      },
+      {
+        -- Open in the current working directory
+        "<leader>fY",
+        function()
+          require("yazi").yazi(nil, vim.fn.getcwd())
+        end,
+        desc = "Open the file manager in nvim's working directory",
+      },
+      {
+        "<c-up>",
+        function()
+          -- NOTE: requires a version of yazi that includes
+          -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
+          require("yazi").toggle()
+        end,
+        desc = "Resume the last yazi session",
+      },
+    },
+    ---@type YaziConfig
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = true, -- enable these if you are using the latest version of yazi
+      -- use_ya_for_events_reading = true,
+      -- use_yazi_client_id_flag = true,
+    },
+  },
+  {
+    url = "https://mirror.ghproxy.com/github.com/arnamak/stay-centered.nvim",
+    keys = {
+      {
+        "<leader>uS",
+        "<cmd>lua require('stay-centered').toggle()<cr>",
+        { desc = "Toggle stay-centered.nvim" },
+      },
+    },
+  },
+  { "mateuszwieloch/automkdir.nvim", event = "BufWrite" },
+  {
+    "declancm/cinnamon.nvim",
     event = "VeryLazy",
-    version = "2.*",
+    version = "*", -- use latest release
     config = function()
-      require("window-picker").setup()
+      require("cinnamon").setup({ -- Enable all provided keymaps
+        keymaps = {
+          basic = true,
+          extra = true,
+        },
+        -- Only scroll the window
+        options = { mode = "window" },
+      })
     end,
   },
 }
