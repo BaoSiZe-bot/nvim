@@ -181,6 +181,7 @@ return {
           },
         },
         ["core.concealer"] = {},
+        ["core.ui"] = {},
       },
     },
   },
