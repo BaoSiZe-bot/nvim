@@ -31,7 +31,7 @@ vim.keymap.set({ "i", "s" }, "<C-S-h>", "<Left>", { desc = "Left" })
 vim.keymap.set({ "i", "s" }, "<C-S-j>", "<Down>", { desc = "Down" })
 vim.keymap.set({ "i", "s" }, "<C-S-k>", "<Up>", { desc = "Up" })
 vim.keymap.set({ "i", "s" }, "<C-S-l>", "<Right>", { desc = "Right" })
-
+vim.keymap.set({ "n" }, "gR", "<cmd>URLOpenUnderCursor<cr>", { desc = "open url under cursor" })
 function FlashWords()
   local Flash = require("flash")
 
