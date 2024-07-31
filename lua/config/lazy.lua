@@ -11,7 +11,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     {
-      "olimorris/onedarkpro.nvim",
+      url = "https://kkgithub.com/olimorris/onedarkpro.nvim",
       opts = {
         options = {
           highlight_inactive_windows = true,

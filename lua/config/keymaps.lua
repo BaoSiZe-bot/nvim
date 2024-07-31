@@ -4,9 +4,9 @@
 
 require("which-key").add({
   { "<leader>a", group = "Full text", icon = "󰒆" },
-  { "<leader>ac", "<cmd>%d-<CR>i", desc = "Edit", icon = "" },
+  { "<leader>ac", "<cmd>%d_<CR>i", desc = "Edit", icon = "" },
   { "<leader>ak", "<cmd>%d<CR>", desc = "Cut", icon = "" },
-  { "<leader>ad", "<cmd>%d-<CR>", desc = "Delete", icon = "" },
+  { "<leader>ad", "<cmd>%d_<CR>", desc = "Delete", icon = "" },
   { "<leader>as", "ggVG<C-g>", desc = "Select(Select mode)", icon = "󱟁" },
   { "<leader>av", "ggVG", desc = "Select(Visual mode)", icon = "󰒅" },
   { "<leader>ay", "<cmd>%y<CR>", desc = "Copy", icon = "" },
@@ -31,7 +31,6 @@ vim.keymap.set({ "i", "s" }, "<C-S-h>", "<Left>", { desc = "Left" })
 vim.keymap.set({ "i", "s" }, "<C-S-j>", "<Down>", { desc = "Down" })
 vim.keymap.set({ "i", "s" }, "<C-S-k>", "<Up>", { desc = "Up" })
 vim.keymap.set({ "i", "s" }, "<C-S-l>", "<Right>", { desc = "Right" })
-vim.keymap.set({ "n" }, "gR", "<cmd>URLOpenUnderCursor<cr>", { desc = "open url under cursor" })
 function FlashWords()
   local Flash = require("flash")
 
