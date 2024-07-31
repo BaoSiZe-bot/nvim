@@ -298,4 +298,27 @@ return {
       url_open.setup({})
     end,
   },
+  {
+    "kosayoda/nvim-lightbulb",
+    event = "VeryLazy",
+    opts = {
+      autocmd = { enabled = true },
+    },
+  },
+  {
+    "chrisgrieser/nvim-early-retirement",
+    config = true,
+    event = "VeryLazy",
+    opts = {
+      -- if a buffer has been inactive for this many minutes, close it
+      retirementAgeMins = 30,
+    },
+  },
+  {
+    "luukvbaal/statuscol.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("statuscol").setup({})
+    end,
+  },
 }
