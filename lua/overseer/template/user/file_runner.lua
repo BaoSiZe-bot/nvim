@@ -1,6 +1,6 @@
 -- /home/stevearc/.config/nvim/lua/overseer/template/user/run_script.lua
 return {
-  name = "g++ build and run",
+  name = "build_and_run",
   builder = function()
     -- Full path to current file (see :help expand())
     local file = vim.fn.expand("%:p")

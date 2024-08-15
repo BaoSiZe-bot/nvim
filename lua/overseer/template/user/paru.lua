@@ -1,8 +1,8 @@
 return {
-  name = "open_python",
+  name = "open_paru",
   builder = function()
     return {
-      cmd = { "python" },
+      cmd = { "paru" },
       components = { "default" },
     }
   end,

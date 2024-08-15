@@ -1,8 +1,8 @@
 return {
-  name = "open_python",
+  name = "open_transshell",
   builder = function()
     return {
-      cmd = { "python" },
+      cmd = { "trans -e bing -I" },
       components = { "default" },
     }
   end,

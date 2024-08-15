@@ -12,7 +12,7 @@
     "prefix": ["fd", "find"],
     "body": [
       "int p[100005], h[100005]; //TODO: add memset(p, 0xff, sizeof p);",
-      "inline void fd(int x) // find parent",
+      "inline int fd(int x) // find parent",
       "{",
       "    return ~p[x] ? p[x] = fd(p[x]) : x;",
       "}",

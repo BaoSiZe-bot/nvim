@@ -11,12 +11,14 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
+    lazy = true,
+    event = "LspAttach",
     opts = {
       sources = {
         require("null-ls.builtins.diagnostics.cppcheck").with({
           args = {
             "--enable=warning,performance,portability,unusedFunction",
-            "--std=c++20",
+            "--std=c++2c",
             "--language=c++",
             "--check-level=exhaustive",
             "$FILENAME",
@@ -29,7 +31,15 @@ return {
   {
     "stevearc/overseer.nvim",
     opts = {
-      templates = { "builtin", "user.cpp_build", "user.file_runner", "user.python" },
+      templates = {
+        "builtin",
+        "user.cpp_build",
+        "user.file_runner",
+        "user.python",
+        "user.igcc",
+        "user.trans_shell",
+        "user.paru",
+      },
       strategy = {
         "toggleterm",
         use_shell = false,
@@ -303,15 +313,6 @@ return {
     event = "VeryLazy",
     opts = {
       autocmd = { enabled = true },
-    },
-  },
-  {
-    "chrisgrieser/nvim-early-retirement",
-    config = true,
-    event = "VeryLazy",
-    opts = {
-      -- if a buffer has been inactive for this many minutes, close it
-      retirementAgeMins = 30,
     },
   },
   {

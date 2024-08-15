@@ -1,8 +1,8 @@
 return {
-  name = "open_python",
+  name = "open_igcc",
   builder = function()
     return {
-      cmd = { "python" },
+      cmd = { "igcc" },
       components = { "default" },
     }
   end,
