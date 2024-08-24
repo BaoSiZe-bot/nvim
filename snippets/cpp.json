@@ -33,7 +33,7 @@
     ]
   },
   "Quick pow(mod p)": {
-    "prefix": ["qpm", "ksmm"],
+    "prefix": ["qpmod", "ksmmod"],
     "body": [
       "inline int qp(int a, int b, int p)",
       "{",
@@ -49,6 +49,24 @@
       "}"
     ]
   },
+  "Quick pow": {
+    "prefix": ["qp", "ksm"],
+    "body": [
+      "inline int qp(int a, int b)",
+      "{",
+      "    int res = 1;",
+      "    while(b)",
+      "    {",
+      "        if (b & 1)",
+      "            res *= a",
+      "        a *= a",
+      "        b >>= 1;",
+      "    }",
+      "    return res",
+      "}"
+    ]
+  },
+
   "Eular": {
     "prefix": ["eular", "ola"],
     "body": [
@@ -131,17 +149,28 @@
   "List-style forward star": {
     "prefix": "Edge",
     "body": [
-      "template<const int N>struct GR",
+      "template <const int N> struct GR",
       "{",
+      "private:",
       "    struct Edge",
       "    {",
-      "        int v, p;",
+      "        int v, w, p;",
       "    } e[N];",
       "    int ed[N], cnt = 0;",
-      "    inline void add(int u, int v)",
+      "",
+      "public:",
+      "    inline void add(int u, int v, int w)",
       "    {",
-      "        e[++cnt] = {v, ed[u]};",
+      "        e[++cnt] = {v, w, ed[u]};",
       "        ed[u] = cnt;",
+      "    }",
+      "    inline Edge ge(int x)",
+      "    {",
+      "        return e[x];",
+      "    }",
+      "    inline int gd(int x)",
+      "    {",
+      "        return ed[x];",
       "    }",
       "};"
     ]

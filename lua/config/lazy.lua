@@ -14,14 +14,38 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    { "folke/tokyonight.nvim", enabled = false },
     {
       url = "https://kkgithub.com/LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = { colorscheme = "catppuccin-mocha" },
     },
     -- import/override with your plugins
+    { import = "lazyvim.plugins.extras.coding.codeium" },
+    { import = "lazyvim.plugins.extras.coding.mini-surround" },
+    { import = "lazyvim.plugins.extras.coding.neogen" },
+    { import = "lazyvim.plugins.extras.coding.yanky" },
+    { import = "lazyvim.plugins.extras.dap.core" },
+    { import = "lazyvim.plugins.extras.editor.dial" },
+    { import = "lazyvim.plugins.extras.editor.telescope" },
+    { import = "lazyvim.plugins.extras.editor.illuminate" },
+    { import = "lazyvim.plugins.extras.editor.inc-rename" },
+    { import = "lazyvim.plugins.extras.editor.mini-files" },
+    { import = "lazyvim.plugins.extras.editor.overseer" },
+    { import = "lazyvim.plugins.extras.editor.refactoring" },
+    { import = "lazyvim.plugins.extras.lang.clangd" },
+    { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.lang.markdown" },
+    { import = "lazyvim.plugins.extras.lang.python" },
+    { import = "lazyvim.plugins.extras.lsp.none-ls" },
+    { import = "lazyvim.plugins.extras.ui.edgy" },
+    { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
+    { import = "lazyvim.plugins.extras.ui.treesitter-context" },
+    { import = "lazyvim.plugins.extras.util.gitui" },
+    { import = "lazyvim.plugins.extras.util.octo" },
+    { import = "lazyvim.plugins.extras.util.startuptime" },
+    { import = "lazyvim.plugins.extras.vscode" },
     { import = "plugins" },
+    { "stevearc/dressing.nvim", lazy = false, opts = {}, enabled = true, disabled = false },
   },
   defaults = {
     lazy = true,
@@ -41,6 +65,7 @@ require("lazy").setup({
         "netrwSettings",
         "netrwFileHandlers",
         "matchit",
+        "matchparen",
         "tar",
         "tarPlugin",
         "rrhelper",
@@ -61,80 +86,4 @@ require("lazy").setup({
     },
   },
 })
-
--- vim.opt.mousemoveevent = true
--- vim.keymap.set("n", "<RightMouse>", [[<Nop>]])
--- vim.keymap.set("n", "<RightDrag>", [[<Cmd>lua require("gesture").draw()<CR>]], { silent = true })
--- vim.keymap.set("n", "<RightRelease>", [[<Cmd>lua require("gesture").finish()<CR>]], { silent = true })
---
--- local gesture = require("gesture")
--- gesture.register({
---   name = "scroll to bottom",
---   inputs = { gesture.up(), gesture.down() },
---   action = "normal! G",
--- })
--- gesture.register({
---   name = "scroll to top",
---   inputs = { gesture.down(), gesture.up() },
---   action = "normal! gg",
--- })
--- gesture.register({
---   name = "scroll up",
---   inputs = { gesture.up() },
---   action = "normal! 20kzz",
--- })
--- gesture.register({
---   name = "scroll down",
---   inputs = { gesture.down() },
---   action = "normal! 20jzz",
--- })
--- gesture.register({
---   name = "next buffer",
---   inputs = { gesture.right() },
---   action = function(_) -- also can use callable
---     vim.cmd([[BufferLineCycleNext]])
---   end,
--- })
--- gesture.register({
---   name = "previous buffer",
---   inputs = { gesture.left() },
---   action = function(_) -- also can use callable
---     vim.cmd([[BufferLineCyclePrev]])
---   end,
--- })
--- gesture.register({
---   name = "go back",
---   inputs = { gesture.right(), gesture.left() },
---   -- map to `<C-o>` keycode
---   action = function()
---     vim.api.nvim_feedkeys(vim.keycode("<C-o>"), "n", true)
---   end,
--- })
--- gesture.register({
---   name = "New buffer",
---   match = function(ctx)
---     local last_input = ctx.inputs[#ctx.inputs]
---     return last_input and last_input.direction == "UP"
---   end,
---   can_match = function(ctx)
---     local first_input = ctx.inputs[1]
---     return first_input and first_input.direction == "RIGHT"
---   end,
---   action = function()
---     vim.cmd([[enew]])
---   end,
--- })
--- gesture.register({
---   name = "Delete buffer",
---   match = function(ctx)
---     local last_input = ctx.inputs[#ctx.inputs]
---     return last_input and last_input.direction == "UP"
---   end,
---   can_match = function(ctx)
---     local first_input = ctx.inputs[1]
---     return first_input and first_input.direction == "RIGHT"
---   end,
---   action = function()
---     LazyVim.ui.bufremove()
---   end,
--- })
+vim.o.mousemoveevent = true

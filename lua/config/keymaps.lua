@@ -3,6 +3,8 @@
 -- Add any additional keymaps here
 if vim.g.vscode == nil then
   require("which-key").add({
+    { "<leader>t", "<cmd>lua require('tldr').pick()<cr>", desc = "TeelDeer pages", icon = "" },
+    { "<leader>cM", "<cmd>lua require('cppman').search()<cr>", desc = "Manpages", icon = "" },
     { "<leader>a", group = "Full text", icon = "󰒆" },
     { "<leader>ac", "<cmd>%d_<CR>i", desc = "Edit", icon = "" },
     { "<leader>ak", "<cmd>%d<CR>", desc = "Cut", icon = "" },

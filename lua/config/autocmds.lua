@@ -12,3 +12,4 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.b.autoformat = false
   end,
 })
+vim.cmd("autocmd FileType guihua lua require('cmp').setup.buffer { enabled = false }")
