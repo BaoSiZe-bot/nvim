@@ -1,5 +1,396 @@
 return {
   {
+    "hiphish/rainbow-delimiters.nvim",
+    lazy = false,
+    config = function()
+      local rainbow_delimiters = require("rainbow-delimiters")
+      local highlight = {
+        "RainbowRed",
+        "RainbowYellow",
+        "RainbowBlue",
+        "RainbowOrange",
+        "RainbowGreen",
+        "RainbowViolet",
+        "RainbowCyan",
+      }
+
+      local hooks = require("ibl.hooks")
+      -- 在 highlight 设置钩子中创建高亮组，以便每次颜色主题更改时重置它们
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+        vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+      end)
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        priority = {
+          [""] = 110,
+          lua = 210,
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+      }
+    end,
+  },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    -- config = function()
+    --   local highlight = {
+    --     "RainbowRed",
+    --     "RainbowYellow",
+    --     "RainbowBlue",
+    --     "RainbowOrange",
+    --     "RainbowGreen",
+    --     "RainbowViolet",
+    --     "RainbowCyan",
+    --   }
+    --
+    --   local hooks = require("ibl.hooks")
+    --   -- 在 highlight 设置钩子中创建高亮组，以便每次颜色主题更改时重置它们
+    --   hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+    --     vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+    --     vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+    --     vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+    --     vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+    --     vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+    --     vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+    --     vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+    --   end)
+    --
+    --   require("ibl").setup() --{ indent = { highlight = highlight } }
+    -- end,
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    version = false, -- last release is way too old
+    event = "InsertEnter",
+    dependencies = {
+      "neovim/nvim-lspconfig", -- 提供LSP配置
+      "hrsh7th/cmp-nvim-lsp", -- 提供LSP补全源
+      "hrsh7th/cmp-buffer", -- 提供缓冲区补全源
+      "hrsh7th/cmp-path", -- 提供路径补全源
+      "hrsh7th/cmp-cmdline", -- 提供命令行补全源
+      "nvimdev/lspsaga.nvim", -- 提供LSP UI增强
+      "onsails/lspkind.nvim",
+    },
+    config = function()
+      -- lspsaga 配置
+      require("lspsaga").setup({})
+
+      -- 补全项的图标
+      local kind_icons = {
+        Array = "  ",
+        Boolean = "󰨙  ",
+        Class = "  ",
+        Codeium = "󰘦  ",
+        Color = "  ",
+        Control = "  ",
+        Collapsed = "  ",
+        Constant = "󰏿  ",
+        Constructor = "  ",
+        Copilot = "  ",
+        Enum = "  ",
+        EnumMember = "  ",
+        Event = "  ",
+        Field = "  ",
+        File = "  ",
+        Folder = "  ",
+        Function = "󰊕  ",
+        Interface = "  ",
+        Key = "  ",
+        Method = "󰊕  ",
+        Keyword = "  ",
+        Module = "  ",
+        Namespace = "󰦮  ",
+        Null = "  ",
+        Number = "󰎠  ",
+        Object = "  ",
+        Operator = "  ",
+        Package = "  ",
+        Property = "  ",
+        Reference = "  ",
+        Snippet = "  ",
+        String = "  ",
+        Struct = "󰆼  ",
+        TabNine = "󰏚  ",
+        Text = "  ",
+        TypeParameter = "  ",
+        Unit = "  ",
+        Value = "  ",
+        Variable = "󰀫  ",
+      }
+      local cmp = require("cmp")
+      local compare = require("cmp.config.compare")
+
+      -- 检查光标前是否有非空白字符
+      local formatting_style = {
+        -- default fields order i.e completion word + item.kind + item.kind icons
+        fields = { "kind", "abbr", "menu" },
+        format = function(_, item)
+          local icons = kind_icons
+          local icon = (true and icons[item.kind]) or ""
+          item.menu = true and "(" .. item.kind .. ")" or ""
+          item.kind = icon
+          return item
+        end,
+      }
+      local WIDE_HEIGHT = 40
+      local function border(hl_name)
+        return {
+          { "╭", hl_name },
+          { "─", hl_name },
+          { "╮", hl_name },
+          { "│", hl_name },
+          { "╯", hl_name },
+          { "─", hl_name },
+          { "╰", hl_name },
+          { "│", hl_name },
+        }
+      end
+      cmp.setup({
+        matching = {
+          disallow_fuzzy_matching = true,
+          disallow_fullfuzzy_matching = true,
+          disallow_partial_fuzzy_matching = true,
+          disallow_partial_matching = true,
+          disallow_prefix_unmatching = false,
+          disallow_symbol_nonprefix_matching = true,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<CR>"] = LazyVim.cmp.confirm({ select = true }),
+          ["<C-y>"] = LazyVim.cmp.confirm({ select = true }),
+          ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ["<C-CR>"] = function(fallback)
+            cmp.abort()
+            fallback()
+          end,
+        }),
+
+        auto_brackets = {}, -- configure any filetype to auto add brackets
+        completion = {
+          completeopt = "menu,menuone,noinsert" .. (true and "" or ",noselect"),
+        },
+        preselect = true and cmp.PreselectMode.Item or cmp.PreselectMode.None,
+        experimental = {
+          ghost_text = {
+            hl_group = "CmpGhostText",
+          },
+        },
+        formatting = formatting_style,
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "path" },
+        }, {
+          { name = "codeium" },
+          -- { name = "cmdline" },
+          { name = "snippets" },
+          { name = "git" },
+        }),
+        window = {
+          completion = {
+            side_padding = 1,
+            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+            winblend = vim.o.pumblend,
+            scrolloff = 0,
+            col_offset = 0,
+            border = border("CmpBorder"),
+            scrollbar = true,
+          },
+          documentation = {
+            max_height = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)),
+            max_width = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))),
+            border = border("CmpDocBorder"),
+            winhighlight = "FloatBorder:NormalFloat",
+            winblend = vim.o.pumblend,
+          },
+        },
+        sorting = {
+          comparators = {
+            compare.sort_text,
+            compare.offset,
+            compare.exact,
+            compare.scopes,
+            compare.score,
+            compare.recently_used,
+            compare.locality,
+            compare.kind,
+            compare.length,
+            compare.order,
+          },
+        },
+      })
+      cmp.setup.filetype("gitcommit", {
+        sources = cmp.config.sources({
+          { name = "cmp_git" },
+          { name = "buffer" },
+        }),
+      })
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+
+      -- 让 : 命令能使用 path cmdline 补全
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+          { name = "cmdline" },
+        }),
+      })
+
+      -- 设置 Rime 输入法
+      local function setup_rime()
+        -- 全局状态
+        vim.g.rime_enabled = false
+
+        -- 更新 lualine 状态栏
+        local function rime_status()
+          if vim.g.rime_enabled then
+            return "ㄓ"
+          else
+            return ""
+          end
+        end
+
+        require("lualine").setup({
+          sections = {
+            lualine_x = {
+              rime_status,
+            -- stylua: ignore
+            {
+              function() return require("noice").api.status.command.get() end,
+              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+              color = function() return LazyVim.ui.fg("Statement") end,
+            },
+            -- stylua: ignore
+            {
+              function() return require("noice").api.status.mode.get() end,
+              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+              color = function() return LazyVim.ui.fg("Constant") end,
+            },
+            -- stylua: ignore
+            {
+              function() return "  " .. require("dap").status() end,
+              cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+              color = function() return LazyVim.ui.fg("Debug") end,
+            },
+            -- stylua: ignore
+            {
+              require("lazy.status").updates,
+              cond = require("lazy.status").has_updates,
+              color = function() return LazyVim.ui.fg("Special") end,
+            },
+              {
+                "diff",
+                symbols = {
+                  added = LazyVim.config.icons.git.added,
+                  modified = LazyVim.config.icons.git.modified,
+                  removed = LazyVim.config.icons.git.removed,
+                },
+                source = function()
+                  local gitsigns = vim.b.gitsigns_status_dict
+                  if gitsigns then
+                    return {
+                      added = gitsigns.added,
+                      modified = gitsigns.changed,
+                      removed = gitsigns.removed,
+                    }
+                  end
+                end,
+              },
+            },
+          },
+        })
+
+        -- 添加 rime-ls 作为自定义 LSP 服务器
+        local lspconfig = require("lspconfig")
+        local configs = require("lspconfig.configs")
+        if not configs.rime_ls then
+          configs.rime_ls = {
+            default_config = {
+              name = "rime_ls",
+              cmd = { "rime_ls" },
+              filetypes = { "*" },
+              single_file_support = true,
+            },
+            settings = {},
+            docs = {
+              description = [[
+            https://www.github.com/wlh320/rime-ls
+
+            A language server for librime
+            ]],
+            },
+          }
+        end
+
+        local rime_on_attach = function(client, _)
+          local toggle_rime = function()
+            client.request("workspace/executeCommand", { command = "rime-ls.toggle-rime" }, function(_, result, ctx, _)
+              if ctx.client_id == client.id then
+                vim.g.rime_enabled = result
+              end
+            end)
+          end
+          -- 设置切换 Rime 的快捷键
+          vim.keymap.set("n", "<leader>ri", function()
+            toggle_rime()
+          end)
+          vim.keymap.set("i", "<C-x>", function()
+            toggle_rime()
+          end)
+          vim.keymap.set("n", "<leader>rs", function()
+            vim.lsp.buf.execute_command({ command = "rime-ls.sync-user-data" })
+          end)
+        end
+
+        -- 广播 nvim-cmp 的额外补全能力给服务器
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+        lspconfig.rime_ls.setup({
+          init_options = {
+            enabled = vim.g.rime_enabled,
+            shared_data_dir = "/usr/share/rime-data",
+            user_data_dir = "~/.local/share/rime-ls",
+            log_dir = "~/.local/share/rime-ls",
+            max_candidates = 9,
+            trigger_characters = {},
+            schema_trigger_character = "&", -- [since v0.2.0] 当输入此字符串时请求补全会触发 “方案选单”
+          },
+          on_attach = rime_on_attach,
+          capabilities = capabilities,
+        })
+      end
+
+      setup_rime()
+    end,
+  },
+  {
     "p00f/clangd_extensions.nvim",
     lazy = true,
     config = function() end,
@@ -73,11 +464,11 @@ return {
   },
   {
     "ray-x/navigator.lua",
-    lazy = false,
+    event = "LspAttach",
     dependencies = {
       {
         "ray-x/guihua.lua",
-        lazy = false,
+        event = "LspAttach",
         build = "cd lua/fzy && make",
         opts = {},
         config = function(_, opts)
@@ -187,7 +578,7 @@ return {
   },
   {
     "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
+    event = "LspAttach",
     opts = {},
     config = function(_, opts)
       require("lsp_signature").setup(opts)
@@ -499,7 +890,7 @@ return {
   },
   {
     "kosayoda/nvim-lightbulb",
-    event = "VeryLazy",
+    event = "LspAttach",
     opts = {
       autocmd = { enabled = true },
     },
@@ -614,5 +1005,6 @@ return {
       require("telescope").load_extension("tldr")
     end,
   },
+  { "nvimdev/lspsaga.nvim", event = "LspAttach", opts = {} },
   -- { "Bekaboo/dropbar.nvim", opts = {}, lazy = false },
 }

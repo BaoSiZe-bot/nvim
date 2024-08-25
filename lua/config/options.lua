@@ -120,6 +120,7 @@ end
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+vim.wo.colorcolumn = "100"
 vim.opt.softtabstop = 4
 vim.opt.guifont = "Maple Mono NF:h12"
 if vim.g.neovide == true then
