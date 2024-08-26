@@ -1,9 +1,51 @@
 return {
   {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+
+      -- Only one of these is needed, not both.
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+    config = true,
+    cmd = { "Neogit" },
+  },
+  {
     "hiphish/rainbow-delimiters.nvim",
     lazy = false,
     config = function()
       local rainbow_delimiters = require("rainbow-delimiters")
+
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        priority = {
+          [""] = 110,
+          lua = 210,
+        },
+        highlight = {
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+        },
+      }
+    end,
+  },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    opts = function()
       local highlight = {
         "RainbowRed",
         "RainbowYellow",
@@ -25,64 +67,58 @@ return {
         vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
         vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
       end)
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [""] = rainbow_delimiters.strategy["global"],
-          vim = rainbow_delimiters.strategy["local"],
+      return {
+        indent = {
+          char = "│",
+          tab_char = "│",
+          highlight = highlight,
         },
-        query = {
-          [""] = "rainbow-delimiters",
-          lua = "rainbow-blocks",
-        },
-        priority = {
-          [""] = 110,
-          lua = 210,
-        },
-        highlight = {
-          "RainbowDelimiterRed",
-          "RainbowDelimiterYellow",
-          "RainbowDelimiterBlue",
-          "RainbowDelimiterOrange",
-          "RainbowDelimiterGreen",
-          "RainbowDelimiterViolet",
-          "RainbowDelimiterCyan",
+        scope = { enabled = false },
+        exclude = {
+          filetypes = {
+            "help",
+            "alpha",
+            "dashboard",
+            "neo-tree",
+            "Trouble",
+            "trouble",
+            "lazy",
+            "mason",
+            "notify",
+            "toggleterm",
+            "lazyterm",
+          },
         },
       }
     end,
   },
-
   {
-    "lukas-reineke/indent-blankline.nvim",
-    -- config = function()
-    --   local highlight = {
-    --     "RainbowRed",
-    --     "RainbowYellow",
-    --     "RainbowBlue",
-    --     "RainbowOrange",
-    --     "RainbowGreen",
-    --     "RainbowViolet",
-    --     "RainbowCyan",
-    --   }
-    --
-    --   local hooks = require("ibl.hooks")
-    --   -- 在 highlight 设置钩子中创建高亮组，以便每次颜色主题更改时重置它们
-    --   hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-    --     vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-    --     vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-    --     vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-    --     vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-    --     vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-    --     vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-    --     vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-    --   end)
-    --
-    --   require("ibl").setup() --{ indent = { highlight = highlight } }
-    -- end,
+    "nvimtools/none-ls.nvim",
+    opts = {
+      sources = {
+        require("null-ls.builtins.diagnostics.cppcheck").with({
+          args = {
+            "--enable=warning,performance,portability,unusedFunction",
+            "--std=c++2c",
+            "--language=c++",
+            "--check-level=exhaustive",
+            "$FILENAME",
+          },
+        }),
+      },
+    },
+    -- dependencies = { "hrsh7th/nvim-cmp" },
+  },
+  {
+    "winston0410/range-highlight.nvim",
+    dependencies = "winston0410/cmd-parser.nvim",
+    lazy = false,
+    opts = {},
   },
   {
     "hrsh7th/nvim-cmp",
     version = false, -- last release is way too old
-    event = "InsertEnter",
+    event = "VeryLazy",
     dependencies = {
       "neovim/nvim-lspconfig", -- 提供LSP配置
       "hrsh7th/cmp-nvim-lsp", -- 提供LSP补全源
@@ -227,6 +263,7 @@ return {
           },
         },
         sorting = {
+          priority_weight = 2,
           comparators = {
             compare.sort_text,
             compare.offset,
@@ -589,24 +626,6 @@ return {
     cmd = "CompetiTest",
     opts = {},
   },
-  {
-    "nvimtools/none-ls.nvim",
-    lazy = true,
-    event = "LspAttach",
-    opts = {
-      sources = {
-        require("null-ls.builtins.diagnostics.cppcheck").with({
-          args = {
-            "--enable=warning,performance,portability,unusedFunction",
-            "--std=c++2c",
-            "--language=c++",
-            "--check-level=exhaustive",
-            "$FILENAME",
-          },
-        }),
-      },
-    },
-  },
   { "kevinhwang91/nvim-bqf", ft = "qf" },
   {
     "stevearc/overseer.nvim",
@@ -720,7 +739,7 @@ return {
             filter = function(buf)
               return vim.b[buf].neo_tree_source == v
             end,
-            pinned = true,
+            pinned = false,
             open = function()
               vim.cmd(("Neotree show position=%s %s dir=%s"):format(pos[v] or "bottom", v, LazyVim.root()))
             end,

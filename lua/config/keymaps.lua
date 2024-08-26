@@ -29,6 +29,12 @@ if vim.g.vscode == nil then
     { "<leader>nm", "<cmd>Neorg index<cr>", desc = "Notes", icon = "" },
   })
 end
+vim.keymap.set(
+  "n",
+  "<space>cs",
+  "<cmd>Trouble lsp_document_symbols win.position=left<cr>",
+  { desc = "Symbols (Trouble)" }
+)
 vim.keymap.set("n", "<C-c>", "<cmd>%y<cr>", { desc = "Copy file" })
 vim.keymap.set("n", "<tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Copy file" })
 vim.keymap.set("n", "<s-tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Copy file" })
