@@ -19,7 +19,6 @@ require("lazy").setup({
       import = "lazyvim.plugins",
       opts = { colorscheme = "catppuccin-mocha" },
     },
-    -- import/override with your plugins
     { import = "lazyvim.plugins.extras.coding.codeium" },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.coding.neogen" },
@@ -45,7 +44,6 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.util.startuptime" },
     { import = "lazyvim.plugins.extras.vscode" },
     { import = "plugins" },
-    { "stevearc/dressing.nvim", lazy = false, opts = {}, enabled = true, disabled = false },
   },
   defaults = {
     lazy = true,

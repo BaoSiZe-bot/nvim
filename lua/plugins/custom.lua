@@ -8,12 +8,15 @@ return {
       -- Only one of these is needed, not both.
       "nvim-telescope/telescope.nvim", -- optional
     },
-    config = true,
+    config = function()
+      vim.cmd([[command! Magit Neogit]])
+      require("neogit").setup({})
+    end,
     cmd = { "Neogit" },
   },
   {
     "hiphish/rainbow-delimiters.nvim",
-    lazy = false,
+    event = "LazyFile",
     config = function()
       local rainbow_delimiters = require("rainbow-delimiters")
 
@@ -94,6 +97,9 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
+    priority = 100000,
+    lazy = true,
+    event = "LazyFile",
     opts = {
       sources = {
         require("null-ls.builtins.diagnostics.cppcheck").with({
@@ -107,32 +113,28 @@ return {
         }),
       },
     },
-    -- dependencies = { "hrsh7th/nvim-cmp" },
   },
   {
     "winston0410/range-highlight.nvim",
     dependencies = "winston0410/cmd-parser.nvim",
-    lazy = false,
+    event = "VeryLazy",
     opts = {},
   },
   {
-    "hrsh7th/nvim-cmp",
-    version = false, -- last release is way too old
-    event = "VeryLazy",
+    "yioneko/nvim-cmp",
+    priority = 10000,
+    branch = "perf",
+    event = "InsertEnter",
     dependencies = {
       "neovim/nvim-lspconfig", -- 提供LSP配置
       "hrsh7th/cmp-nvim-lsp", -- 提供LSP补全源
       "hrsh7th/cmp-buffer", -- 提供缓冲区补全源
+      "nvimdev/lspsaga.nvim",
       "hrsh7th/cmp-path", -- 提供路径补全源
       "hrsh7th/cmp-cmdline", -- 提供命令行补全源
-      "nvimdev/lspsaga.nvim", -- 提供LSP UI增强
-      "onsails/lspkind.nvim",
     },
     config = function()
-      -- lspsaga 配置
       require("lspsaga").setup({})
-
-      -- 补全项的图标
       local kind_icons = {
         Array = "  ",
         Boolean = "󰨙  ",
@@ -177,9 +179,7 @@ return {
       local cmp = require("cmp")
       local compare = require("cmp.config.compare")
 
-      -- 检查光标前是否有非空白字符
       local formatting_style = {
-        -- default fields order i.e completion word + item.kind + item.kind icons
         fields = { "kind", "abbr", "menu" },
         format = function(_, item)
           local icons = kind_icons
@@ -189,7 +189,7 @@ return {
           return item
         end,
       }
-      local WIDE_HEIGHT = 40
+      local WIDE_HEIGHT = 50
       local function border(hl_name)
         return {
           { "╭", hl_name },
@@ -205,17 +205,18 @@ return {
       cmp.setup({
         matching = {
           disallow_fuzzy_matching = true,
-          disallow_fullfuzzy_matching = true,
-          disallow_partial_fuzzy_matching = true,
-          disallow_partial_matching = true,
+          disallow_fullfuzzy_matching = false,
+          disallow_partial_fuzzy_matching = false,
+          disallow_partial_matching = false,
           disallow_prefix_unmatching = false,
-          disallow_symbol_nonprefix_matching = true,
+          disallow_symbol_nonprefix_matching = false,
+        },
+        performance = {
+          debounce = 0, -- default is 60ms
+          throttle = 0, -- default is 30ms
         },
         mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = LazyVim.cmp.confirm({ select = true }),
           ["<C-y>"] = LazyVim.cmp.confirm({ select = true }),
           ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           ["<C-CR>"] = function(fallback)
@@ -238,8 +239,9 @@ return {
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "path" },
+          { name = "buffer" },
         }, {
-          { name = "codeium" },
+          -- { name = "codeium" },
           -- { name = "cmdline" },
           { name = "snippets" },
           { name = "git" },
@@ -255,7 +257,7 @@ return {
             scrollbar = true,
           },
           documentation = {
-            max_height = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)),
+            max_height = math.floor(WIDE_HEIGHT * 2 * (WIDE_HEIGHT / vim.o.lines)),
             max_width = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))),
             border = border("CmpDocBorder"),
             winhighlight = "FloatBorder:NormalFloat",
@@ -397,13 +399,13 @@ return {
           -- 设置切换 Rime 的快捷键
           vim.keymap.set("n", "<leader>ri", function()
             toggle_rime()
-          end)
+          end, { desc = "toggle rime" })
           vim.keymap.set("i", "<C-x>", function()
             toggle_rime()
-          end)
+          end, { desc = "toggle rime" })
           vim.keymap.set("n", "<leader>rs", function()
             vim.lsp.buf.execute_command({ command = "rime-ls.sync-user-data" })
-          end)
+          end, { desc = "sync user data." })
         end
 
         -- 广播 nvim-cmp 的额外补全能力给服务器
@@ -526,7 +528,7 @@ return {
       treesitter_analysis_max_num = 100, -- how many items to run treesitter analysis
       treesitter_analysis_condense = true, -- condense form for treesitter analysis
       -- this value prevent slow in large projects, e.g. found 100000 reference in a project
-      transparency = 50, -- 0 ~ 100 blur the main window, 100: fully transparent, 0: opaque,  set to nil or 100 to disable it
+      transparency = 90, -- 0 ~ 100 blur the main window, 100: fully transparent, 0: opaque,  set to nil or 100 to disable it
       lsp_signature_help = true, -- if you would like to hook ray-x/lsp_signature plugin in navigator
       -- setup here. if it is nil, navigator will not init signature help
       signature_help_cfg = nil, -- if you would like to init ray-x/lsp_signature plugin in navigator, and pass in your own config to signature help
@@ -581,7 +583,7 @@ return {
         clangd = {
           cmd = {
             "clangd",
-            "-j=4",
+            "-j=8",
             "--completion-style=detailed",
             "--background-index",
             "--suggest-missing-includes",
@@ -803,17 +805,23 @@ return {
     keys = {
       {
         "e",
-        "<cmd>lua require('spider').motion('e')<CR>",
+        function()
+          require("spider").motion("e")
+        end,
         mode = { "n", "o", "x" },
       },
       {
         "w",
-        "<cmd>lua require('spider').motion('w')<CR>",
+        function()
+          require("spider").motion("w")
+        end,
         mode = { "n", "o", "x" },
       },
       {
         "b",
-        "<cmd>lua require('spider').motion('b')<CR>",
+        function()
+          require("spider").motion("b")
+        end,
         mode = { "n", "o", "x" },
       },
     },
@@ -872,27 +880,29 @@ return {
     keys = {
       {
         "<leader>uS",
-        "<cmd>lua require('stay-centered').toggle()<cr>",
+        function()
+          require("stay-centered").toggle()
+        end,
         { desc = "Toggle stay-centered.nvim" },
       },
     },
   },
   { "mateuszwieloch/automkdir.nvim", event = "BufWrite" },
-  {
-    "declancm/cinnamon.nvim",
-    event = "VeryLazy",
-    version = "*", -- use latest release
-    config = function()
-      require("cinnamon").setup({ -- Enable all provided keymaps
-        keymaps = {
-          basic = true,
-          extra = true,
-        },
-        -- Only scroll the window
-        options = { mode = "window" },
-      })
-    end,
-  },
+  -- {
+  --   "declancm/cinnamon.nvim",
+  --   event = "VeryLazy",
+  --   version = "*", -- use latest release
+  --   config = function()
+  --     require("cinnamon").setup({ -- Enable all provided keymaps
+  --       keymaps = {
+  --         basic = true,
+  --         extra = true,
+  --       },
+  --       -- Only scroll the window
+  --       options = { mode = "window" },
+  --     })
+  --   end,
+  -- },
   -- { url = "https://mirror.ghproxy.com/github.com/notomo/gesture.nvim" },
   {
     url = "https://mirror.ghproxy.com/github.com/sontungexpt/url-open",
@@ -916,12 +926,12 @@ return {
   },
   {
     "luukvbaal/statuscol.nvim",
-    event = "BufReadPre",
+    event = "LazyFile",
     config = function()
       require("statuscol").setup({})
     end,
   },
-  { "dstein64/nvim-scrollview", event = "BufReadPre", opts = {} },
+  { "dstein64/nvim-scrollview", event = "LazyFile", opts = {} },
   { "MeanderingProgrammer/markdown.nvim", enabled = false },
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -960,7 +970,7 @@ return {
     "Isrothy/neominimap.nvim",
     version = "v3.*.*",
     enabled = true,
-    lazy = false, -- NOTE: NO NEED to Lazy load
+    lazy = false,
     -- Optional
     init = function()
       -- The following options are recommended when layout == "float"
@@ -976,11 +986,13 @@ return {
     opts = { float = { minimap_width = 10 }, click = { enabled = true } },
   },
   {
-    "roobert/activate.nvim", -- need telescope, but i'm not like telescope at all!(if it can using fzf-lua, then i will uncomment it.)
+    "roobert/activate.nvim",
     keys = {
       {
         "<leader>P",
-        "<CMD>lua require('activate').list_plugins()<CR>",
+        function()
+          require("activate").list_plugins()
+        end,
         desc = "Plugins",
       },
     },
@@ -993,14 +1005,6 @@ return {
     },
     cmd = "Nerdy",
   },
-  -- {
-  --   "drop-stones/im-switch.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   event = "VeryLazy",
-  --   opts = {
-  --     -- your configurations
-  --   },
-  -- },
   {
     "numToStr/Navigator.nvim",
     opts = {},
@@ -1024,6 +1028,54 @@ return {
       require("telescope").load_extension("tldr")
     end,
   },
-  { "nvimdev/lspsaga.nvim", event = "LspAttach", opts = {} },
-  -- { "Bekaboo/dropbar.nvim", opts = {}, lazy = false },
+  {
+    "jvgrootveld/telescope-zoxide",
+    keys = {
+      {
+        "<Space>Z",
+        function()
+          require("telescope").extensions.zoxide.list()
+        end,
+        mode = { "n" },
+      },
+    },
+    config = function()
+      local t = require("telescope")
+      local z_utils = require("telescope._extensions.zoxide.utils")
+
+      -- Configure the extension
+      t.setup({
+        extensions = {
+          zoxide = {
+            prompt_title = "[ Walking on the shoulders of TJ ]",
+            mappings = {
+              default = {
+                after_action = function(selection)
+                  print("Update to (" .. selection.z_score .. ") " .. selection.path)
+                end,
+              },
+              ["<C-s>"] = {
+                before_action = function(selection)
+                  print("before C-s")
+                end,
+                action = function(selection)
+                  vim.cmd.edit(selection.path)
+                end,
+              },
+              ["<C-q>"] = { action = z_utils.create_basic_command("split") },
+            },
+          },
+        },
+      })
+
+      -- Load the extension
+      t.load_extension("zoxide")
+
+      -- Add a mapping
+    end,
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+  },
+  -- { "Bekaboo/dropbar.nvim", opts = {}, event = "VeryLazy" },
 }
