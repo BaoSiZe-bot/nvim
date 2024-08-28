@@ -38,7 +38,6 @@ vim.keymap.set(
 vim.keymap.set("n", "<C-c>", "<cmd>%y<cr>", { desc = "Copy file" })
 vim.keymap.set("n", "<tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Copy file" })
 vim.keymap.set("n", "<s-tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Copy file" })
-vim.keymap.set("i", "jk", "<esc>", { desc = "esc" })
 vim.keymap.set({ "i", "s" }, "<C-b>", "<Left>", { desc = "Left" })
 vim.keymap.set({ "i", "s" }, "<C-n>", "<Down>", { desc = "Down" })
 vim.keymap.set({ "i", "s" }, "<C-p>", "<Up>", { desc = "Up" })

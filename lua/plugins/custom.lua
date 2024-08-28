@@ -202,6 +202,32 @@ return {
           { "│", hl_name },
         }
       end
+      local select_next_item = function(option)
+        return function(fallback)
+          if not require("cmp").select_next_item(option) then
+            local release = require("cmp").core:suspend()
+            fallback()
+            vim.schedule(release)
+          end
+        end
+      end
+      local select_prev_item = function(option)
+        return function(fallback)
+          if not require("cmp").select_prev_item(option) then
+            local release = require("cmp").core:suspend()
+            fallback()
+            vim.schedule(release)
+          end
+        end
+      end
+      local abort = function()
+        return function(fallback)
+          if not require("cmp").abort() then
+            fallback()
+          end
+        end
+      end
+      local types = require("cmp.types")
       cmp.setup({
         matching = {
           disallow_fuzzy_matching = true,
@@ -215,15 +241,20 @@ return {
           debounce = 0, -- default is 60ms
           throttle = 0, -- default is 30ms
         },
-        mapping = cmp.mapping.preset.insert({
+        mapping = {
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-y>"] = LazyVim.cmp.confirm({ select = true }),
+          ["<cr>"] = LazyVim.cmp.confirm({ select = true }),
           ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ["<C-CR>"] = function(fallback)
-            cmp.abort()
-            fallback()
-          end,
-        }),
+          ["<Down>"] = {
+            i = select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
+          },
+          ["<Up>"] = {
+            i = select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
+          },
+          ["<C-e>"] = {
+            i = abort(),
+          },
+        },
 
         auto_brackets = {}, -- configure any filetype to auto add brackets
         completion = {
@@ -243,7 +274,7 @@ return {
         }, {
           -- { name = "codeium" },
           -- { name = "cmdline" },
-          { name = "snippets" },
+          { name = "Luasnip" },
           { name = "git" },
         }),
         window = {
