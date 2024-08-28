@@ -135,6 +135,7 @@ return {
     },
     config = function()
       require("lspsaga").setup({})
+      -- require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
       local kind_icons = {
         Array = "  ",
         Boolean = "󰨙  ",
@@ -271,10 +272,10 @@ return {
           { name = "nvim_lsp" },
           { name = "path" },
           { name = "buffer" },
-        }, {
           -- { name = "codeium" },
           -- { name = "cmdline" },
-          { name = "Luasnip" },
+          { name = "snippets" },
+          -- { name = "luasnip" },
           { name = "git" },
         }),
         window = {
