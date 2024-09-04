@@ -2,11 +2,9 @@ return {
   {
     "NeogitOrg/neogit",
     dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-
-      -- Only one of these is needed, not both.
-      "nvim-telescope/telescope.nvim", -- optional
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
     },
     config = function()
       vim.cmd([[command! Magit Neogit]])
@@ -58,9 +56,7 @@ return {
         "RainbowViolet",
         "RainbowCyan",
       }
-
       local hooks = require("ibl.hooks")
-      -- 在 highlight 设置钩子中创建高亮组，以便每次颜色主题更改时重置它们
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
         vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
         vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
@@ -97,22 +93,46 @@ return {
   },
   {
     "nvimtools/none-ls.nvim",
-    priority = 100000,
-    lazy = true,
     event = "LazyFile",
-    opts = {
-      sources = {
-        require("null-ls.builtins.diagnostics.cppcheck").with({
-          args = {
-            "--enable=warning,performance,portability,unusedFunction",
-            "--std=c++2c",
-            "--language=c++",
-            "--check-level=exhaustive",
-            "$FILENAME",
-          },
-        }),
-      },
-    },
+    dependencies = { "mason.nvim" },
+    init = function()
+      LazyVim.on_very_lazy(function()
+        LazyVim.format.register({
+          name = "none-ls.nvim",
+          priority = 200,
+          primary = true,
+          format = function(buf)
+            return LazyVim.lsp.format({
+              bufnr = buf,
+              filter = function(client)
+                return client.name == "null-ls"
+              end,
+            })
+          end,
+          sources = function(buf)
+            local ret = require("null-ls.sources").get_available(vim.bo[buf].filetype, "NULL_LS_FORMATTING") or {}
+            return vim.tbl_map(function(source)
+              return source.name
+            end, ret)
+          end,
+        })
+      end)
+    end,
+    config = function()
+      require("null-ls").setup({
+        sources = {
+          require("null-ls.builtins.diagnostics.cppcheck").with({
+            args = {
+              "--enable=warning,performance,portability,unusedFunction",
+              "--std=c++2c",
+              "--language=c++",
+              "--check-level=exhaustive",
+              "$FILENAME",
+            },
+          }),
+        },
+      })
+    end,
   },
   {
     "winston0410/range-highlight.nvim",
@@ -126,16 +146,16 @@ return {
     branch = "perf",
     event = "InsertEnter",
     dependencies = {
-      "neovim/nvim-lspconfig", -- 提供LSP配置
-      "hrsh7th/cmp-nvim-lsp", -- 提供LSP补全源
-      "hrsh7th/cmp-buffer", -- 提供缓冲区补全源
+      "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
       "nvimdev/lspsaga.nvim",
-      "hrsh7th/cmp-path", -- 提供路径补全源
-      "hrsh7th/cmp-cmdline", -- 提供命令行补全源
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
     },
     config = function()
       require("lspsaga").setup({})
-      -- require("luasnip.loaders.from_vscode").lazy_load({ paths = "~/.config/nvim/snippets" })
+
       local kind_icons = {
         Array = "  ",
         Boolean = "󰨙  ",
@@ -239,25 +259,24 @@ return {
           disallow_symbol_nonprefix_matching = false,
         },
         performance = {
-          debounce = 0, -- default is 60ms
-          throttle = 0, -- default is 30ms
+          debounce = 0,
+          throttle = 0,
         },
         mapping = {
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<cr>"] = LazyVim.cmp.confirm({ select = true }),
-          ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ["<Down>"] = {
+          ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }),
+          ["<C-f>"] = {
             i = select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
           },
-          ["<Up>"] = {
+          ["<C-p>"] = {
             i = select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
           },
           ["<C-e>"] = {
             i = abort(),
           },
         },
-
-        auto_brackets = {}, -- configure any filetype to auto add brackets
+        auto_brackets = {},
         completion = {
           completeopt = "menu,menuone,noinsert" .. (true and "" or ",noselect"),
         },
@@ -271,11 +290,9 @@ return {
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "path" },
-          { name = "buffer" },
-          -- { name = "codeium" },
-          -- { name = "cmdline" },
+          { name = "codeium" },
+          { name = "lazydev" },
           { name = "snippets" },
-          -- { name = "luasnip" },
           { name = "git" },
         }),
         window = {
@@ -324,8 +341,6 @@ return {
           { name = "buffer" },
         },
       })
-
-      -- 让 : 命令能使用 path cmdline 补全
       cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
@@ -333,13 +348,8 @@ return {
           { name = "cmdline" },
         }),
       })
-
-      -- 设置 Rime 输入法
       local function setup_rime()
-        -- 全局状态
         vim.g.rime_enabled = false
-
-        -- 更新 lualine 状态栏
         local function rime_status()
           if vim.g.rime_enabled then
             return "ㄓ"
@@ -347,35 +357,50 @@ return {
             return ""
           end
         end
-
         require("lualine").setup({
           sections = {
             lualine_x = {
               rime_status,
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.command.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              color = function() return LazyVim.ui.fg("Statement") end,
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.mode.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-              color = function() return LazyVim.ui.fg("Constant") end,
-            },
-            -- stylua: ignore
-            {
-              function() return "  " .. require("dap").status() end,
-              cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-              color = function() return LazyVim.ui.fg("Debug") end,
-            },
-            -- stylua: ignore
-            {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-              color = function() return LazyVim.ui.fg("Special") end,
-            },
+              {
+                function()
+                  return require("noice").api.status.command.get()
+                end,
+                cond = function()
+                  return package.loaded["noice"] and require("noice").api.status.command.has()
+                end,
+                color = function()
+                  return LazyVim.ui.fg("Statement")
+                end,
+              },
+              {
+                function()
+                  return require("noice").api.status.mode.get()
+                end,
+                cond = function()
+                  return package.loaded["noice"] and require("noice").api.status.mode.has()
+                end,
+                color = function()
+                  return LazyVim.ui.fg("Constant")
+                end,
+              },
+              {
+                function()
+                  return "  " .. require("dap").status()
+                end,
+                cond = function()
+                  return package.loaded["dap"] and require("dap").status() ~= ""
+                end,
+                color = function()
+                  return LazyVim.ui.fg("Debug")
+                end,
+              },
+              {
+                require("lazy.status").updates,
+                cond = require("lazy.status").has_updates,
+                color = function()
+                  return LazyVim.ui.fg("Special")
+                end,
+              },
               {
                 "diff",
                 symbols = {
@@ -397,8 +422,6 @@ return {
             },
           },
         })
-
-        -- 添加 rime-ls 作为自定义 LSP 服务器
         local lspconfig = require("lspconfig")
         local configs = require("lspconfig.configs")
         if not configs.rime_ls then
@@ -413,13 +436,11 @@ return {
             docs = {
               description = [[
             https://www.github.com/wlh320/rime-ls
-
             A language server for librime
             ]],
             },
           }
         end
-
         local rime_on_attach = function(client, _)
           local toggle_rime = function()
             client.request("workspace/executeCommand", { command = "rime-ls.toggle-rime" }, function(_, result, ctx, _)
@@ -428,7 +449,6 @@ return {
               end
             end)
           end
-          -- 设置切换 Rime 的快捷键
           vim.keymap.set("n", "<leader>ri", function()
             toggle_rime()
           end, { desc = "toggle rime" })
@@ -439,8 +459,6 @@ return {
             vim.lsp.buf.execute_command({ command = "rime-ls.sync-user-data" })
           end, { desc = "sync user data." })
         end
-
-        -- 广播 nvim-cmp 的额外补全能力给服务器
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
         lspconfig.rime_ls.setup({
@@ -451,13 +469,12 @@ return {
             log_dir = "~/.local/share/rime-ls",
             max_candidates = 9,
             trigger_characters = {},
-            schema_trigger_character = "&", -- [since v0.2.0] 当输入此字符串时请求补全会触发 “方案选单”
+            schema_trigger_character = "&",
           },
           on_attach = rime_on_attach,
           capabilities = capabilities,
         })
       end
-
       setup_rime()
     end,
   },
@@ -491,19 +508,11 @@ return {
       },
       server = {
         on_attach = function(client, bufnr)
-          require("navigator.lspclient.mapping").setup({ client = client, bufnr = bufnr }) -- setup navigator keymaps here,
+          require("navigator.lspclient.mapping").setup({ client = client, bufnr = bufnr })
           require("navigator.dochighlight").documentHighlight(bufnr)
           require("navigator.codeAction").code_action_prompt(bufnr)
-          -- otherwise, you can define your own commands to call navigator functions
         end,
       },
-    },
-  },
-  {
-    "j-hui/fidget.nvim",
-    event = "LspAttach",
-    opts = {
-      -- options
     },
   },
   {
@@ -548,23 +557,8 @@ return {
       },
     },
     opts = {
-      debug = false, -- log output, set to true and log path: ~/.cache/nvim/gh.log
-      default_mapping = false, -- set to false if you will remap every key
-      -- this kepmap gK will override "gD" mapping function declaration()  in default kepmap
-      -- please check mapping.lua for all keymaps
-      -- rule of overriding: if func and mode ('n' by default) is same
-      -- the key will be overridden
-      treesitter_analysis = true, -- treesitter variable context
-      treesitter_navigation = true, -- bool|table false: use lsp to navigate between symbol ']r/[r', table: a list of
-      --lang using TS navigation
-      treesitter_analysis_max_num = 100, -- how many items to run treesitter analysis
-      treesitter_analysis_condense = true, -- condense form for treesitter analysis
-      -- this value prevent slow in large projects, e.g. found 100000 reference in a project
-      transparency = 90, -- 0 ~ 100 blur the main window, 100: fully transparent, 0: opaque,  set to nil or 100 to disable it
-      lsp_signature_help = true, -- if you would like to hook ray-x/lsp_signature plugin in navigator
-      -- setup here. if it is nil, navigator will not init signature help
-      signature_help_cfg = nil, -- if you would like to init ray-x/lsp_signature plugin in navigator, and pass in your own config to signature help
-      mason = false, -- set to true if you would like use the lsp installed by williamboman/mason
+      default_mapping = false,
+      mason = false,
       icons = {
         diagnostic_err = "",
         diagnostic_warn = "",
@@ -573,42 +567,14 @@ return {
         diagnostic_virtual_text = "",
       },
       lsp = {
-        enable = true, -- skip lsp setup, and only use treesitter in navigator.
-        -- Use this if you are not using LSP servers, and only want to enable treesitter support.
-        -- If you only want to prevent navigator from touching your LSP server configs,
-        -- use `disable_lsp = "all"` instead.
-        -- If disabled, make sure add require('navigator.lspclient.mapping').setup({bufnr=bufnr, client=client}) in your
-        -- own on_attach
-        code_action = { enable = true, sign = true, sign_priority = 40, virtual_text = true },
-        code_lens_action = { enable = true, sign = true, sign_priority = 40, virtual_text = true },
-        document_highlight = true, -- LSP reference highlight,
-        -- it might already supported by you setup, e.g. LunarVim
-        format_on_save = false, -- {true|false} set to false to disasble lsp code format on save (if you are using prettier/efm/formater etc)
-        -- table: {enable = {'lua', 'go'}, disable = {'javascript', 'typescript'}} to enable/disable specific language
-        -- enable: a whitelist of language that will be formatted on save
-        -- disable: a blacklist of language that will not be formatted on save
-        -- function: function(bufnr) return true end to enable/disable lsp format on save
-        format_options = { async = true }, -- async: disable by default, the option used in vim.lsp.buf.format({async={true|false}, name = 'xxx'})
-        disable_format_cap = { "sqlls", "lua_ls", "stylua" }, -- a list of lsp disable format capacity (e.g. if you using efm or vim-codeformat etc), empty {} by default
-        -- If you using null-ls and want null-ls format your code
-        -- you should disable all other lsp and allow only null-ls.
-        disable_lsp = { "ccls" }, -- prevents navigator from setting up this list of servers.
-        -- if you use your own LSP setup, and don't want navigator to setup
-        -- any LSP server for you, use `disable_lsp = "all"`.
-        -- you may need to add this to your own on_attach hook:
-        -- require('navigator.lspclient.mapping').setup({bufnr=bufnr, client=client})
-        -- for e.g. denols and tsserver you may want to enable one lsp server at a time.
-        -- default value: {}
+        format_on_save = false,
+        format_options = { async = true },
+        disable_format_cap = { "sqlls", "lua_ls", "stylua" },
+        disable_lsp = { "ccls" },
         diagnostic = {
-          underline = true,
-          virtual_text = false, -- show virtual for diagnostic message
-          update_in_insert = true, -- update diagnostic message in insert mode
-          float = { -- setup for floating windows style
-            focusable = false,
-            sytle = "minimal",
-            border = "rounded",
-            source = "always",
-            header = "",
+          virtual_text = false,
+          update_in_insert = true,
+          float = {
             prefix = "󰃤",
           },
         },
@@ -626,24 +592,11 @@ return {
             "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*",
           },
         },
-        diagnostic_scrollbar_sign = false, -- experimental:  diagnostic status in scroll bar area; set to false to disable the diagnostic sign,
-        --                for other style, set to {'╍', 'ﮆ'} or {'-', '='}
-        diagnostic_virtual_text = false, -- show virtual for diagnostic message
-        diagnostic_update_in_insert = true, -- update diagnostic message in insert mode
-        display_diagnostic_qf = false, -- always show quickfix if there are diagnostic errors, set to false if you want to ignore it
-        -- set to 'trouble' to show diagnostcs in Trouble
-
-        ctags = {
-          cmd = "ctags",
-          tagfile = "tags",
-          options = "-R --exclude=.git --exclude=node_modules --exclude=test --exclude=vendor --excmd=number",
-        },
-
-        servers = { "lua_ls", "clangd", "jsonls" }, -- by default empty, and it should load all LSP clients available based on filetype
-        -- but if you want navigator load  e.g. `cmake` and `ltex` for you , you
-        -- can put them in the `servers` list and navigator will auto load them.
-        -- you could still specify the custom config  like this
-        -- cmake = {filetypes = {'cmake', 'makefile'}, single_file_support = false},
+        diagnostic_scrollbar_sign = false,
+        diagnostic_virtual_text = false,
+        diagnostic_update_in_insert = true,
+        display_diagnostic_qf = false,
+        servers = { "lua_ls", "clangd", "jsonls", "pyright" },
       },
     },
   },
@@ -651,9 +604,6 @@ return {
     "ray-x/lsp_signature.nvim",
     event = "LspAttach",
     opts = {},
-    config = function(_, opts)
-      require("lsp_signature").setup(opts)
-    end,
   },
   {
     url = "https://mirror.ghproxy.com/github.com/xeluxee/competitest.nvim",
@@ -722,7 +672,7 @@ return {
           {
             ft = "help",
             size = { height = 20 },
-            -- don't open help files in edgy that we're editing
+
             filter = function(buf)
               return vim.bo[buf].buftype == "help"
             end,
@@ -732,25 +682,20 @@ return {
         },
         left = {
           { title = "Neotest Summary", ft = "neotest-summary" },
-          -- "neo-tree",
         },
         right = {
           { title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
         },
         keys = {
-          -- increase width
           ["<c-Right>"] = function(win)
             win:resize("width", 2)
           end,
-          -- decrease width
           ["<c-Left>"] = function(win)
             win:resize("width", -2)
           end,
-          -- increase height
           ["<c-Up>"] = function(win)
             win:resize("height", 2)
           end,
-          -- decrease height
           ["<c-Down>"] = function(win)
             win:resize("height", -2)
           end,
@@ -816,13 +761,6 @@ return {
     opts = {
       load = {
         ["core.defaults"] = {},
-        ["core.dirman"] = {
-          config = {
-            workspaces = {
-              notes = "/mnt/d/baosize",
-            },
-          },
-        },
         ["core.concealer"] = {},
         ["core.ui"] = {},
       },
@@ -840,21 +778,21 @@ return {
         function()
           require("spider").motion("e")
         end,
-        mode = { "n", "o", "x" },
+        mode = { "n", "x" },
       },
       {
         "w",
         function()
           require("spider").motion("w")
         end,
-        mode = { "n", "o", "x" },
+        mode = { "n", "x" },
       },
       {
         "b",
         function()
           require("spider").motion("b")
         end,
-        mode = { "n", "o", "x" },
+        mode = { "n", "x" },
       },
     },
   },
@@ -873,7 +811,7 @@ return {
   {
     url = "https://mirror.ghproxy.com/github.com/mikavilpas/yazi.nvim",
     keys = {
-      -- 👇 in this section, choose your own keymappings!
+
       {
         "<leader>fy",
         function()
@@ -882,7 +820,7 @@ return {
         desc = "Open the file manager",
       },
       {
-        -- Open in the current working directory
+
         "<leader>fY",
         function()
           require("yazi").yazi(nil, vim.fn.getcwd())
@@ -892,8 +830,6 @@ return {
       {
         "<c-up>",
         function()
-          -- NOTE: requires a version of yazi that includes
-          -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
           require("yazi").toggle()
         end,
         desc = "Resume the last yazi session",
@@ -901,10 +837,7 @@ return {
     },
     ---@type YaziConfig
     opts = {
-      -- if you want to open yazi instead of netrw, see below for more info
-      open_for_directories = true, -- enable these if you are using the latest version of yazi
-      -- use_ya_for_events_reading = true,
-      -- use_yazi_client_id_flag = true,
+      open_for_directories = true,
     },
   },
   {
@@ -920,27 +853,14 @@ return {
     },
   },
   { "mateuszwieloch/automkdir.nvim", event = "BufWrite" },
-  -- {
-  --   "declancm/cinnamon.nvim",
-  --   event = "VeryLazy",
-  --   version = "*", -- use latest release
-  --   config = function()
-  --     require("cinnamon").setup({ -- Enable all provided keymaps
-  --       keymaps = {
-  --         basic = true,
-  --         extra = true,
-  --       },
-  --       -- Only scroll the window
-  --       options = { mode = "window" },
-  --     })
-  --   end,
-  -- },
-  -- { url = "https://mirror.ghproxy.com/github.com/notomo/gesture.nvim" },
+
   {
     url = "https://mirror.ghproxy.com/github.com/sontungexpt/url-open",
     branch = "mini",
-    event = "VeryLazy",
     cmd = "URLOpenUnderCursor",
+    keys = {
+      { "gx", "<cmd>URLOpenUnderCursor<cr>", { desc = "open url under cursor" } },
+    },
     config = function()
       local status_ok, url_open = pcall(require, "url-open")
       if not status_ok then
@@ -968,7 +888,7 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
-      file_types = { "markdown", "norg", "rmd", "org" },
+      file_types = { "markdown", "norg", "org" },
       code = {
         sign = false,
         width = "block",
@@ -979,7 +899,7 @@ return {
         icons = {},
       },
     },
-    ft = { "markdown", "norg", "rmd", "org" },
+    ft = { "markdown", "norg", "org" },
     config = function(_, opts)
       require("render-markdown").setup(opts)
       LazyVim.toggle.map("<leader>um", {
@@ -1003,31 +923,15 @@ return {
     version = "v3.*.*",
     enabled = true,
     lazy = false,
-    -- Optional
     init = function()
-      -- The following options are recommended when layout == "float"
       vim.opt.wrap = false
-      vim.opt.sidescrolloff = 36 -- Set a large value
-
-      --- Put your configuration here
+      vim.opt.sidescrolloff = 36
       ---@type Neominimap.UserConfig
       vim.g.neominimap = {
         auto_enable = true,
       }
     end,
-    opts = { float = { minimap_width = 10 }, click = { enabled = true } },
-  },
-  {
-    "roobert/activate.nvim",
-    keys = {
-      {
-        "<leader>P",
-        function()
-          require("activate").list_plugins()
-        end,
-        desc = "Plugins",
-      },
-    },
+    opts = { float = { minimap_width = 10 } },
   },
   {
     "2kabhishek/nerdy.nvim",
@@ -1038,21 +942,15 @@ return {
     cmd = "Nerdy",
   },
   {
-    "numToStr/Navigator.nvim",
-    opts = {},
-  },
-  {
     "v1nh1shungry/cppman.nvim",
-    dependencies = "nvim-telescope/telescope.nvim", -- optional, if absent `vim.ui.select()` will be used
+    dependencies = "nvim-telescope/telescope.nvim",
     opts = { position = "vsplit" },
   },
   {
     "mrjones2014/tldr.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
     opts = {
-      -- the shell command to use
       tldr_command = "tldr",
-      -- a string of extra arguments to pass to `tldr`, e.g. tldr_args = '--color always'
       tldr_args = "--color always",
     },
     config = function(_, opts)
@@ -1074,8 +972,6 @@ return {
     config = function()
       local t = require("telescope")
       local z_utils = require("telescope._extensions.zoxide.utils")
-
-      -- Configure the extension
       t.setup({
         extensions = {
           zoxide = {
@@ -1099,15 +995,24 @@ return {
           },
         },
       })
-
-      -- Load the extension
       t.load_extension("zoxide")
-
-      -- Add a mapping
     end,
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
   },
-  -- { "Bekaboo/dropbar.nvim", opts = {}, event = "VeryLazy" },
+  {
+    "ja-ford/delaytrain.nvim",
+    opts = {
+      delay_ms = 100000, -- How long repeated usage of a key should be prevented
+      grace_period = 2, -- How many repeated keypresses are allowed
+      keys = { -- Which keys (in which modes) should be delayed
+        ["nv"] = { "h", "j", "k", "l" },
+        ["nvi"] = { "<Left>", "<Down>", "<Up>", "<Right>" },
+      },
+      ignore_filetypes = {}, -- Example: set to {"help", "NvimTr*"} to
+      -- disable the plugin for help and NvimTree
+    },
+    event = "VeryLazy",
+  },
 }

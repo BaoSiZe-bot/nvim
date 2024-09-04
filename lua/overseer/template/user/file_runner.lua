@@ -4,7 +4,7 @@ return {
   builder = function()
     -- Full path to current file (see :help expand())
     local file = vim.fn.expand("%:p")
-    local outfile = vim.fn.expand("%:p:r") .. ".out"
+    local outfile = "/tmp/" .. vim.fn.expand("%:t:r") .. ".out"
     return {
       cmd = { outfile },
       components = {

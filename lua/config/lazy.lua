@@ -21,10 +21,8 @@ require("lazy").setup({
     },
     { import = "lazyvim.plugins.extras.coding.codeium" },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
-    { import = "lazyvim.plugins.extras.coding.neogen" },
     { import = "lazyvim.plugins.extras.coding.yanky" },
     { import = "lazyvim.plugins.extras.dap.core" },
-    { import = "lazyvim.plugins.extras.editor.dial" },
     { import = "lazyvim.plugins.extras.editor.telescope" },
     { import = "lazyvim.plugins.extras.editor.illuminate" },
     { import = "lazyvim.plugins.extras.editor.inc-rename" },
@@ -39,10 +37,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.ui.edgy" },
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
     { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
-    { import = "lazyvim.plugins.extras.util.gitui" },
     { import = "lazyvim.plugins.extras.util.octo" },
-    { import = "lazyvim.plugins.extras.util.startuptime" },
-    { import = "lazyvim.plugins.extras.vscode" },
     { import = "plugins" },
   },
   defaults = {
@@ -89,3 +84,7 @@ require("lazy").setup({
   },
 })
 vim.o.mousemoveevent = true
+vim.keymap.set("n", "ge", "G")
+vim.keymap.set("n", "<leader>k", function()
+  vim.lsp.buf.hover()
+end, { desc = "symbol info" })
