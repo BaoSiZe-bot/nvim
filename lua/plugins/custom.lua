@@ -13,7 +13,7 @@ return {
     cmd = { "Neogit" },
   },
   {
-    "hiphish/rainbow-delimiters.nvim",
+    url = "https://gitee.com/BesterBigWei/rainbow-delimiters.nvim",
     event = "LazyFile",
     config = function()
       local rainbow_delimiters = require("rainbow-delimiters")
@@ -747,6 +747,7 @@ return {
     opts = {
       servers = {
         clangd = { mason = false },
+        pyright = { mason = false },
         marksman = { mason = false },
         lua_ls = { mason = false },
         ruff = { mason = false },
@@ -1015,4 +1016,9 @@ return {
     },
     event = "VeryLazy",
   },
+    {
+  'SCJangra/table-nvim',
+  ft = 'markdown',
+  opts = {},
+}
 }

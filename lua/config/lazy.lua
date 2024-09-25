@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     "git",
     "clone",
     "--filter=blob:none",
-    "https://kkgithub.com/folke/lazy.nvim.git",
+    "https://mirror.ghproxy.com/github.com/folke/lazy.nvim.git",
     "--branch=stable",
     lazypath,
   })
@@ -15,11 +15,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     {
-      url = "https://kkgithub.com/LazyVim/LazyVim",
+      url = "https://mirror.ghproxy.com/github.com/LazyVim/LazyVim",
       import = "lazyvim.plugins",
-      opts = { colorscheme = "catppuccin-mocha" },
+      opts = { colorscheme = "catppuccin-frappe" },
     },
-    { import = "lazyvim.plugins.extras.coding.codeium" },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.coding.yanky" },
     { import = "lazyvim.plugins.extras.dap.core" },
@@ -38,16 +37,17 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
     { import = "lazyvim.plugins.extras.ui.mini-indentscope" },
     { import = "lazyvim.plugins.extras.util.octo" },
+    { import = "lazyvim.plugins.extras.util.gitui" },
     { import = "plugins" },
   },
   defaults = {
     lazy = true,
     version = false, -- always use the latest git commit
   },
-  -- checker = {
-  --   enabled = true, -- check for plugin updates periodically
-  --   notify = true, -- notify on update
-  -- }, -- automatically check for plugin updates
+  checker = {
+    enabled = true, -- check for plugin updates periodically
+    notify = true, -- notify on update
+  }, -- automatically check for plugin updates
   performance = {
     rtp = {
       disabled_plugins = {
