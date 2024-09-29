@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     "git",
     "clone",
     "--filter=blob:none",
-    "https://mirror.ghproxy.com/github.com/folke/lazy.nvim.git",
+    "https://ghp.ci/github.com/folke/lazy.nvim.git",
     "--branch=stable",
     lazypath,
   })
@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     {
-      url = "https://mirror.ghproxy.com/github.com/LazyVim/LazyVim",
+      url = "https://ghp.ci/github.com/LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = { colorscheme = "catppuccin-frappe" },
     },
@@ -31,7 +31,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.clangd" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
-    { import = "lazyvim.plugins.extras.lang.python" },
+    -- { import = "lazyvim.plugins.extras.lang.python" },
     { import = "lazyvim.plugins.extras.lsp.none-ls" },
     { import = "lazyvim.plugins.extras.ui.edgy" },
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
@@ -45,8 +45,8 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
   },
   checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = true, -- notify on update
+    enabled = false, -- check for plugin updates periodically
+    notify = false, -- notify on update
   }, -- automatically check for plugin updates
   performance = {
     rtp = {
