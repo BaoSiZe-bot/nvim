@@ -119,7 +119,6 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "sindrets/diffview.nvim",
-            "nvim-telescope/telescope.nvim",
         },
         config = function()
             vim.cmd([[command! Magit Neogit]])
@@ -246,6 +245,7 @@ return {
                             "$FILENAME",
                         },
                     }),
+                    require("null-ls.builtins.formatting.clang_format")
                 },
             })
         end,
@@ -621,6 +621,13 @@ return {
         opts = {},
     },
     {
+        "ibhagwan/fzf-lua",
+        optional = true,
+        config = function(_, opts)
+           require"fzf-lua".setup({{"telescope","fzf-native"},winopts={preview={default="bat"}}}) 
+        end,
+    },
+    {
         "folke/noice.nvim",
         opts = {
             lsp = {
@@ -888,7 +895,7 @@ return {
             LazyVim.lsp.setup()
             LazyVim.lsp.on_dynamic_capability(require("lazyvim.plugins.lsp.keymaps").on_attach)
 
-            LazyVim.lsp.words.setup(opts.document_highlight)
+            Snacks.words.setup(opts.document_highlight)
 
             -- diagnostics signs
             if vim.fn.has("nvim-0.10") == 1 then
@@ -1137,66 +1144,7 @@ return {
     {
         "Isrothy/neominimap.nvim",
         version = "v3.*.*",
-        enabled = true,
         lazy = false,
-        init = function()
-            vim.opt.wrap = false
-            vim.opt.sidescrolloff = 36
-            ---@type Neominimap.UserConfig
-            vim.g.neominimap = {
-                auto_enable = true,
-            }
-        end,
-        opts = { float = { minimap_width = 10 } },
-    },
-
-    {
-        "v1nh1shungry/cppman.nvim",
-        dependencies = "nvim-telescope/telescope.nvim",
-        opts = { position = "vsplit" },
-    },
-    {
-        "jvgrootveld/telescope-zoxide",
-        keys = {
-            {
-                "<Space>z",
-                function()
-                    require("telescope").extensions.zoxide.list()
-                end,
-                mode = { "n" },
-            },
-        },
-        config = function()
-            local t = require("telescope")
-            local z_utils = require("telescope._extensions.zoxide.utils")
-            t.setup({
-                extensions = {
-                    zoxide = {
-                        prompt_title = "[ Walking on the shoulders of TJ ]",
-                        mappings = {
-                            default = {
-                                after_action = function(selection)
-                                    print("Update to (" .. selection.z_score .. ") " .. selection.path)
-                                end,
-                            },
-                            ["<C-s>"] = {
-                                before_action = function(selection)
-                                    print("before C-s")
-                                end,
-                                action = function(selection)
-                                    vim.cmd.edit(selection.path)
-                                end,
-                            },
-                            ["<C-q>"] = { action = z_utils.create_basic_command("split") },
-                        },
-                    },
-                },
-            })
-            t.load_extension("zoxide")
-        end,
-        dependencies = {
-            "nvim-telescope/telescope.nvim",
-        },
     },
     {
         'SCJangra/table-nvim',

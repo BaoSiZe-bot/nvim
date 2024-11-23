@@ -9,7 +9,7 @@ vim.g.autoformat = true
 -- Can be one of: telescope, fzf
 -- Leave it to "auto" to automatically use the picker
 -- enabled with `:LazyExtras`
-vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_picker = "fzf"
 
 -- LazyVim root dir detection
 -- Each entry can be:
@@ -88,6 +88,9 @@ opt.shiftwidth = 4 -- Size of an indent
 opt.shortmess:append({ W = true, I = true, c = true, C = true })
 opt.showmode = false -- Dont show mode since we have a statusline
 opt.sidescrolloff = 8 -- Columns of context
+vim.g.neominimap = {
+    auto_enable = true,
+}
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
