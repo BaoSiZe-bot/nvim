@@ -1091,4 +1091,10 @@ return {
     ft = "markdown",
     opts = {},
   },
+  { "nvzone/volt", lazy = true },
+  { "nvzone/menu", lazy = true },
+  {
+    "nvzone/minty",
+    cmd = { "Shades", "Huefy" },
+  },
 }
