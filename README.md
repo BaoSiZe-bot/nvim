@@ -12,3 +12,6 @@ Editing Python:
 
 Editing C/C++ With Minimap and scrollview support:
 ![Editing C/C++](https://cdn.luogu.com.cn/upload/image_hosting/31wkrs8r.png)
+
+Neogit:
+![Neogit](https://cdn.luogu.com.cn/upload/image_hosting/jjwbnddf.png)
