@@ -89,7 +89,7 @@ opt.shortmess:append({ W = true, I = true, c = true, C = true })
 opt.showmode = false -- Dont show mode since we have a statusline
 opt.sidescrolloff = 8 -- Columns of context
 vim.g.neominimap = {
-    auto_enable = true,
+  auto_enable = true,
 }
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opt.smartcase = true -- Don't ignore case with capitals
@@ -99,7 +99,7 @@ opt.spelloptions:append("noplainbuffer")
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
-opt.statuscolumn = [[%!v:lua.require'lazyvim.util'.ui.statuscolumn()]]
+opt.statuscolumn = [[%!v:lua.require'snacks'.statuscolumn()]]
 opt.tabstop = 4 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
@@ -125,9 +125,9 @@ end
 vim.g.markdown_recommended_style = 0
 vim.wo.colorcolumn = "100"
 vim.opt.softtabstop = 4
-vim.opt.guifont = "Maple Mono NF:h12"
+vim.opt.guifont = "VictorMono Nerd Font:h14"
 if vim.g.neovide == true then
-  vim.g.neovide_transparency = 0.8
+  vim.g.neovide_transparency = 1
   vim.g.neovide_cursor_vfx_mode = "ripple"
   vim.g.neovide_input_ime = 0
 end
