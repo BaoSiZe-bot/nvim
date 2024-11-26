@@ -1,107 +1,5 @@
 return {
   {
-    "ray-x/navigator.lua",
-    event = "LspAttach",
-    dependencies = {
-      {
-        "ray-x/guihua.lua",
-        event = "LspAttach",
-        build = "cd lua/fzy && make",
-        opts = {},
-        config = function(_, opts)
-          require("guihua.maps").setup()
-        end,
-      },
-    },
-    opts = {
-      default_mapping = false,
-      lsp = {
-        format_on_save = false,
-        code_action = { virtual_text = false },
-        code_lens_action = { virtual_text = false },
-        format_options = { async = true },
-        disable_format_cap = { "sqlls", "stylua" },
-        disable_lsp = { "ccls", "pyright" },
-        diagnostic = {
-          virtual_text = false,
-          update_in_insert = true,
-          float = {
-            prefix = "󰃤",
-          },
-        },
-        clangd = {
-          cmd = {
-            "clangd",
-            "-j=12",
-            "--completion-style=detailed",
-            "--background-index",
-            "--suggest-missing-includes",
-            "--clang-tidy",
-            "--header-insertion=iwyu",
-            "--enable-config",
-            "--offset-encoding=utf-16",
-            "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*",
-          },
-        },
-        diagnostic_scrollbar_sign = false,
-        diagnostic_virtual_text = false,
-        diagnostic_update_in_insert = true,
-        display_diagnostic_qf = false,
-        servers = { "lua_ls", "clangd", "jsonls", "pylsp", "ruff" },
-      },
-      icons = {
-        code_action_icon = "",
-        code_lens_action_icon = "",
-        diagnostic_head = "", -- prefix for other diagnostic_* icons
-        diagnostic_err = "",
-        diagnostic_warn = "",
-        diagnostic_info = [[]],
-        diagnostic_hint = [[]],
-        diagnostic_head_severity_1 = "",
-        diagnostic_head_severity_2 = "",
-        diagnostic_head_severity_3 = "",
-        diagnostic_head_description = "", -- suffix for severities
-        diagnostic_virtual_text = "", -- floating text preview (set to empty to disable)
-        diagnostic_file = "", -- icon in floating window, indicates the file contains diagnostics
-        value_definition = "", -- identifier defined
-        value_changed = "", -- identifier modified
-        context_separator = "", -- separator between text and value
-        side_panel = {
-          section_separator = "󰇜",
-          line_num_left = "",
-          line_num_right = "",
-          inner_node = "├○",
-          outer_node = "╰○",
-          bracket_left = "⟪",
-          bracket_right = "⟫",
-          tab = "󰌒",
-        },
-        fold = {
-          prefix = "⚡",
-          separator = "",
-        },
-        match_kinds = {
-          var = " ", -- variable -- "👹", -- Vampaire
-          const = "󱀍 ",
-          method = "ƒ ", -- method --  "🍔", -- mac
-          -- function is a keyword so wrap in ['key'] syntax
-          ["function"] = "󰡱 ", -- function -- "🤣", -- Fun
-          parameter = "  ", -- param/arg -- Pi
-          parameters = "  ", -- param/arg -- Pi
-          required_parameter = "  ", -- param/arg -- Pi
-          associated = "󰁕", -- linked/related
-          namespace = "", -- namespace
-          type = "󰉿", -- type definition
-          field = "", -- field definition
-          module = "", -- module
-          flag = "󰏿", -- flag
-        },
-        treesitter_defult = "", -- default symbol when unknown node.type or kind
-        doc_symbols = "", -- document
-      },
-    },
-  },
-  {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -247,13 +145,10 @@ return {
     dependencies = {
       "neovim/nvim-lspconfig",
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "nvimdev/lspsaga.nvim",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
     },
     config = function()
-      require("lspsaga").setup({})
       local kind_icons = {
         Array = "",
         Boolean = "󰨙",
@@ -570,23 +465,6 @@ return {
     end,
   },
   {
-    "p00f/clangd_extensions.nvim",
-    lazy = true,
-    config = function() end,
-    opts = {
-      inlay_hints = {
-        inline = true,
-      },
-      server = {
-        on_attach = function(client, bufnr)
-          require("navigator.lspclient.mapping").setup({ client = client, bufnr = bufnr })
-          require("navigator.dochighlight").documentHighlight(bufnr)
-          require("navigator.codeAction").code_action_prompt(bufnr)
-        end,
-      },
-    },
-  },
-  {
     url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     event = "LspAttach",
     config = function()
@@ -651,296 +529,6 @@ return {
     cmd = { "ToggleTerm" },
     opts = {},
   },
-  {
-    "folke/edgy.nvim",
-    opts = function()
-      local opts = {
-        bottom = {
-          {
-            ft = "toggleterm",
-            size = { height = 0.4 },
-          },
-          {
-            ft = "noice",
-            size = { height = 0.4 },
-            filter = function(buf, win)
-              return vim.api.nvim_win_get_config(win).relative == ""
-            end,
-          },
-          "Trouble",
-          { ft = "qf", title = "QuickFix" },
-          {
-            ft = "help",
-            size = { height = 20 },
-            filter = function(buf)
-              return vim.bo[buf].buftype == "help"
-            end,
-          },
-          { title = "Spectre", ft = "spectre_panel", size = { height = 0.4 } },
-          { title = "Neotest Output", ft = "neotest-output-panel", size = { height = 15 } },
-        },
-        left = {
-          { title = "Neotest Summary", ft = "neotest-summary" },
-        },
-        right = {
-          { title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
-        },
-        keys = {
-          ["<c-Right>"] = function(win)
-            win:resize("width", 2)
-          end,
-          ["<c-Left>"] = function(win)
-            win:resize("width", -2)
-          end,
-          ["<c-Up>"] = function(win)
-            win:resize("height", 2)
-          end,
-          ["<c-Down>"] = function(win)
-            win:resize("height", -2)
-          end,
-        },
-      }
-
-      if LazyVim.has("neo-tree.nvim") then
-        local pos = {
-          filesystem = "left",
-          buffers = "top",
-          git_status = "right",
-          document_symbols = "bottom",
-          diagnostics = "bottom",
-        }
-        local sources = LazyVim.opts("neo-tree.nvim").sources or {}
-        for i, v in ipairs(sources) do
-          table.insert(opts.left, i, {
-            title = "Neo-Tree " .. v:gsub("_", " "):gsub("^%l", string.upper),
-            ft = "neo-tree",
-            filter = function(buf)
-              return vim.b[buf].neo_tree_source == v
-            end,
-            pinned = false,
-            open = function()
-              vim.cmd(("Neotree show position=%s %s dir=%s"):format(pos[v] or "bottom", v, LazyVim.root()))
-            end,
-          })
-        end
-      end
-
-      for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
-        opts[pos] = opts[pos] or {}
-        table.insert(opts[pos], {
-          ft = "trouble",
-          filter = function(_buf, win)
-            return vim.w[win].trouble
-              and vim.w[win].trouble.position == pos
-              and vim.w[win].trouble.type == "split"
-              and vim.w[win].trouble.relative == "editor"
-              and not vim.w[win].trouble_preview
-          end,
-        })
-      end
-      for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
-        opts[pos] = opts[pos] or {}
-        table.insert(opts[pos], {
-          ft = "snacks_terminal",
-          size = { height = 0.4 },
-          title = "%{b:snacks_terminal.id}: %{b:term_title}",
-          filter = function(_buf, win)
-            return vim.w[win].snacks_win
-              and vim.w[win].snacks_win.position == pos
-              and vim.w[win].snacks_win.relative == "editor"
-              and not vim.w[win].trouble_preview
-          end,
-        })
-      end
-      return opts
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    event = "LazyFile",
-    dependencies = {
-      "mason.nvim",
-      { "williamboman/mason-lspconfig.nvim", config = function() end },
-    },
-    opts = function()
-      ---@class PluginLspOpts
-      local ret = {
-        ---@type vim.diagnostic.Opts
-        diagnostics = {
-          underline = true,
-          update_in_insert = true,
-          virtual_text = false,
-          severity_sort = true,
-        },
-        inlay_hints = {
-          enabled = true,
-          exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
-        },
-        codelens = {
-          enabled = false,
-        },
-        document_highlight = {
-          enabled = true,
-        },
-        capabilities = {
-          workspace = {
-            fileOperations = {
-              didRename = true,
-              willRename = true,
-            },
-          },
-        },
-        format = {
-          formatting_options = nil,
-          timeout_ms = nil,
-        },
-        ---@type lspconfig.options
-        servers = {
-          clangd = { mason = false },
-          marksman = { mason = false },
-          lua_ls = {
-            mason = false, -- set to false if you don't want this server to be installed with mason
-            settings = {
-              Lua = {
-                workspace = {
-                  checkThirdParty = false,
-                },
-                codeLens = {
-                  enable = true,
-                },
-                completion = {
-                  callSnippet = "Replace",
-                },
-                doc = {
-                  privateName = { "^_" },
-                },
-                hint = {
-                  enable = true,
-                  setType = false,
-                  paramType = true,
-                  paramName = "Disable",
-                  semicolon = "Disable",
-                  arrayIndex = "Disable",
-                },
-              },
-            },
-          },
-        },
-        ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-        setup = {},
-      }
-      return ret
-    end,
-    ---@param opts PluginLspOpts
-    config = function(_, opts)
-      LazyVim.lsp.on_attach(function(client, buffer)
-        require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
-      end)
-      LazyVim.lsp.setup()
-      LazyVim.lsp.on_dynamic_capability(require("lazyvim.plugins.lsp.keymaps").on_attach)
-      Snacks.words.setup(opts.document_highlight)
-      if vim.fn.has("nvim-0.10") == 1 then
-        if opts.inlay_hints.enabled then
-          LazyVim.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
-            if
-              vim.api.nvim_buf_is_valid(buffer)
-              and vim.bo[buffer].buftype == ""
-              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
-            then
-              vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
-            end
-          end)
-        end
-
-        -- code lens
-        if opts.codelens.enabled and vim.lsp.codelens then
-          LazyVim.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
-            vim.lsp.codelens.refresh()
-            vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-              buffer = buffer,
-              callback = vim.lsp.codelens.refresh,
-            })
-          end)
-        end
-      end
-
-      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
-      local servers = opts.servers
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-        opts.capabilities or {}
-      )
-
-      local function setup(server)
-        local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
-        }, servers[server] or {})
-        if server_opts.enabled == false then
-          return
-        end
-
-        if opts.setup[server] then
-          if opts.setup[server](server, server_opts) then
-            return
-          end
-        elseif opts.setup["*"] then
-          if opts.setup["*"](server, server_opts) then
-            return
-          end
-        end
-        require("lspconfig")[server].setup(server_opts)
-      end
-
-      -- get all the servers that are available through mason-lspconfig
-      local have_mason, mlsp = pcall(require, "mason-lspconfig")
-      local all_mslp_servers = {}
-      if have_mason then
-        all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
-      end
-
-      local ensure_installed = {} ---@type string[]
-      for server, server_opts in pairs(servers) do
-        if server_opts then
-          server_opts = server_opts == true and {} or server_opts
-          if server_opts.enabled ~= false then
-            -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-            if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-              setup(server)
-            else
-              ensure_installed[#ensure_installed + 1] = server
-            end
-          end
-        end
-      end
-
-      if have_mason then
-        mlsp.setup({
-          ensure_installed = vim.tbl_deep_extend(
-            "force",
-            ensure_installed,
-            LazyVim.opts("mason-lspconfig.nvim").ensure_installed or {}
-          ),
-          handlers = { setup },
-        })
-      end
-
-      if LazyVim.lsp.is_enabled("denols") and LazyVim.lsp.is_enabled("vtsls") then
-        local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
-        LazyVim.lsp.disable("vtsls", is_deno)
-        LazyVim.lsp.disable("denols", function(root_dir, config)
-          if not is_deno(root_dir) then
-            config.settings.deno.enable = false
-          end
-          return false
-        end)
-      end
-    end,
-  },
-
   {
     "nvim-neorg/neorg",
     version = "*",
@@ -1096,5 +684,18 @@ return {
   {
     "nvzone/minty",
     cmd = { "Shades", "Huefy" },
+  },
+  { "nvzone/timerly", cmd = "TimerlyToggle" },
+  { "nvzone/showkeys", cmd = "ShowkeysToggle", opts = { timeout = 1, maxkeys = 5 } },
+  { "nvzone/typr" },
+  {
+    "yorickpeterse/nvim-window",
+    keys = {
+      { "<leader>ww", "<cmd>lua require('nvim-window').pick()<cr>", desc = "nvim-window: Jump to window" },
+    },
+    opts = {
+      normal_hl = "Normal",
+      render = "float",
+    },
   },
 }

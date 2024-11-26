@@ -3,7 +3,7 @@
 -- Add any additional keymaps here
 if vim.g.vscode == nil then
   vim.keymap.set("n", "<C-t>", function()
-    require("menu").open("default", { mouse = true, border = false })
+    require("menu").open("default", { mouse = false, border = true })
   end, {})
 
   require("which-key").add({

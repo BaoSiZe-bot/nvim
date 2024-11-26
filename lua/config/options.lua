@@ -127,7 +127,7 @@ vim.wo.colorcolumn = "100"
 vim.opt.softtabstop = 4
 vim.opt.guifont = "VictorMono Nerd Font:h14"
 if vim.g.neovide == true then
-  vim.g.neovide_transparency = 1
+  vim.g.neovide_transparency = 0.8
   vim.g.neovide_cursor_vfx_mode = "ripple"
   vim.g.neovide_input_ime = 0
 end
