@@ -483,7 +483,7 @@ return {
     "ibhagwan/fzf-lua",
     optional = true,
     config = function(_, opts)
-      require("fzf-lua").setup({ { "telescope", "fzf-native" }, winopts = { preview = { default = "bat" } } })
+      require("fzf-lua").setup({ "telescope" })
     end,
   },
   {
@@ -496,7 +496,6 @@ return {
     cmd = "CompetiTest",
     opts = {},
   },
-  { "kevinhwang91/nvim-bqf", ft = "qf" },
   {
     "stevearc/overseer.nvim",
     opts = {
@@ -534,35 +533,8 @@ return {
     cmd = { "SudaRead", "SudaWrite" },
   },
   {
-    "chrisgrieser/nvim-spider",
-    keys = {
-      {
-        "e",
-        function()
-          require("spider").motion("e")
-        end,
-        mode = { "n", "x" },
-      },
-      {
-        "w",
-        function()
-          require("spider").motion("w")
-        end,
-        mode = { "n", "x" },
-      },
-      {
-        "b",
-        function()
-          require("spider").motion("b")
-        end,
-        mode = { "n", "x" },
-      },
-    },
-  },
-  {
     url = "https://ghp.ci/github.com/mikavilpas/yazi.nvim",
     keys = {
-
       {
         "<leader>fy",
         function()
@@ -591,14 +563,10 @@ return {
     },
   },
   { "mateuszwieloch/automkdir.nvim", event = "BufWrite" },
-
   {
     url = "https://ghp.ci/github.com/sontungexpt/url-open",
     branch = "mini",
-    cmd = "URLOpenUnderCursor",
-    keys = {
-      { "gx", "<cmd>URLOpenUnderCursor<cr>", { desc = "open url under cursor" } },
-    },
+    event = "VeryLazy",
     config = function()
       local status_ok, url_open = pcall(require, "url-open")
       if not status_ok then
@@ -624,39 +592,6 @@ return {
   { "dstein64/nvim-scrollview", event = "LazyFile", opts = {} },
   { "MeanderingProgrammer/markdown.nvim", enabled = false },
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    opts = {
-      file_types = { "markdown", "norg", "org" },
-      code = {
-        sign = false,
-        width = "block",
-        right_pad = 1,
-      },
-      heading = {
-        sign = false,
-        icons = {},
-      },
-    },
-    ft = { "markdown", "norg", "org" },
-    config = function(_, opts)
-      require("render-markdown").setup(opts)
-      Snacks.toggle({
-        name = "Render Markdown",
-        get = function()
-          return require("render-markdown.state").enabled
-        end,
-        set = function(enabled)
-          local m = require("render-markdown")
-          if enabled then
-            m.enable()
-          else
-            m.disable()
-          end
-        end,
-      }):map("<leader>um")
-    end,
-  },
-  {
     "Isrothy/neominimap.nvim",
     version = "v3.*.*",
     lazy = false,
@@ -666,15 +601,12 @@ return {
     ft = "markdown",
     opts = {},
   },
-  { "nvzone/volt", lazy = true },
-  { "nvzone/menu", lazy = true },
-  {
-    "nvzone/minty",
-    cmd = { "Shades", "Huefy" },
-  },
+  "nvzone/volt",
+  "nvzone/menu",
+  { "nvzone/minty", cmd = { "Shades", "Huefy" } },
   { "nvzone/timerly", cmd = "TimerlyToggle" },
   { "nvzone/showkeys", cmd = "ShowkeysToggle", opts = { timeout = 1, maxkeys = 5 } },
-  { "nvzone/typr" },
+  { "nvzone/typr", cmd = { "Typr", "TyprStats" } },
   {
     "yorickpeterse/nvim-window",
     keys = {
