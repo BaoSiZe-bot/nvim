@@ -20,18 +20,14 @@ require("lazy").setup({
       opts = { colorscheme = "catppuccin-frappe" },
     },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
-    { import = "lazyvim.plugins.extras.coding.yanky" },
     { import = "lazyvim.plugins.extras.dap.core" },
     { import = "lazyvim.plugins.extras.editor.fzf" },
     { import = "lazyvim.plugins.extras.editor.illuminate" },
     { import = "lazyvim.plugins.extras.editor.inc-rename" },
     { import = "lazyvim.plugins.extras.editor.mini-files" },
     { import = "lazyvim.plugins.extras.editor.overseer" },
-    { import = "lazyvim.plugins.extras.editor.refactoring" },
     { import = "lazyvim.plugins.extras.lang.clangd" },
-    { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
-    -- { import = "lazyvim.plugins.extras.lang.python" },
     { import = "lazyvim.plugins.extras.lsp.none-ls" },
     { import = "lazyvim.plugins.extras.ui.edgy" },
     { import = "lazyvim.plugins.extras.ui.treesitter-context" },
@@ -45,8 +41,8 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
   },
   checker = {
-    enabled = false, -- check for plugin updates periodically
-    notify = false, -- notify on update
+    enabled = true, -- check for plugin updates periodically
+    notify = true, -- notify on update
   }, -- automatically check for plugin updates
   performance = {
     rtp = {
@@ -88,4 +84,3 @@ vim.keymap.set("n", "ge", "G")
 vim.keymap.set("n", "<leader>k", function()
   vim.lsp.buf.hover()
 end, { desc = "symbol info" })
-
