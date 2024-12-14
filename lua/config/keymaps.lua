@@ -2,12 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 if vim.g.vscode == nil then
-  vim.keymap.set("n", "<C-t>", function()
-    require("menu").open("default", { mouse = false, border = true })
-  end, {})
-
   require("which-key").add({
-
     { "<leader>a", group = "Full text", icon = "󰒆" },
     { "<leader>ac", "<cmd>%d_<CR>i", desc = "Edit", icon = "" },
     { "<leader>ak", "<cmd>%d<CR>", desc = "Cut", icon = "" },
@@ -24,12 +19,6 @@ if vim.g.vscode == nil then
     { "<leader>trp", "<cmd>Comp receive problem<CR>", desc = "Problem", icon = "" },
     { "<leader>trt", "<cmd>Comp receive testcases<CR>", desc = "Testcase", icon = "✔" },
     { "<leader>tt", "<cmd>Comp run<CR>", desc = "Run test", icon = "󰙨" },
-    { "<leader>n", group = "Neorg", icon = "" },
-    { "<leader>nj", group = "journal", icon = "" },
-    { "<leader>njd", "<cmd>Neorg journal today<cr>", desc = "today", icon = "󰃶" },
-    { "<leader>njy", "<cmd>Neorg journal yesterday<cr>", desc = "yesterday", icon = "󰘁" },
-    { "<leader>njt", "<cmd>Neorg journal tomorrow<cr>", desc = "tomorrow", icon = "󰒭" },
-    { "<leader>nm", "<cmd>Neorg index<cr>", desc = "Notes", icon = "" },
     { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
     { "<leader>;", ":", desc = "goto command mode" },
     { "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
