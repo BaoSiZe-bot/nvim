@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     "git",
     "clone",
     "--filter=blob:none",
-    "https://ghp.ci/github.com/folke/lazy.nvim.git",
+    "https://github.com/folke/lazy.nvim.git",
     "--branch=stable",
     lazypath,
   })
@@ -15,10 +15,11 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     {
-      url = "https://ghp.ci/github.com/LazyVim/LazyVim",
+      "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = { colorscheme = "catppuccin-frappe" },
     },
+    { import = "lazyvim.plugins.extras.ui.smear-cursor" },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.dap.core" },
     { import = "lazyvim.plugins.extras.editor.fzf" },
