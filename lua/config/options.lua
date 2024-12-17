@@ -1,7 +1,7 @@
 local opt = vim.opt
 opt.conceallevel = 2
 vim.g.neominimap = {
-  auto_enable = true,
+    auto_enable = true,
 }
 vim.g.lazyvim_picker = "auto"
 vim.g.markdown_recommended_style = 0
