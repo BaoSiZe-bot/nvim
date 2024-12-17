@@ -23,11 +23,9 @@ require("lazy").setup({
     { import = "plugins.extras.inc-rename" },
     { import = "plugins.extras.mini-surround" },
     { import = "plugins.extras.smear-curosr" },
-    { import = "lazyvim.plugins.extras.dap.core" },
-    { import = "lazyvim.plugins.extras.editor.overseer" },
-    { import = "lazyvim.plugins.extras.lang.clangd" },
+    { import = "plugins.extras.edgy" },
+    { import = "plugins.extras.cpp" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
-    { import = "lazyvim.plugins.extras.ui.edgy" },
   },
   defaults = {
     lazy = true,

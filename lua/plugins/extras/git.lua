@@ -35,13 +35,7 @@ return {
     "pwntester/octo.nvim",
     opts = function(_, opts)
       vim.treesitter.language.register("markdown", "octo")
-      if LazyVim.has("telescope.nvim") then
-        opts.picker = "telescope"
-      elseif LazyVim.has("fzf-lua") then
-        opts.picker = "fzf-lua"
-      else
-        LazyVim.error("`octo.nvim` requires `telescope.nvim` or `fzf-lua`")
-      end
+      opts.picker = "fzf-lua"
       vim.api.nvim_create_autocmd("ExitPre", {
         group = vim.api.nvim_create_augroup("octo_exit_pre", { clear = true }),
         callback = function(ev)

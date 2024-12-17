@@ -22,13 +22,6 @@ if vim.g.vscode == nil then
     { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
     { "<leader>;", ":", desc = "goto command mode" },
     { "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-    {
-      "<leader>gn",
-      function()
-        require("neogit").open()
-      end,
-      desc = "Neogit",
-    },
   })
 end
 vim.keymap.set(
