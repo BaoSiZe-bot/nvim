@@ -81,4 +81,20 @@ return {
             })
         end,
     },
+    {
+        "NeogitOrg/neogit",
+        keys = {
+            {
+                "<leader>gn",
+                "<cmd>lua require('neogit').open({cwd = LazyVim.root.get()})<CR>",
+                desc = "Neogit",
+            },
+        },
+        dependencies = {
+            "nvim-lua/plenary.nvim", -- required
+            "sindrets/diffview.nvim", -- optional - Diff integration
+            "ibhagwan/fzf-lua", -- optional
+        },
+        opts = {},
+    },
 }

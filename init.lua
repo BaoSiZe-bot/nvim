@@ -25,6 +25,7 @@ require("lazy").setup({
         { import = "plugins.extras.smear-curosr" },
         { import = "plugins.extras.edgy" },
         { import = "plugins.extras.cpp" },
+        { import = "plugins.extras.blink" },
         { import = "lazyvim.plugins.extras.lang.markdown" },
     },
     defaults = {

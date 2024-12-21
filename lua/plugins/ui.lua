@@ -4,4 +4,5 @@ return {
         "Isrothy/neominimap.nvim",
         event = "LazyFile",
     },
+    { "danilamihailov/beacon.nvim", event = "VeryLazy", opts = {} },
 }
