@@ -47,4 +47,10 @@ return {
             render = "float",
         },
     },
+    {
+        "mhanberg/output-panel.nvim",
+        event = "LspAttach",
+        keys = { "<F2>", "<cmd>OutputPannel<cr>", desc = "Lsp Output" },
+        opts = {},
+    },
 }

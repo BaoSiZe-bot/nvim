@@ -22,7 +22,7 @@ require("lazy").setup({
         { import = "plugins.extras.git" },
         { import = "plugins.extras.inc-rename" },
         { import = "plugins.extras.mini-surround" },
-        { import = "plugins.extras.smear-curosr" },
+        -- { import = "plugins.extras.smear-curosr" },
         { import = "plugins.extras.edgy" },
         { import = "plugins.extras.cpp" },
         { import = "plugins.extras.blink" },
