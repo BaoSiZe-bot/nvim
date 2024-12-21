@@ -30,7 +30,8 @@ return {
         dependencies = {
             "jbyuki/instant.nvim",
         },
-        config = function()
+        opts = {},
+        init = function()
             vim.g.instant_username = "2012bsz"
         end,
     },
