@@ -8,7 +8,7 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         event = "BufEnter",
         opts = function()
-            local config_dir = vim.fn.stdpath("config") .. "/lua/config"
+            local config_dir = vim.fn.stdpath("config") .. "/lua/config/"
             return {
                 -- Files to be hot-reloaded when modified.
                 reload_files = {

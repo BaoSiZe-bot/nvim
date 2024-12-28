@@ -95,6 +95,93 @@ return {
             "sindrets/diffview.nvim", -- optional - Diff integration
             "ibhagwan/fzf-lua", -- optional
         },
-        opts = {},
+        opts = {
+            -- When enabled, will watch the `.git/` directory for changes and refresh the status buffer in response to filesystem
+            -- events.
+            filewatcher = {
+                interval = 1000,
+                enabled = true,
+            },
+            -- "ascii"   is the graph the git CLI generates
+            -- "unicode" is the graph like https://kkgithub.com/rbong/vim-flog
+            -- "kitty"   is the graph like https://kkgithub.com/isakbm/gitgraph.nvim - use https://kkgithub.com/rbong/flog-symbols if you don't use Kitty
+            graph_style = "unicode",
+            -- Set to false if you want to be responsible for creating _ALL_ keymappings
+            use_default_keymaps = true,
+            -- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
+            -- Disabling `auto_refresh` will make it so you have to manually refresh the status after you open it.
+            auto_refresh = true,
+            -- Change the default way of opening neogit
+            kind = "tab",
+            -- The time after which an output console is shown for slow running commands
+            console_timeout = 10000,
+            -- Automatically show console if a command takes more than console_timeout milliseconds
+            auto_show_console = true,
+            -- Automatically close the console if the process exits with a 0 (success) status
+            auto_close_console = false,
+            notification_icon = "󰊢",
+            commit_editor = {
+                kind = "tab",
+                show_staged_diff = true,
+                staged_diff_split_kind = "auto",
+                spell_check = true,
+            },
+            preview_buffer = {
+                kind = "floating_console",
+            },
+            signs = {
+                -- { CLOSED, OPENED }
+                hunk = { "", "" },
+                item = { ">", "v" },
+                section = { ">", "v" },
+            },
+            sections = {
+                -- Reverting/Cherry Picking
+                sequencer = {
+                    folded = false,
+                    hidden = false,
+                },
+                untracked = {
+                    folded = false,
+                    hidden = false,
+                },
+                unstaged = {
+                    folded = false,
+                    hidden = false,
+                },
+                staged = {
+                    folded = false,
+                    hidden = false,
+                },
+                stashes = {
+                    folded = true,
+                    hidden = false,
+                },
+                unpulled_upstream = {
+                    folded = true,
+                    hidden = false,
+                },
+                unmerged_upstream = {
+                    folded = false,
+                    hidden = false,
+                },
+                unpulled_pushRemote = {
+                    folded = true,
+                    hidden = false,
+                },
+                unmerged_pushRemote = {
+                    folded = false,
+                    hidden = false,
+                },
+                recent = {
+                    folded = true,
+                    hidden = false,
+                },
+                rebase = {
+                    folded = true,
+                    hidden = false,
+                },
+            },
+        },
     },
 }

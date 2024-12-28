@@ -10,4 +10,4 @@ vim.wo.colorcolumn = "80"
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.guifont = "VictorMono Nerd Font:h12"
+vim.opt.guifont = "VictorMono Nerd Font:h14"
