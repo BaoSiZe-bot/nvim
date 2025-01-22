@@ -63,6 +63,7 @@ return {
                 bind_to_cwd = false,
                 follow_current_file = { enabled = true },
                 use_libuv_file_watcher = true,
+                hijack_netrw_behavior = "disabled",
             },
             window = {
                 mappings = {
@@ -269,39 +270,43 @@ return {
         dependencies = { "folke/edgy.nvim" },
         keys = {
             {
-                '<leader>el',
-                function() require('edgy-group').open_group_offset('left', 1) end,
-                desc = 'Edgy Group Next Left',
-            },
-            {
-                '<leader>eh',
-                function() require('edgy-group').open_group_offset('left', -1) end,
-                desc = 'Edgy Group Prev Left',
-            },
-            {
-                '<c-,>',
+                "<leader>el",
                 function()
-                    require('edgy-group.stl').pick()
+                    require("edgy-group").open_group_offset("left", 1)
                 end,
-                desc = 'Edgy Group Pick',
+                desc = "Edgy Group Next Left",
+            },
+            {
+                "<leader>eh",
+                function()
+                    require("edgy-group").open_group_offset("left", -1)
+                end,
+                desc = "Edgy Group Prev Left",
+            },
+            {
+                "<c-,>",
+                function()
+                    require("edgy-group.stl").pick()
+                end,
+                desc = "Edgy Group Pick",
             },
         },
         opts = {
             groups = {
                 left = {
-                    { icon = '',  titles = { 'Neo-Tree filesystem', 'Neo-Tree Buffers', 'Neo-Tree Git status'} },
-                    { icon = '',  titles = { 'Outline' } },
+                    { icon = "", titles = { "Neo-Tree filesystem", "Neo-Tree Buffers", "Neo-Tree Git status" } },
+                    { icon = "", titles = { "Outline" } },
                 },
             },
             statusline = {
-                separators = { ' ', ' ' },
+                separators = { " ", " " },
                 clickable = true,
                 colored = true,
                 colors = {
-                    active = 'PmenuSel',
-                    inactive = 'Pmenu',
+                    active = "PmenuSel",
+                    inactive = "Pmenu",
                 },
             },
-        }
-    }
+        },
+    },
 }

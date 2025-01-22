@@ -784,7 +784,7 @@ return {
         local TerminalStatusline = {
 
             condition = function()
-                return conditions.buffer_matches({ buftype = { "terminal" } })
+                return conditions.buffer_matches({ buftype = { "terminal" } }) and not (vim.bo.filetype == "yazi")
             end,
 
             hl = { bg = "dark_red" },
