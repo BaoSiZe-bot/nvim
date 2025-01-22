@@ -33,7 +33,7 @@ return {
             { "<leader>oc", "<cmd>OverseerClearCache<cr>", desc = "Clear cache" },
         },
         opts = {
-            dap = false,
+            -- dap = false,
             form = {
                 win_opts = {
                     winblend = 0,
@@ -112,5 +112,11 @@ return {
         "xeluxee/competitest.nvim",
         cmd = "CompetiTest",
         opts = {},
+    },
+    {
+        "mfussenegger/nvim-dap",
+        opts = function()
+            require("overseer").enable_dap()
+        end,
     },
 }
