@@ -21,7 +21,7 @@ require("lazy").setup({
 
 require("options")
 local autocmd = vim.api.nvim_create_autocmd
-vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+autocmd({ "InsertLeave", "TextChanged" }, {
     pattern = { "*" },
     command = "silent! wall",
     nested = true,
