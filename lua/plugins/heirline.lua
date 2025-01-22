@@ -23,9 +23,9 @@ return {
                 diag_error = utils.get_highlight("DiagnosticError").fg,
                 diag_hint = utils.get_highlight("DiagnosticHint").fg,
                 diag_info = utils.get_highlight("DiagnosticInfo").fg,
-                git_del = utils.get_highlight("diffDeleted").fg,
-                git_add = utils.get_highlight("diffAdded").fg,
-                git_change = utils.get_highlight("diffChanged").fg,
+                git_del = utils.get_highlight("DiagnosticError").fg,
+                git_add = utils.get_highlight("String").fg,
+                git_change = utils.get_highlight("Function").fg,
             }
         end
         require("heirline").load_colors(setup_colors)
@@ -128,7 +128,7 @@ return {
                 local filename = self.filename
                 local extension = vim.fn.fnamemodify(filename, ":e")
                 self.icon, self.icon_color =
-                require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+                    require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
             end,
             provider = function(self)
                 return self.icon and (self.icon .. " ")
@@ -501,8 +501,8 @@ return {
             init = function(self)
                 self.status_dict = vim.b.gitsigns_status_dict
                 self.has_changes = self.status_dict.added ~= 0
-                or self.status_dict.removed ~= 0
-                or self.status_dict.changed ~= 0
+                    or self.status_dict.removed ~= 0
+                    or self.status_dict.changed ~= 0
             end,
 
             hl = { fg = "orange" },
@@ -520,27 +520,27 @@ return {
                 end,
                 provider = "(",
             },
-            -- {
-            --     provider = function(self)
-            --         local count = self.status_dict.added or 0
-            --         return count > 0 and ("+" .. count)
-            --     end,
-            --     hl = { fg = "git_add" },
-            -- },
-            -- {
-            --     provider = function(self)
-            --         local count = self.status_dict.removed or 0
-            --         return count > 0 and ("-" .. count)
-            --     end,
-            --     hl = { fg = "git_del" },
-            -- },
-            -- {
-            --     provider = function(self)
-            --         local count = self.status_dict.changed or 0
-            --         return count > 0 and ("~" .. count)
-            --     end,
-            --     hl = { fg = "git_change" },
-            -- },
+            {
+                provider = function(self)
+                    local count = self.status_dict.added or 0
+                    return count > 0 and ("+" .. count)
+                end,
+                hl = { fg = "git_add" },
+            },
+            {
+                provider = function(self)
+                    local count = self.status_dict.removed or 0
+                    return count > 0 and ("-" .. count)
+                end,
+                hl = { fg = "git_del" },
+            },
+            {
+                provider = function(self)
+                    local count = self.status_dict.changed or 0
+                    return count > 0 and ("~" .. count)
+                end,
+                hl = { fg = "git_change" },
+            },
             {
                 condition = function(self)
                     return self.has_changes
@@ -658,7 +658,7 @@ return {
                 local filename = vim.api.nvim_buf_get_name(0)
                 return vim.fn.fnamemodify(filename, ":t")
             end,
-            hl = { fg = "blue"},
+            hl = { fg = "blue" },
         }
 
         local Spell = {
@@ -730,7 +730,9 @@ return {
 
         ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
         local DefaultStatusline = {
-            condition = function() return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy") end,
+            condition = function()
+                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy")
+            end,
             ViMode,
             Space,
             WorkDir,
@@ -757,7 +759,10 @@ return {
             ScrollBar,
         }
         local InactiveStatusline = {
-            condition = function() return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy") and conditions.is_not_active() end,
+            condition = function()
+                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy")
+                    and conditions.is_not_active()
+            end,
             FileType,
             Space,
             FileName,
