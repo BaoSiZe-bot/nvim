@@ -6,10 +6,6 @@ local on_attach = function(_, bufnr)
     local function opts(desc)
         return { buffer = bufnr, desc = "LSP " .. desc }
     end
-    local navic = require("nvim-navic")
-    if _.server_capabilities.documentSymbolProvider then
-        navic.attach(_, bufnr)
-    end
     map("n", "gd", require("snacks").picker.lsp_definitions, { desc = "Goto Definition" })
     map("n", "gr", require("snacks").picker.lsp_references, { nowait = true, desc = "References" })
     map("n", "gI", require("snacks").picker.lsp_implementations, { desc = "Goto Implementation" })

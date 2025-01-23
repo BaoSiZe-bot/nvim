@@ -44,7 +44,7 @@ end
 return {
     {
         "stevearc/conform.nvim",
-        event = "VeryLazy", -- uncomment for format on save
+        event = "LazyFile", -- uncomment for format on save
         keys = {
             {
                 "<leader>cF",
@@ -58,14 +58,15 @@ return {
         opts = {
             formatters_by_ft = {
                 lua = { "stylua" },
+                cpp = { "clang_format" },
                 -- css = { "prettier" },
                 -- html = { "prettier" },
             },
 
             format_on_save = {
                 -- These options will be passed to conform.format()
-                timeout_ms = 1000,
-                lsp_fallback = true,
+                timeout_ms = 10000000,
+                lsp_format = "fallback",
             },
         },
     },
@@ -127,56 +128,69 @@ return {
         "neovim/nvim-lspconfig",
         dependencies = {
             {
-                "SmiteshP/nvim-navic",
-                opts = function()
-                    return {
-                        separator = " ",
-                        highlight = true,
-                        depth_limit = 5,
-                        icons = {
-                            Array = " ",
-                            Boolean = "󰨙 ",
-                            Class = " ",
-                            Codeium = "󰘦 ",
-                            Color = " ",
-                            Control = " ",
-                            Collapsed = " ",
-                            Constant = "󰏿 ",
-                            Constructor = " ",
-                            Copilot = " ",
-                            Enum = " ",
-                            EnumMember = " ",
-                            Event = " ",
-                            Field = " ",
-                            File = " ",
-                            Folder = " ",
-                            Function = "󰊕 ",
-                            Interface = " ",
-                            Key = " ",
-                            Keyword = " ",
-                            Method = "󰊕 ",
-                            Module = " ",
-                            Namespace = "󰦮 ",
-                            Null = " ",
-                            Number = "󰎠 ",
-                            Object = " ",
-                            Operator = " ",
-                            Package = " ",
-                            Property = " ",
-                            Reference = " ",
-                            Snippet = "󱄽 ",
-                            String = " ",
-                            Struct = "󰆼 ",
-                            Supermaven = " ",
-                            TabNine = "󰏚 ",
-                            Text = " ",
-                            TypeParameter = " ",
-                            Unit = " ",
-                            Value = " ",
-                            Variable = "󰀫 ",
+                "Bekaboo/dropbar.nvim",
+                event = "UIEnter",
+                priority = 1000,
+                -- optional, but required for fuzzy finder support
+                opts = {
+                    icons = {
+                        kinds = {
+                            symbols = {
+                                Array = " ",
+                                Boolean = "󰨙 ",
+                                Class = " ",
+                                Codeium = "󰘦 ",
+                                Color = " ",
+                                Control = " ",
+                                Collapsed = " ",
+                                Constant = "󰏿 ",
+                                Constructor = " ",
+                                Copilot = " ",
+                                Enum = " ",
+                                EnumMember = " ",
+                                Event = " ",
+                                Field = " ",
+                                File = " ",
+                                Folder = " ",
+                                Function = "󰊕 ",
+                                Interface = " ",
+                                Key = " ",
+                                Keyword = " ",
+                                Method = "󰊕 ",
+                                Module = " ",
+                                Namespace = "󰦮 ",
+                                Null = " ",
+                                Number = "󰎠 ",
+                                Object = " ",
+                                Operator = " ",
+                                Package = " ",
+                                Property = " ",
+                                Reference = " ",
+                                Snippet = "󱄽 ",
+                                String = " ",
+                                Struct = "󰆼 ",
+                                Supermaven = " ",
+                                TabNine = "󰏚 ",
+                                Text = " ",
+                                TypeParameter = " ",
+                                Unit = " ",
+                                Value = " ",
+                                Variable = "󰀫 ",
+                            },
                         },
-                        lazy_update_context = true,
-                    }
+                    },
+                },
+                config = function(_, opts)
+                    local dropbar_api = require("dropbar.api")
+                    vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+                    vim.keymap.set(
+                        "n",
+                        "[;",
+                        dropbar_api.goto_context_start,
+                        { desc = "Go to start of current context" }
+                    )
+                    vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
+                    require("dropbar").setup(opts)
                 end,
             },
             -- main one

@@ -25,9 +25,9 @@ return {
                         information = { "undercurl" },
                     },
                 },
-                navic = {
-                    enabled = false,
-                    custom_bg = "NONE",
+                dropbar = {
+                    enabled = true,
+                    color_mode = true, -- enable color for kind's texts, not just kind's icons
                 },
                 neotest = true,
                 neotree = true,
