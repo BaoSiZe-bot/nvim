@@ -38,7 +38,6 @@ return {
     {
         "folke/snacks.nvim",
         event = "UIEnter",
-        priority = 1000,
         opts = {
             picker = {
                 win = {

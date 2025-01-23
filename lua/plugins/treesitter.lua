@@ -20,7 +20,6 @@ return {
             { "<bs>", desc = "Decrement Selection", mode = "x" },
         },
         opts_extend = { "ensure_installed" },
-        ---@type TSConfig
         ---@diagnostic disable-next-line: missing-fields
         opts = {
             highlight = { enable = true },
@@ -82,7 +81,6 @@ return {
                 },
             },
         },
-        ---@param opts TSConfig
         config = function(_, opts)
             if type(opts.ensure_installed) == "table" then
                 opts.ensure_installed = require("configs.funcs").dedup(opts.ensure_installed)

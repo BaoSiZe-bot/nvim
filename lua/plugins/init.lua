@@ -29,7 +29,7 @@ local function expand(snippet)
     -- the nested session will be used instead of the top-level session.
     local session = vim.snippet.active() and vim.snippet._session or nil
 
-    local ok, err = pcall(vim.snippet.expand, snippet)
+    local ok, _ = pcall(vim.snippet.expand, snippet)
     if not ok then
         local fixed = snippet_fix(snippet)
         ok = pcall(vim.snippet.expand, fixed)
@@ -55,7 +55,19 @@ return {
                 desc = "Format Injected Langs",
             },
         },
-        opts = require("configs.conform"),
+        opts = {
+            formatters_by_ft = {
+                lua = { "stylua" },
+                -- css = { "prettier" },
+                -- html = { "prettier" },
+            },
+
+            format_on_save = {
+                -- These options will be passed to conform.format()
+                timeout_ms = 1000,
+                lsp_fallback = true,
+            },
+        },
     },
     {
         "folke/noice.nvim",
@@ -190,7 +202,6 @@ return {
                 event = "InsertEnter",
 
                 ---@module 'blink.cmp'
-                ---@type blink.cmp.Config
                 opts = {
                     snippets = {
                         expand = function(snippet, _)
@@ -270,7 +281,6 @@ return {
                         ["<C-y>"] = { "select_and_accept" },
                     },
                 },
-                ---@param opts blink.cmp.Config | { sources: { compat: string[] } }
                 config = function(_, opts)
                     -- setup compat sources
                     local enabled = opts.sources.default
@@ -305,7 +315,6 @@ return {
 
                     -- check if we need to override symbol kinds
                     for _, provider in pairs(opts.sources.providers or {}) do
-                        ---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
                         if provider.kind then
                             local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
                             local kind_idx = #CompletionItemKind + 1
@@ -314,10 +323,7 @@ return {
                             ---@diagnostic disable-next-line: no-unknown
                             CompletionItemKind[provider.kind] = kind_idx
 
-                            ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
                             local transform_items = provider.transform_items
-                            ---@param ctx blink.cmp.Context
-                            ---@param items blink.cmp.CompletionItem[]
                             provider.transform_items = function(ctx, items)
                                 items = transform_items and transform_items(ctx, items) or items
                                 for _, item in ipairs(items) do

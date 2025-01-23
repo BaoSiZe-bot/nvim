@@ -205,72 +205,6 @@ return {
             end,
             hl = { fg = utils.get_highlight("Type").fg, bold = true },
         }
-        local FileEncoding = {
-            provider = function()
-                local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h 'enc'
-                return enc ~= "utf-8" and enc:upper()
-            end,
-        }
-        local FileFormat = {
-            provider = function()
-                local fmt = vim.bo.fileformat
-                return fmt ~= "unix" and fmt:upper()
-            end,
-        }
-        local FileSize = {
-            provider = function()
-                -- stackoverflow, compute human readable file size
-                local suffix = { "b", "k", "M", "G", "T", "P", "E" }
-                local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
-                fsize = (fsize < 0 and 0) or fsize
-                if fsize < 1024 then
-                    return fsize .. suffix[1]
-                end
-                local i = math.floor((math.log(fsize) / math.log(1024)))
-                return string.format("%.2g%s", fsize / 1024 ^ i, suffix[i + 1])
-            end,
-        }
-        local FileLastModified = {
-            -- did you know? Vim is full of functions!
-            provider = function()
-                local ftime = vim.fn.getftime(vim.api.nvim_buf_get_name(0))
-                return (ftime > 0) and os.date("%c", ftime)
-            end,
-        }
-        local CloseButton = {
-            condition = function(self)
-                return not vim.bo.modified
-            end,
-            -- a small performance improvement:
-            -- re register the component callback only on layout/buffer changes.
-            update = { "WinNew", "WinClosed", "BufEnter" },
-            { provider = " " },
-            {
-                provider = "",
-                hl = { fg = "gray" },
-                on_click = {
-                    minwid = function()
-                        return vim.api.nvim_get_current_win()
-                    end,
-                    callback = function(_, minwid)
-                        vim.api.nvim_win_close(minwid, true)
-                    end,
-                    name = "heirline_winbar_close_button",
-                },
-            },
-        }
-
-        -- Use it anywhere!
-        local WinBarFileName = utils.surround({ "", "" }, "bright_bg", {
-            hl = function()
-                if not conditions.is_active() then
-                    return { fg = "gray", force = true }
-                end
-            end,
-            MyFileNameBlock,
-            Space,
-            CloseButton,
-        })
         -- We're getting minimalist here!
         local Ruler = {
             -- %l = current line number
@@ -315,7 +249,7 @@ return {
             -- Or complicate things a bit and get the servers names
             provider = function()
                 local names = {}
-                for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+                for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
                     table.insert(names, server.name)
                 end
                 return " [" .. table.concat(names, " ") .. "]"
@@ -661,71 +595,7 @@ return {
             hl = { fg = "blue" },
         }
 
-        local Spell = {
-            condition = function()
-                return vim.wo.spell
-            end,
-            provider = "SPELL ",
-            hl = { bold = true, fg = "orange" },
-        }
-        local SearchCount = {
-            condition = function()
-                return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
-            end,
-            init = function(self)
-                local ok, search = pcall(vim.fn.searchcount)
-                if ok and search.total then
-                    self.search = search
-                end
-            end,
-            provider = function(self)
-                local search = self.search
-                return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
-            end,
-        }
-
-        local MacroRec = {
-            condition = function()
-                return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
-            end,
-            provider = " ",
-            hl = { fg = "orange", bold = true },
-            utils.surround({ "[", "]" }, nil, {
-                provider = function()
-                    return vim.fn.reg_recording()
-                end,
-                hl = { fg = "green", bold = true },
-            }),
-            update = {
-                "RecordingEnter",
-                "RecordingLeave",
-            },
-        }
-        local MacroRec = {
-            condition = function()
-                return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
-            end,
-            provider = " ",
-            hl = { fg = "orange", bold = true },
-            utils.surround({ "[", "]" }, nil, {
-                provider = function()
-                    return vim.fn.reg_recording()
-                end,
-                hl = { fg = "green", bold = true },
-            }),
-            update = {
-                "RecordingEnter",
-                "RecordingLeave",
-            },
-        }
-
         vim.opt.showcmdloc = "statusline"
-        local ShowCmd = {
-            condition = function()
-                return vim.o.cmdheight == 0
-            end,
-            provider = ":%3.5(%S%)",
-        }
         local Navic = { flexible = 3, navic, { provider = "" } }
 
         ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
@@ -851,7 +721,7 @@ return {
                 provider = function(self)
                     return string.format("%s%d", self.symbols[status], #self.tasks[status])
                 end,
-                hl = function(self)
+                hl = function(_)
                     return {
                         fg = utils.get_highlight(string.format("Overseer%s", status)).fg,
                     }
@@ -961,8 +831,8 @@ return {
                 if self.is_active then
                     return "TabLineSel"
                     -- why not?
-                    -- elseif not vim.api.nvim_buf_is_loaded(self.bufnr) then
-                    --     return { fg = "gray" }
+                elseif not vim.api.nvim_buf_is_loaded(self.bufnr) then
+                    return { fg = "gray" }
                 else
                     return "TabLine"
                 end
@@ -1064,31 +934,6 @@ return {
             -- no cache, as we're handling everything ourselves
             false
         )
-        local TablinePicker = {
-            condition = function(self)
-                return self._show_picker
-            end,
-            init = function(self)
-                local bufname = vim.api.nvim_buf_get_name(self.bufnr)
-                bufname = vim.fn.fnamemodify(bufname, ":t")
-                local label = bufname:sub(1, 1)
-                local i = 2
-                while self._picker_labels[label] do
-                    if i > #bufname then
-                        break
-                    end
-                    label = bufname:sub(i, i)
-                    i = i + 1
-                end
-                self._picker_labels[label] = self.bufnr
-                self.label = label
-            end,
-            provider = function(self)
-                return self.label
-            end,
-            hl = { fg = "red", bold = true },
-        }
-
         vim.keymap.set("n", "gbp", function()
             local tabline = require("heirline").tabline
             local buflist = tabline._buflist[1]

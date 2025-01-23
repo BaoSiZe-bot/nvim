@@ -1,3 +1,20 @@
+local function get_args(config)
+    local args = type(config.args) == "function" and (config.args() or {}) or config.args or {} --[[@as string[] | string ]]
+    local args_str = type(args) == "table" and table.concat(args, " ") or args --[[@as string]]
+
+    config = vim.deepcopy(config)
+    ---@cast args string[]
+    config.args = function()
+        local new_args = vim.fn.expand(vim.fn.input("Run with args: ", args_str)) --[[@as string]]
+        if config.type and config.type == "java" then
+            ---@diagnostic disable-next-line: return-type-mismatch
+            return new_args
+        end
+        return require("dap.utils").splitstr(new_args)
+    end
+    return config
+end
+
 return {
     {
         "rcarriga/nvim-dap-ui",
@@ -185,7 +202,7 @@ return {
                         { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
                     )
                 end
-                local dap = require("dap")
+                -- local dap = require("dap")
                 -- dap.configurations.cpp = {
                 --     {
                 --         -- If you get an "Operation not permitted" error using this, try disabling YAMA:
