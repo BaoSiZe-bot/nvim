@@ -4,29 +4,10 @@
 
 local map = vim.keymap.set
 
-function DeleteCurrentBuffer(cbn)
-    local buffers = vim.fn.getbufinfo({ buflisted = 1 })
-    local size = 0
-    local idx = 0
-    for n, e in ipairs(buffers) do
-        size = size + 1
-        if e.bufnr == cbn then
-            idx = n
-        end
-    end
-    if idx == 0 then
-        return
-    end
-    if idx == size then
-        vim.cmd("bprevious")
-    else
-        vim.cmd("bnext")
-    end
-    vim.cmd("bd! " .. cbn)
-end
-
--- map("i", "jk", "<ESC>")
 map({ "n", "i", "v" }, "<f9>", function()
+    require("snacks.terminal").toggle()
+end, { desc = "Open Terminal" })
+map({ "n", "i", "v" }, "<space>ft", function()
     require("snacks.terminal").toggle()
 end, { desc = "Open Terminal" })
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

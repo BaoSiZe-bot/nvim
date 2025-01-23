@@ -9,43 +9,24 @@ local on_attach = function(_, bufnr)
     if _.server_capabilities.documentSymbolProvider then
         navic.attach(_, bufnr)
     end
-    map(
-        "n",
-        "gD",
-        "<cmd>FzfLua lsp_declaration     jump_to_single_result=true ignore_current_line=true<cr>",
-        opts("Go to declaration")
-    )
-    map(
-        "n",
-        "gd",
-        "<cmd>FzfLua lsp_definitions     jump_to_single_result=true ignore_current_line=true<cr>",
-        opts("Go to definition")
-    )
-    map(
-        "n",
-        "gr",
-        "<cmd>FzfLua lsp_references      jump_to_single_result=true ignore_current_line=true<cr>",
-        opts("Goto references")
-    )
-    map(
-        "n",
-        "gi",
-        "<cmd>FzfLua lsp_implementation      jump_to_single_result=true ignore_current_line=true<cr>",
-        opts("Goto implementation")
-    )
+    map("n", "gd", function()
+        require("snacks").picker.lsp_definitions()
+    end, { desc = "Goto Definition" })
+    map("n", "gr", function()
+        require("snacks").picker.lsp_references()
+    end, { nowait = true, desc = "References" })
+    map("n", "gI", function()
+        require("snacks").picker.lsp_implementations()
+    end, { desc = "Goto Implementation" })
+    map("n", "gy", function()
+        require("snacks").picker.lsp_type_definitions()
+    end, { desc = "Goto T[y]pe Definition" })
     map("n", "K", vim.lsp.buf.hover, opts("Show documents"))
     map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts("Add workspace folder"))
     map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts("Remove workspace folder"))
-
-    map("n", "<space>wl", function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts("List workspace folders"))
-    map(
-        "n",
-        "gy",
-        "<cmd>FzfLua lsp_type_definition      jump_to_single_result=true ignore_current_line=true<cr>",
-        opts("Goto T[y]pe Definition")
-    )
+    -- map("n", "<space>wl", function()
+    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end, opts("List workspace folders"))
     vim.keymap.set("n", "<leader>lr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
     end, { expr = true })

@@ -44,7 +44,17 @@ end
 return {
     {
         "stevearc/conform.nvim",
-        event = "LazyFile", -- uncomment for format on save
+        event = "VeryLazy", -- uncomment for format on save
+        keys = {
+            {
+                "<leader>cF",
+                function()
+                    require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+                end,
+                mode = { "n", "v" },
+                desc = "Format Injected Langs",
+            },
+        },
         opts = require("configs.conform"),
     },
     {

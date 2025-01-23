@@ -5,7 +5,7 @@ return {
         version = "false",
         branch = "v4",
         enabled = true,
-        lazy = false, -- NOTE: NO NEED to Lazy load
+        event = "UIEnter",
         -- Optional
         init = function()
             -- The following options are recommended when layout == "float"
@@ -19,7 +19,7 @@ return {
     },
     {
         "dstein64/nvim-scrollview",
-        lazy = false,
+        event = "UIEnter",
     },
     {
         "folke/flash.nvim",
