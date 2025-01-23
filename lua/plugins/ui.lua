@@ -18,10 +18,6 @@ return {
         end,
     },
     {
-        "dstein64/nvim-scrollview",
-        event = "UIEnter",
-    },
-    {
         "folke/flash.nvim",
         event = "VeryLazy",
         vscode = true,
@@ -162,5 +158,11 @@ return {
                 },
             })
         end,
+    },
+    {
+        "eandrju/cellular-automaton.nvim",
+        lazy = false,
+        priority = 99999999999,
+        cmds = { "CellularAutomaton" },
     },
 }

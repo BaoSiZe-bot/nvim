@@ -1,5 +1,6 @@
 -- load defaults i.e lua_lsp
 local map = vim.keymap.set
+-- vim.opt.mousemoveevent = true
 -- export on_attach & capabilities
 local on_attach = function(_, bufnr)
     local function opts(desc)
@@ -9,19 +10,11 @@ local on_attach = function(_, bufnr)
     if _.server_capabilities.documentSymbolProvider then
         navic.attach(_, bufnr)
     end
-    map("n", "gd", function()
-        require("snacks").picker.lsp_definitions()
-    end, { desc = "Goto Definition" })
-    map("n", "gr", function()
-        require("snacks").picker.lsp_references()
-    end, { nowait = true, desc = "References" })
-    map("n", "gI", function()
-        require("snacks").picker.lsp_implementations()
-    end, { desc = "Goto Implementation" })
-    map("n", "gy", function()
-        require("snacks").picker.lsp_type_definitions()
-    end, { desc = "Goto T[y]pe Definition" })
-    map("n", "K", vim.lsp.buf.hover, opts("Show documents"))
+    map("n", "gd", require("snacks").picker.lsp_definitions, { desc = "Goto Definition" })
+    map("n", "gr", require("snacks").picker.lsp_references, { nowait = true, desc = "References" })
+    map("n", "gI", require("snacks").picker.lsp_implementations, { desc = "Goto Implementation" })
+    map("n", "gy", require("snacks").picker.lsp_type_definitions, { desc = "Goto T[y]pe Definition" })
+
     map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts("Add workspace folder"))
     map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts("Remove workspace folder"))
     -- map("n", "<space>wl", function()

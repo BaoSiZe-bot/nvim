@@ -1,4 +1,5 @@
 return {
+    "jackielii/neo-tree-harpoon.nvim",
     {
         "nvim-neo-tree/neo-tree.nvim",
         cmd = "Neotree",
@@ -57,7 +58,7 @@ return {
             })
         end,
         opts = {
-            sources = { "filesystem", "buffers", "git_status" },
+            sources = { "filesystem", "buffers", "git_status", "harpoon-buffers" },
             open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
             filesystem = {
                 bind_to_cwd = false,
@@ -215,7 +216,7 @@ return {
                 document_symbols = "bottom",
                 diagnostics = "bottom",
             }
-            local sources = { "filesystem", "buffers", "git_status" }
+            local sources = { "filesystem", "buffers", "git_status", "harpoon-buffers" }
             for i, v in ipairs(sources) do
                 table.insert(opts.left, i, {
                     title = "Neo-Tree " .. v:gsub("_", " "):gsub("^%l", string.upper),

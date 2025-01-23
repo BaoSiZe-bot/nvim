@@ -249,9 +249,10 @@ return {
                         request = "launch",
                         name = "Launch file",
                         program = function()
-                            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                            return "/tmp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r")
                         end,
                         cwd = "${workspaceFolder}",
+                        preLaunchTask = "clang_build",
                     },
                     {
                         type = "codelldb",

@@ -66,18 +66,6 @@ return {
                 "user.trans_shell",
                 "user.paru",
             },
-            strategy = {
-                "toggleterm",
-                use_shell = false,
-                direction = nil,
-                highlights = nil,
-                auto_scroll = nil,
-                close_on_exit = false,
-                quit_on_exit = "never",
-                open_on_start = true,
-                hidden = false,
-                on_create = nil,
-            },
         },
     },
     {
@@ -118,5 +106,21 @@ return {
         opts = function()
             require("overseer").enable_dap()
         end,
+    },
+    {
+        "s1n7ax/nvim-window-picker",
+        keys = {
+            {
+                "<Space>ww",
+                function()
+                    require("window-picker").pick_window()
+                end,
+                mode = { "n" },
+                desc = "jump to window",
+            },
+        },
+        opts = {
+            hint = "floating-big-letter",
+        },
     },
 }

@@ -3,10 +3,10 @@ return {
     builder = function()
         -- Full path to current file (see :help expand())
         local file = vim.fn.expand("%:p")
-        local fnoext = vim.fn.expand("%:p:r")
+        local tmpnoext = "/tmp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r")
         return {
             cmd = { "clang++" },
-            args = { file, "-o", fnoext, "-Wall", "-Wextra", "-Werror", "-Wno-register", "-std=c++2c", "-g3" },
+            args = { file, "-o", tmpnoext, "-Wall", "-Wextra", "-Werror", "-Wno-register", "-std=c++2c", "-g3" },
             components = { { "on_output_quickfix", open = true }, "default" },
         }
     end,

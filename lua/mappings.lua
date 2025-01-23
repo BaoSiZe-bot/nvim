@@ -7,31 +7,10 @@ local map = vim.keymap.set
 map({ "n", "i", "v" }, "<f9>", function()
     require("snacks.terminal").toggle()
 end, { desc = "Open Terminal" })
-map({ "n", "i", "v" }, "<space>ft", function()
+map({ "n", "v" }, "<space>ft", function()
     require("snacks.terminal").toggle()
 end, { desc = "Open Terminal" })
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
-require("which-key").add({
-    { "<leader>a", group = "Full text", icon = "󰒆" },
-    { "<leader>ac", "<cmd>%d_<CR>i", desc = "Edit", icon = "" },
-    { "<leader>ak", "<cmd>%d<CR>", desc = "Cut", icon = "" },
-    { "<leader>ad", "<cmd>%d_<CR>", desc = "Delete", icon = "" },
-    { "<leader>as", "ggVG<C-g>", desc = "Select(Select mode)", icon = "󱟁" },
-    { "<leader>av", "ggVG", desc = "Select(Visual mode)", icon = "󰒅" },
-    { "<leader>ay", "<cmd>%y<CR>", desc = "Copy", icon = "" },
-    { "<leader>t", group = "Test", icon = "󰙨" },
-    { "<leader>td", "<cmd>Comp delete_testcase<CR>", desc = "Delete testcase", icon = "󰆴" },
-    { "<leader>te", "<cmd>Comp edit_testcase<CR>", desc = "Edit testcase", icon = "" },
-    { "<leader>tn", "<cmd>Comp add_testcase<CR>", desc = "New testcase", icon = "" },
-    { "<leader>tr", group = "Receive", icon = "󱃚" },
-    { "<leader>trc", "<cmd>Comp receive contest<CR>", desc = "Problems(Contest)", icon = " " },
-    { "<leader>trp", "<cmd>Comp receive problem<CR>", desc = "Problem", icon = "" },
-    { "<leader>trt", "<cmd>Comp receive testcases<CR>", desc = "Testcase", icon = "✔" },
-    { "<leader>tt", "<cmd>Comp run<CR>", desc = "Run test", icon = "󰙨" },
-    { "<leader>bn", "<cmd>bnext<cr>", desc = "Next buffer" },
-    { "<leader>;", ":", desc = "goto command mode" },
-    { "<leader>bp", "<cmd>bprevious<cr>", desc = "Prev Buffer" },
-})
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
