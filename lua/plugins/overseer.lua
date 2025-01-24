@@ -123,4 +123,13 @@ return {
             hint = "floating-big-letter",
         },
     },
+    {
+        "bszzzz/Luogu-On-Neovim",
+        branch = "bszzzz-patch-1",
+        event = "VeryLazy",
+        build = function()
+            require("Luogu-On-Neovim").install()
+        end,
+        opts = {},
+    },
 }

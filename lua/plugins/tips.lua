@@ -172,4 +172,99 @@ return {
             })
         end,
     },
+    {
+        "luukvbaal/statuscol.nvim",
+        event = "LazyFile",
+        opts = function()
+            local builtin = require("statuscol.builtin")
+            return {
+                relculright = true,
+                segments = {
+                    { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+                    {
+                        sign = { namespace = { "diagnostic/signs" }, maxwidth = 2, auto = true },
+                        click = "v:lua.ScSa",
+                    },
+                    { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+                    {
+                        sign = { name = { ".*" }, maxwidth = 2, colwidth = 1, auto = true, wrap = true },
+                        click = "v:lua.ScSa",
+                    },
+                },
+            }
+        end,
+    },
+    {
+        "kosayoda/nvim-lightbulb",
+        event = "LazyFile",
+        opts = {
+            autocmd = { enabled = true },
+            float = { enabled = true },
+            code_lenses = true,
+        },
+    },
+    {
+        "brenton-leighton/multiple-cursors.nvim",
+        opts = {}, -- This causes the plugin setup function to be called
+        keys = {
+            { "<C-j>", "<Cmd>MultipleCursorsAddDown<CR>", mode = { "n", "x" }, desc = "Add cursor and move down" },
+            { "<C-k>", "<Cmd>MultipleCursorsAddUp<CR>", mode = { "n", "x" }, desc = "Add cursor and move up" },
+
+            {
+                "<C-LeftMouse>",
+                "<Cmd>MultipleCursorsMouseAddDelete<CR>",
+                mode = { "n", "i" },
+                desc = "Add or remove cursor",
+            },
+
+            { "ga", "<Cmd>MultipleCursorsAddMatches<CR>", mode = { "n", "x" }, desc = "Add cursors to cword" },
+            {
+                "gA",
+                "<Cmd>MultipleCursorsAddMatchesV<CR>",
+                mode = { "n", "x" },
+                desc = "Add cursors to cword in previous area",
+            },
+
+            {
+                "<M-i>",
+                "<Cmd>MultipleCursorsAddJumpNextMatch<CR>",
+                mode = { "n", "x" },
+                desc = "Add cursor and jump to next cword",
+            },
+            { "<M-n>", "<Cmd>MultipleCursorsJumpNextMatch<CR>", mode = { "n", "x" }, desc = "Jump to next cword" },
+        },
+    },
+    {
+        "v1nh1shungry/cppman.nvim",
+        cmd = "Cppman",
+        dependencies = {
+            "folke/snacks.nvim", -- optional for snacks picker
+        },
+        opts = { picker = "snacks" }, -- required, `setup()` must be called
+    },
+    {
+        "ziontee113/icon-picker.nvim",
+        opts = { disable_legacy_commands = true },
+        keymap = {
+            vim.keymap.set("n", "<Leader>N", "<cmd>IconPickerYank<cr>", { noremap = true, silent = true }), --> Yank the selected icon into register
+        },
+    },
+    {
+        "ja-ford/delaytrain.nvim",
+        event = "VeryLazy",
+        opts = {
+            delay_ms = 1000, -- How long repeated usage of a key should be prevented
+            grace_period = 2, -- How many repeated keypresses are allowed
+            keys = { -- Which keys (in which modes) should be delayed
+                ["nv"] = { "h", "j", "k", "l" },
+                ["nvi"] = { "<Left>", "<Down>", "<Up>", "<Right>" },
+            },
+            ignore_filetypes = { "neo-tree", "minifiles" }, -- Example: set to {"help", "NvimTr*"} to
+            -- disable the plugin for help and NvimTree
+        },
+        config = function(_, opts)
+            require("delaytrain").setup(opts)
+            vim.cmd([[DelayTrainEnable]])
+        end,
+    },
 }

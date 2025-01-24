@@ -1,3 +1,11 @@
+local function term_nav(dir)
+    return function(self)
+        return self:is_floating() and "<c-" .. dir .. ">"
+            or vim.schedule(function()
+                vim.cmd.wincmd(dir)
+            end)
+    end
+end
 ---@type table<string, string[]|boolean>?
 local kind_filter = {
     default = {
@@ -83,7 +91,7 @@ return {
                             icon = " ",
                             key = "f",
                             desc = "Find File",
-                            action = ":lua require(\"snacks\").picker.pick('files')",
+                            action = ':lua require("snacks").picker.files({hidden = true})',
                         },
                         { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
                         {
@@ -115,9 +123,21 @@ return {
             notifier = { enabled = true },
             scope = { enabled = true },
             scroll = { enabled = true },
-            statuscolumn = { enabled = false }, -- we set this in options.lua
-            -- toggle = { map = LazyVim.safe_keymap_set },
+            statuscolumn = { enabled = true }, -- we set this in options.lua
+            toggle = { enabled = true },
             words = { enabled = true },
+            bigfile = { enabled = true },
+            quickfile = { enabled = true },
+            terminal = {
+                win = {
+                    keys = {
+                        nav_h = { "<C-h>", term_nav("h"), desc = "Go to Left Window", expr = true, mode = "t" },
+                        nav_j = { "<C-j>", term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
+                        nav_k = { "<C-k>", term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
+                        nav_l = { "<C-l>", term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
+                    },
+                },
+            },
         },
         keys = {
             {
@@ -158,7 +178,7 @@ return {
             {
                 "<leader><space>",
                 function()
-                    require("snacks").picker.files()
+                    require("snacks").picker.files({ hidden = true })
                 end,
                 desc = "Find Files (Root Dir)",
             },
@@ -172,14 +192,14 @@ return {
             {
                 "<leader>fc",
                 function()
-                    require("snacks").picker.open({ cwd = vim.fn.stdpath("config") })
+                    require("snacks").picker.files({ cwd = vim.fn.stdpath("config") })
                 end,
                 desc = "Find Config File",
             },
             {
                 "<leader>ff",
                 function()
-                    require("snacks").picker.files()
+                    require("snacks").picker.files({ hidden = true })
                 end,
                 desc = "Find Files (Root Dir)",
             },

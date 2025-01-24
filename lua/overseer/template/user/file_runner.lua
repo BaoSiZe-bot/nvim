@@ -15,7 +15,7 @@ return {
                         "clang_build",
                     },
                 },
-                "default",
+                "toggleterm",
             },
         }
     end,

@@ -78,7 +78,6 @@ return {
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                     ["vim.lsp.util.stylize_markdown"] = true,
-                    ["cmp.entry.get_documentation"] = true,
                 },
             },
             routes = {
@@ -96,7 +95,7 @@ return {
             },
             presets = {
                 bottom_search = true,
-                command_palette = true,
+                --     command_palette = true,
                 long_message_to_split = true,
                 inc_rename = true,
             },
@@ -485,10 +484,27 @@ return {
     {
         "rachartier/tiny-inline-diagnostic.nvim",
         event = "LspAttach", -- Or `LspAttach`
-        priority = 1000, -- needs to be loaded in first
+        priority = 1919810, -- needs to be loaded in first
         config = function()
             require("tiny-inline-diagnostic").setup()
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
+        end,
+    },
+    {
+        "aznhe21/actions-preview.nvim",
+        event = "LspAttach",
+        opts = function()
+            local hl = require("actions-preview.highlight")
+            return {
+                diff = { algorithm = "patience", ignore_whitespace = true },
+                highlight_command = {
+                    hl.diff_so_fancy("/usr/bin/diff-so-fancy --option1 --option2"),
+                },
+            }
+        end,
+        config = function(_, opts)
+            require("actions-preview").setup(opts)
+            vim.keymap.set({ "v", "n" }, "gf", require("actions-preview").code_actions)
         end,
     },
 }
