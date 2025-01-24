@@ -160,7 +160,7 @@ return {
     },
     {
         "azratul/live-share.nvim",
-        cmds = { "LiveShareServer", "LiveShareJoin" },
+        cmd = { "LiveShareServer", "LiveShareJoin" },
         dependencies = {
             "jbyuki/instant.nvim",
         },
@@ -222,6 +222,23 @@ return {
     {
         "iamyoki/buffer-reopen.nvim",
         event = "VeryLazy",
+        opts = {},
+    },
+    {
+        "jim-fx/sudoku.nvim",
+        cmd = "Sudoku",
+        config = function()
+            require("sudoku").setup({
+                -- configuration ...
+            })
+        end,
+    },
+    {
+        "joshuadanpeterson/typewriter",
+        cmd = { "TWEnable", "TWToggle", "TWDisable" },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        },
         opts = {},
     },
 }

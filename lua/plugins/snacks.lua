@@ -442,6 +442,7 @@ return {
                 "<leader>z",
                 function()
                     require("snacks").zen()
+                    vim.cmd([[TWToggle]])
                 end,
                 desc = "Zen mode",
             },
