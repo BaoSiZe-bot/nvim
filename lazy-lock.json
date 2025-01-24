@@ -95,7 +95,6 @@
   "ts-comments.nvim": { "branch": "main", "commit": "872dcfa0418f4a33b7437fb4d9f4e89f2f000d74" },
   "typewriter": { "branch": "main", "commit": "458f8177a6f896583429cf72afe5b7bc2a31a985" },
   "typr": { "branch": "main", "commit": "984d5d18ad2ee51579c8b6f9dede1bea324adaa9" },
-  "undotree": { "branch": "main", "commit": "eab459ab87dd249617b5f7187bb69e614a083047" },
   "vim-suda": { "branch": "master", "commit": "9adda7d195222d4e2854efb2a88005a120296c47" },
   "visual_studio_code": { "branch": "master", "commit": "ff7fd467e6c82bd1e062d64f60428cf36b0e99c6" },
   "volt": { "branch": "main", "commit": "357b88862b60ef3a4154f4d25e3befe7c2f6b491" },

@@ -243,7 +243,7 @@ return {
             {
                 '<leader>s"',
                 function()
-                    require("snacks").registers()
+                    require("snacks").picker.registers()
                 end,
                 desc = "Registers",
             },
@@ -311,11 +311,25 @@ return {
                 desc = "Help Pages",
             },
             {
+                "<leader>sp",
+                function()
+                    require("snacks").picker.lazy()
+                end,
+                desc = "Search for Plugin Spec",
+            },
+            {
                 "<leader>sH",
                 function()
                     require("snacks").picker.highlights()
                 end,
                 desc = "Search Highlight Groups",
+            },
+            {
+                "<leader>si",
+                function()
+                    require("snacks").picker.icons()
+                end,
+                desc = "Icons",
             },
             {
                 "<leader>sj",
