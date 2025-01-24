@@ -14,6 +14,6 @@
 
 \[ \] 等待 <https://kkgithub.com/stevearc/overseer.nvim/discussions/399>
 
-\[ \] 添加多光标
+\[X\] 添加多光标
 
 \[ \] 等哪位大佬写一个完美的音乐播放器 :)
