@@ -128,6 +128,7 @@ return {
             words = { enabled = true },
             bigfile = { enabled = true },
             quickfile = { enabled = true },
+            zen = { enabled = true },
             terminal = {
                 win = {
                     keys = {
@@ -436,6 +437,13 @@ return {
                     require("snacks").profiler.scratch()
                 end,
                 desc = "Profiler Scratch Buffer",
+            },
+            {
+                "<leader>z",
+                function()
+                    require("snacks").zen()
+                end,
+                desc = "Zen mode",
             },
         },
     },

@@ -193,4 +193,35 @@ return {
             -- your configuration there
         },
     },
+    {
+        "2kabhishek/nerdy.nvim",
+        cmd = "Nerdy",
+    },
+    {
+        "cpea2506/relative-toggle.nvim",
+        event = "LazyFile",
+        opts = {},
+    },
+    {
+        "dnlhc/glance.nvim",
+        event = "LspAttach",
+        keymap = {
+            {
+                "<leader>lp",
+                "<cmd>Glance<cr>",
+                mode = { "n" },
+                desc = "Lsp Peek",
+            },
+        },
+    },
+    {
+        "NStefan002/2048.nvim",
+        cmd = "Play2048",
+        opts = {},
+    },
+    {
+        "iamyoki/buffer-reopen.nvim",
+        event = "VeryLazy",
+        opts = {},
+    },
 }

@@ -45,4 +45,5 @@ return {
             vim.cmd.colorscheme("catppuccin-frappe")
         end,
     },
+    "askfiy/visual_studio_code",
 }

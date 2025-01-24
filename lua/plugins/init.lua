@@ -507,4 +507,9 @@ return {
             vim.keymap.set({ "v", "n" }, "gf", require("actions-preview").code_actions)
         end,
     },
+    {
+        "VidocqH/lsp-lens.nvim",
+        opts = {},
+        event = "LspAttach",
+    },
 }
