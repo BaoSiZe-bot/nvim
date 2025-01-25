@@ -14,7 +14,7 @@
 
 ** TODO 等待 <https://github.com/pwntester/octo.nvim/issues/809>
 
-** TODO 等待 <https://kkgithub.com/stevearc/overseer.nvim/discussions/399>
+** DONE 等待 <https://kkgithub.com/stevearc/overseer.nvim/discussions/399>
 
 ** DONE 添加多光标
 
@@ -28,4 +28,4 @@
 
 ** TODO rime-ls
 
-** TODO 图片
+** TODO 显示图片

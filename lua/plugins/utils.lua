@@ -178,6 +178,7 @@ return {
     },
     {
         "JuanZoran/Trans.nvim",
+        enabled = false,
         build = function()
             require("Trans").install()
         end,
@@ -240,5 +241,82 @@ return {
             "nvim-treesitter/nvim-treesitter",
         },
         opts = {},
+    },
+    {
+        "3rd/image.nvim",
+        event = "UIEnter",
+        enabled = false,
+        opts = {
+            backend = "ueberzug",
+        }
+    },
+    {
+        "mateuszwieloch/automkdir.nvim",
+        event = "LazyFile"
+    },
+    {
+        "axieax/urlview.nvim",
+        cmd = { "UrlView" }
+    },
+    {
+        "mistricky/codesnap.nvim",
+        build = "make",
+        keys = {
+            { "<leader>cc", "<cmd>CodeSnap<cr>",     mode = "x", desc = "Save selected code snapshot into clipboard" },
+            { "<leader>cs", "<cmd>CodeSnapSave<cr>", mode = "x", desc = "Save selected code snapshot in ~/Pictures" },
+        },
+        opts = {
+            save_path = "~/Pictures",
+            has_breadcrumbs = true,
+            bg_theme = "summer",
+        },
+    },
+    {
+        'abecodes/tabout.nvim',
+        lazy = false,
+        opts = {
+            tabkey = '<Tab>',             -- key to trigger tabout, set to an empty string to disable
+            backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+            act_as_tab = true,            -- shift content if tab out is not possible
+            act_as_shift_tab = false,     -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+            default_tab = '<C-t>',        -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
+            default_shift_tab = '<C-d>',  -- reverse shift default action,
+            enable_backwards = true,      -- well ...
+            completion = false,           -- if the tabkey is used in a completion pum
+            tabouts = {
+                { open = "'", close = "'" },
+                { open = '"', close = '"' },
+                { open = '`', close = '`' },
+                { open = '(', close = ')' },
+                { open = '[', close = ']' },
+                { open = '{', close = '}' }
+            },
+            ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
+            exclude = {}         -- tabout will ignore these filetypes
+        },
+        event = 'InsertCharPre', -- Set the event to 'InsertCharPre' for better compatibility
+        priority = 1000,
+    },
+    {
+        "Freed-Wu/rime.nvim",
+        keys = {
+            {
+                "<C-\\>",
+                function() require('rime.nvim').toggle() end,
+                mode = { "i", "n" },
+                desc = "toggle rime"
+            }
+        }
+    },
+    {
+        'noearc/jieba.nvim',
+        dependencies = { 'noearc/jieba-lua' },
+        event = "LazyFile",
+        config = function()
+            require("jieba_nvim").setup()
+            vim.keymap.set('n', 'ce', ":lua require'jieba_nvim'.change_w()<CR>", { noremap = false, silent = true })
+            vim.keymap.set('n', 'de', ":lua require'jieba_nvim'.delete_w()<CR>", { noremap = false, silent = true })
+            vim.keymap.set('n', '<leader>w', ":lua require'jieba_nvim'.select_w()<CR>", { noremap = false, silent = true })
+        end
     },
 }

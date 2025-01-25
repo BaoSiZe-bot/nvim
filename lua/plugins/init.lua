@@ -1,3 +1,22 @@
+local include_in_completion = vim.g.lazyvim_mini_snippets_in_completion == nil
+    or vim.g.lazyvim_mini_snippets_in_completion
+
+local function expand_from_lsp(snippet)
+    local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
+    insert({ body = snippet })
+end
+
+local function jump(direction)
+    local is_active = MiniSnippets.session.get(false) ~= nil
+    if is_active then
+        MiniSnippets.session.jump(direction)
+        return true
+    end
+end
+
+---@type fun(snippets, insert) | nil
+local expand_select_override = nil
+
 local function snippet_replace(snippet, fn)
     return snippet:gsub("%$%b{}", function(m)
         local n, name = m:match("^%${(%d+):(.+)}$")
@@ -63,11 +82,11 @@ return {
                 -- html = { "prettier" },
             },
 
-            format_on_save = {
-                -- These options will be passed to conform.format()
-                timeout_ms = 10000000,
-                lsp_format = "fallback",
-            },
+            -- format_on_save = {
+            --     -- These options will be passed to conform.format()
+            --     timeout_ms = 10000000,
+            --     lsp_format = "fallback",
+            -- },
         },
     },
     {
@@ -102,15 +121,15 @@ return {
         },
         -- stylua: ignore
         keys = {
-            { "<leader>sn", "", desc = "+noice"},
-            { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-            { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-            { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-            { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-            { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
-            { "<leader>snt", function() require("noice").cmd("pick") end, desc = "Noice Picker (Telescope/FzfLua)" },
-            { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll Forward", mode = {"i", "n", "s"} },
-            { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll Backward", mode = {"i", "n", "s"}},
+            { "<leader>sn",  "",                                                                            desc = "+noice" },
+            { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                              desc = "Redirect Cmdline" },
+            { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+            { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+            { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+            { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+            { "<leader>snt", function() require("noice").cmd("pick") end,                                   desc = "Noice Picker (Telescope/FzfLua)" },
+            { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,                           expr = true,              desc = "Scroll Forward",  mode = { "i", "n", "s" } },
+            { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,                           expr = true,              desc = "Scroll Backward", mode = { "i", "n", "s" } },
         },
         config = function(_, opts)
             -- HACK: noice shows messages from before it was enabled,
@@ -290,7 +309,7 @@ return {
                     },
 
                     keymap = {
-                        preset = "super-tab",
+                        preset = "enter",
                         ["<C-y>"] = { "select_and_accept" },
                     },
                 },
@@ -308,20 +327,12 @@ return {
                         end
                     end
 
-                    if opts.keymap.preset == "super-tab" then -- super-tab
-                        opts.keymap["<Tab>"] = {
-                            require("blink.cmp.keymap.presets")["super-tab"]["<Tab>"][1],
-                            function()
-                                if vim.snippet.active({ direction = 1 }) then
-                                    vim.schedule(function()
-                                        vim.snippet.jump(1)
-                                    end)
-                                    return true
-                                end
-                            end,
-                            "fallback",
-                        }
-                    end
+                    opts.keymap["<Tab>"] = {
+                        function()
+                            return jump("next")
+                        end,
+                        "fallback",
+                    }
 
                     -- Unset custom prop to pass blink.cmp validation
                     opts.sources.compat = nil
@@ -481,12 +492,44 @@ return {
         cmd = "IncRename",
         opts = {},
     },
+    -- {
+    --     "chikko80/error-lens.nvim",
+    --     event = "LazyFile",
+    --     opts = {}
+    -- },
     {
         "rachartier/tiny-inline-diagnostic.nvim",
-        event = "LspAttach", -- Or `LspAttach`
+        event = "LspAttach",
         priority = 1919810, -- needs to be loaded in first
-        config = function()
-            require("tiny-inline-diagnostic").setup()
+        opts = {
+            preset = "ghost",
+            options = {
+                virt_texts = {
+                    -- Priority for virtual text display
+                    priority = 8192,
+                },
+                show_source = true,
+                use_icons_from_diagnostic = true,
+                multiple_diag_under_cursor = true,
+                multilines = {
+                    -- Enable multiline diagnostic messages
+                    enabled = true,
+                    -- Always show messages on all lines for multiline diagnostics
+                    always_show = true,
+                },
+                show_all_diags_on_cursorline = true,
+                enable_on_insert = true,
+                enable_on_select = true,
+                break_line = {
+                    -- Enable the feature to break messages after a specific length
+                    enabled = true,
+                    -- Number of characters after which to break the line
+                    after = 80,
+                },
+            }
+        },
+        config = function(_, opts)
+            require("tiny-inline-diagnostic").setup(opts)
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
         end,
     },

@@ -4,6 +4,7 @@ return {
         return {
             cmd = { "trans -e bing -I" },
             components = { "default" },
+            strategy = "toggleterm",
         }
     end,
 }

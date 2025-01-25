@@ -4,6 +4,7 @@ return {
         return {
             cmd = { "python" },
             components = { "default" },
+            strategy = "toggleterm",
         }
     end,
 }

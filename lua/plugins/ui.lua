@@ -161,8 +161,6 @@ return {
     },
     {
         "eandrju/cellular-automaton.nvim",
-        lazy = false,
-        priority = 99999999999,
         cmd = { "CellularAutomaton" },
     },
 }

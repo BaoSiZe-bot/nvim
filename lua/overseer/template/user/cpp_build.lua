@@ -6,7 +6,7 @@ return {
         local tmpnoext = "/tmp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r")
         return {
             cmd = { "clang++" },
-            args = { file, "-o", tmpnoext, "-Wall", "-Wextra", "-Werror", "-Wno-register", "-std=c++2c", "-g3" },
+            args = { file, "-o", tmpnoext, "-Wall", "-Wextra", "-Wno-register", "-std=c++2c", "-g3" },
             components = { { "on_output_quickfix", open = true }, "default" },
         }
     end,

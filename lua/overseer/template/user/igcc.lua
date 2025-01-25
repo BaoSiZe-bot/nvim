@@ -4,6 +4,7 @@ return {
         return {
             cmd = { "igcc" },
             components = { "default" },
+            strategy = "toggleterm",
         }
     end,
 }

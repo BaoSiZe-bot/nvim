@@ -129,6 +129,15 @@ return {
             bigfile = { enabled = true },
             quickfile = { enabled = true },
             zen = { enabled = true },
+            animate = { enabled = true },
+            -- bufdelete = { enabled = true }, -- enabled by default
+            -- debug = { enabled = true }, -- enabled by default
+            dim = { enabled = true },
+            -- git = { enabled = true }, -- enabled by default
+            gitbrowse = { enabled = true },
+            layout = { enabled = true },
+            scratch = { enabled = true },
+            win = { enabled = true },
             terminal = {
                 win = {
                     keys = {
@@ -140,6 +149,15 @@ return {
                 },
             },
         },
+        init = function()
+            _G.dd = function(...)
+                Snacks.debug.inspect(...)
+            end
+            _G.bt = function()
+                Snacks.debug.backtrace()
+            end
+            vim.print = _G.dd
+        end,
         keys = {
             {
                 "<leader>n",
@@ -465,6 +483,9 @@ return {
     {
         "folke/snacks.nvim",
         opts = function(_, opts)
+            Snacks.toggle.profiler():map("<leader>pp")
+            Snacks.toggle.profiler_highlights():map("<leader>ph")
+
             return vim.tbl_deep_extend("force", opts or {}, {
                 picker = {
                     actions = require("trouble.sources.snacks").actions,

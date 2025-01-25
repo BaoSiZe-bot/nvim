@@ -3,6 +3,7 @@ return {
     builder = function()
         return {
             cmd = { "paru" },
+            strategy = "toggleterm",
             components = { "default" },
         }
     end,
