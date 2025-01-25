@@ -1,135 +1,3 @@
-local function ai_buffer(ai_type)
-    local start_line, end_line = 1, vim.fn.line("$")
-    if ai_type == "i" then
-        -- Skip first and last blank lines for `i` textobject
-        local first_nonblank, last_nonblank = vim.fn.nextnonblank(start_line), vim.fn.prevnonblank(end_line)
-        -- Do nothing for buffer with all blanks
-        if first_nonblank == 0 or last_nonblank == 0 then
-            return { from = { line = start_line, col = 1 } }
-        end
-        start_line, end_line = first_nonblank, last_nonblank
-    end
-
-    local to_col = math.max(vim.fn.getline(end_line):len(), 1)
-    return { from = { line = start_line, col = 1 }, to = { line = end_line, col = to_col } }
-end
-
-local include_in_completion = vim.g.lazyvim_mini_snippets_in_completion == nil
-    or vim.g.lazyvim_mini_snippets_in_completion
-
-local function expand_from_lsp(snippet)
-    local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
-    insert({ body = snippet })
-end
-
-local function jump(direction)
-    local is_active = MiniSnippets.session.get(false) ~= nil
-    if is_active then
-        MiniSnippets.session.jump(direction)
-        return true
-    end
-end
-
----@type fun(snippets, insert) | nil
-local expand_select_override = nil
-
-local function ai_whichkey(opts)
-    local objects = {
-        { " ", desc = "whitespace" },
-        { '"', desc = '" string' },
-        { "'", desc = "' string" },
-        { "(", desc = "() block" },
-        { ")", desc = "() block with ws" },
-        { "<", desc = "<> block" },
-        { ">", desc = "<> block with ws" },
-        { "?", desc = "user prompt" },
-        { "U", desc = "use/call without dot" },
-        { "[", desc = "[] block" },
-        { "]", desc = "[] block with ws" },
-        { "_", desc = "underscore" },
-        { "`", desc = "` string" },
-        { "a", desc = "argument" },
-        { "b", desc = ")]} block" },
-        { "c", desc = "class" },
-        { "d", desc = "digit(s)" },
-        { "e", desc = "CamelCase / snake_case" },
-        { "f", desc = "function" },
-        { "g", desc = "entire file" },
-        { "i", desc = "indent" },
-        { "o", desc = "block, conditional, loop" },
-        { "q", desc = "quote `\"'" },
-        { "t", desc = "tag" },
-        { "u", desc = "use/call" },
-        { "{", desc = "{} block" },
-        { "}", desc = "{} with ws" },
-    }
-
-    local ret = { mode = { "o", "x" } }
-    ---@type table<string, string>
-    local mappings = vim.tbl_extend("force", {}, {
-        around = "a",
-        inside = "i",
-        around_next = "an",
-        inside_next = "in",
-        around_last = "al",
-        inside_last = "il",
-    }, opts.mappings or {})
-    mappings.goto_left = nil
-    mappings.goto_right = nil
-
-    for name, prefix in pairs(mappings) do
-        name = name:gsub("^around_", ""):gsub("^inside_", "")
-        ret[#ret + 1] = { prefix, group = name }
-        for _, obj in ipairs(objects) do
-            local desc = obj.desc
-            if prefix:sub(1, 1) == "i" then
-                desc = desc:gsub(" with ws", "")
-            end
-            ret[#ret + 1] = { prefix .. obj[1], desc = obj.desc }
-        end
-    end
-    require("which-key").add(ret, { notify = false })
-end
-
----@param opts {skip_next: string, skip_ts: string[], skip_unbalanced: boolean, markdown: boolean}
-local function mypairs(opts)
-    local pairs = require("mini.pairs")
-    pairs.setup(opts)
-    local open = pairs.open
-    pairs.open = function(pair, neigh_pattern)
-        if vim.fn.getcmdline() ~= "" then
-            return open(pair, neigh_pattern)
-        end
-        local o, c = pair:sub(1, 1), pair:sub(2, 2)
-        local line = vim.api.nvim_get_current_line()
-        local cursor = vim.api.nvim_win_get_cursor(0)
-        local next = line:sub(cursor[2] + 1, cursor[2] + 1)
-        local before = line:sub(1, cursor[2])
-        if opts.markdown and o == "`" and vim.bo.filetype == "markdown" and before:match("^%s*``") then
-            return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
-        end
-        if opts.skip_next and next ~= "" and next:match(opts.skip_next) then
-            return o
-        end
-        if opts.skip_ts and #opts.skip_ts > 0 then
-            local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1, math.max(cursor[2] - 1, 0))
-            for _, capture in ipairs(ok and captures or {}) do
-                if vim.tbl_contains(opts.skip_ts, capture.capture) then
-                    return o
-                end
-            end
-        end
-        if opts.skip_unbalanced and next == c and c ~= o then
-            local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), "")
-            local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), "")
-            if count_close > count_open then
-                return o
-            end
-        end
-        return open(pair, neigh_pattern)
-    end
-end
-
 return {
     {
         "echasnovski/mini.icons",
@@ -163,10 +31,10 @@ return {
                         i = { "@block.inner", "@conditional.inner", "@loop.inner" },
                     }),
                     f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
-                    t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
-                    d = { "%f[%d]%d+" }, -- digits
-                    e = { -- Word with case
+                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),       -- class
+                    t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },           -- tags
+                    d = { "%f[%d]%d+" },                                                          -- digits
+                    e = {                                                                         -- Word with case
                         {
                             "%u[%l%d]+%f[^%l%d]",
                             "%f[%S][%l%d]+%f[^%l%d]",
@@ -175,8 +43,23 @@ return {
                         },
                         "^().*()$",
                     },
-                    g = ai_buffer, -- buffer
-                    u = ai.gen_spec.function_call(), -- u for "Usage"
+                    g = function(ai_type)
+                        local start_line, end_line = 1, vim.fn.line("$")
+                        if ai_type == "i" then
+                            -- Skip first and last blank lines for `i` textobject
+                            local first_nonblank, last_nonblank = vim.fn.nextnonblank(start_line),
+                                vim.fn.prevnonblank(end_line)
+                            -- Do nothing for buffer with all blanks
+                            if first_nonblank == 0 or last_nonblank == 0 then
+                                return { from = { line = start_line, col = 1 } }
+                            end
+                            start_line, end_line = first_nonblank, last_nonblank
+                        end
+
+                        local to_col = math.max(vim.fn.getline(end_line):len(), 1)
+                        return { from = { line = start_line, col = 1 }, to = { line = end_line, col = to_col } }
+                    end,                                                       -- buffer
+                    u = ai.gen_spec.function_call(),                           -- u for "Usage"
                     U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
                 },
             }
@@ -184,6 +67,63 @@ return {
         config = function(_, opts)
             require("mini.ai").setup(opts)
             vim.schedule(function()
+                local function ai_whichkey(opts)
+                    local objects = {
+                        { " ", desc = "whitespace" },
+                        { '"', desc = '" string' },
+                        { "'", desc = "' string" },
+                        { "(", desc = "() block" },
+                        { ")", desc = "() block with ws" },
+                        { "<", desc = "<> block" },
+                        { ">", desc = "<> block with ws" },
+                        { "?", desc = "user prompt" },
+                        { "U", desc = "use/call without dot" },
+                        { "[", desc = "[] block" },
+                        { "]", desc = "[] block with ws" },
+                        { "_", desc = "underscore" },
+                        { "`", desc = "` string" },
+                        { "a", desc = "argument" },
+                        { "b", desc = ")]} block" },
+                        { "c", desc = "class" },
+                        { "d", desc = "digit(s)" },
+                        { "e", desc = "CamelCase / snake_case" },
+                        { "f", desc = "function" },
+                        { "g", desc = "entire file" },
+                        { "i", desc = "indent" },
+                        { "o", desc = "block, conditional, loop" },
+                        { "q", desc = "quote `\"'" },
+                        { "t", desc = "tag" },
+                        { "u", desc = "use/call" },
+                        { "{", desc = "{} block" },
+                        { "}", desc = "{} with ws" },
+                    }
+
+                    local ret = { mode = { "o", "x" } }
+                    ---@type table<string, string>
+                    local mappings = vim.tbl_extend("force", {}, {
+                        around = "a",
+                        inside = "i",
+                        around_next = "an",
+                        inside_next = "in",
+                        around_last = "al",
+                        inside_last = "il",
+                    }, opts.mappings or {})
+                    mappings.goto_left = nil
+                    mappings.goto_right = nil
+
+                    for name, prefix in pairs(mappings) do
+                        name = name:gsub("^around_", ""):gsub("^inside_", "")
+                        ret[#ret + 1] = { prefix, group = name }
+                        for _, obj in ipairs(objects) do
+                            local desc = obj.desc
+                            if prefix:sub(1, 1) == "i" then
+                                desc = desc:gsub(" with ws", "")
+                            end
+                            ret[#ret + 1] = { prefix .. obj[1], desc = obj.desc }
+                        end
+                    end
+                    require("which-key").add(ret, { notify = false })
+                end
                 ai_whichkey(opts)
             end)
         end,
@@ -204,6 +144,45 @@ return {
             markdown = true,
         },
         config = function(_, opts)
+            ---@param opts {skip_next: string, skip_ts: string[], skip_unbalanced: boolean, markdown: boolean}
+            local function mypairs(opts)
+                local pairs = require("mini.pairs")
+                pairs.setup(opts)
+                local open = pairs.open
+                pairs.open = function(pair, neigh_pattern)
+                    if vim.fn.getcmdline() ~= "" then
+                        return open(pair, neigh_pattern)
+                    end
+                    local o, c = pair:sub(1, 1), pair:sub(2, 2)
+                    local line = vim.api.nvim_get_current_line()
+                    local cursor = vim.api.nvim_win_get_cursor(0)
+                    local next = line:sub(cursor[2] + 1, cursor[2] + 1)
+                    local before = line:sub(1, cursor[2])
+                    if opts.markdown and o == "`" and vim.bo.filetype == "markdown" and before:match("^%s*``") then
+                        return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
+                    end
+                    if opts.skip_next and next ~= "" and next:match(opts.skip_next) then
+                        return o
+                    end
+                    if opts.skip_ts and #opts.skip_ts > 0 then
+                        local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1,
+                            math.max(cursor[2] - 1, 0))
+                        for _, capture in ipairs(ok and captures or {}) do
+                            if vim.tbl_contains(opts.skip_ts, capture.capture) then
+                                return o
+                            end
+                        end
+                    end
+                    if opts.skip_unbalanced and next == c and c ~= o then
+                        local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), "")
+                        local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), "")
+                        if count_close > count_open then
+                            return o
+                        end
+                    end
+                    return open(pair, neigh_pattern)
+                end
+            end
             mypairs(opts)
         end,
     },
@@ -213,7 +192,7 @@ return {
         keys = function(_, keys)
             -- Populate the keys based on the user's options
             local mappings = {
-                { "gsa", desc = "Add Surrounding", mode = { "n", "v" } },
+                { "gsa", desc = "Add Surrounding",                     mode = { "n", "v" } },
                 { "gsd", desc = "Delete Surrounding" },
                 { "gsf", desc = "Find Right Surrounding" },
                 { "gsf", desc = "Find Left Surrounding" },
@@ -228,12 +207,12 @@ return {
         end,
         opts = {
             mappings = {
-                add = "gsa", -- Add surrounding in Normal and Visual modes
-                delete = "gsd", -- Delete surrounding
-                find = "gsf", -- Find surrounding (to the right)
-                find_left = "gsF", -- Find surrounding (to the left)
-                highlight = "gsh", -- Highlight surrounding
-                replace = "gsr", -- Replace surrounding
+                add = "gsa",            -- Add surrounding in Normal and Visual modes
+                delete = "gsd",         -- Delete surrounding
+                find = "gsf",           -- Find surrounding (to the right)
+                find_left = "gsF",      -- Find surrounding (to the left)
+                highlight = "gsh",      -- Highlight surrounding
+                replace = "gsr",        -- Replace surrounding
                 update_n_lines = "gsn", -- Update `n_lines`
             },
         },
@@ -374,7 +353,7 @@ return {
                     select = function(snippets, insert)
                         -- Close completion window on snippet select - vim.ui.select
                         -- Needed to remove virtual text for fzf-lua and telescope, but not for mini.pick...
-                        local select = expand_select_override or MiniSnippets.default_select
+                        local select = MiniSnippets.default_select
                         select(snippets, insert)
                     end,
                 },

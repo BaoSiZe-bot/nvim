@@ -1,11 +1,11 @@
 (set vim.g.mapleader " ")
 (local lazypath (.. (vim.fn.stdpath :data) "/lazy/lazy.nvim"))
 (local nfnlpath (.. (vim.fn.stdpath :data) "/lazy/nfnl"))
-(when vim.env.PROF
-  (local snacks (.. (vim.fn.stdpath :data) "/lazy/snacks.nvim"))
-  (vim.opt.rtp:append snacks)
-  (let [(_ profiler) (pcall require "snacks")]
-    (profiler.startup {:startup [{:event "VeryLazy"}]})))
+;; (when vim.env.PROF
+;;   (local snacks (.. (vim.fn.stdpath :data) "/lazy/snacks.nvim"))
+;;   (vim.opt.rtp:append snacks)
+;;   (let [(_ profiler) (pcall require "snacks")]
+;;     (profiler.startup {:startup [{:event "VeryLazy"}]})))
 (when (not (vim.uv.fs_stat lazypath))
   (local repo "https://github.com/folke/lazy.nvim.git")
   (vim.fn.system {"git" "clone" "--filter=blob:none" repo "--branch=stable" lazypath}))
@@ -21,8 +21,8 @@
   (lazy.setup [{:url "https://github.com/Olical/nfnl" :ft "fennel"}
                {:import "plugins"}] lazy_config))
 (require "options")
-(require "autocmds")
 (vim.schedule (lambda []
                  (require "mappings")
                  (require "configs.init_funcs")))
+(require "autocmds")
 nil

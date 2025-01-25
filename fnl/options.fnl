@@ -39,4 +39,5 @@
 (set g.loaded_python3_provider 0)
 (set g.loaded_perl_provider 0)
 (set g.loaded_ruby_provider 0)
+(set g.root_spec ["lsp" [".git" "lua"] "cwd" ])
 

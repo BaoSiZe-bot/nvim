@@ -147,7 +147,7 @@ return {
         dependencies = {
             {
                 "Bekaboo/dropbar.nvim",
-                event = "UIEnter",
+                event = "LazyFile",
                 priority = 1000,
                 -- optional, but required for fuzzy finder support
                 opts = {

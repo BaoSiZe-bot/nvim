@@ -1,15 +1,9 @@
 -- [nfnl] Compiled from fnl/mappings.fnl by https://github.com/Olical/nfnl, do not edit.
 local map = vim.keymap.set
 local function _1_()
-  local _2_
-  do
-    local _, term = pcall(require, "snacks.terminal")
-    _2_ = term.toggle
-  end
-  _2_()
-  return {desc = "Open Terminal"}
+  return Snacks.terminal(nil, {cwd = RootGet()})
 end
-map({"n", "i", "v"}, "<space>ft", _1_)
+map({"n", "v"}, "<space>ft", _1_, {desc = "Open Terminal"})
 map({"n", "i", "v"}, "<C-s>", "<cmd> w <cr>", {desc = "Save Buffer"})
 map("n", "<C-h>", "<C-w>h", {desc = "Go to Left Window", remap = true})
 map("n", "<C-j>", "<C-w>j", {desc = "Go to Lower Window", remap = true})
@@ -31,32 +25,32 @@ map("n", "[b", "<cmd>bprevious<cr>", {desc = "Prev Buffer"})
 map("n", "]b", "<cmd>bnext<cr>", {desc = "Next Buffer"})
 map("n", "<leader>bb", "<cmd>e #<cr>", {desc = "Switch to Other Buffer"})
 map("n", "<leader>`", "<cmd>e #<cr>", {desc = "Switch to Other Buffer"})
-local function _3_()
-  local _4_
+local function _2_()
+  local _3_
   do
     local _, snackbuf = pcall(require, "snacks")
-    _4_ = snackbuf.bufdelete
+    _3_ = snackbuf.bufdelete
   end
-  _4_()
+  _3_()
   return {desc = "Delete Buffer"}
 end
-map("n", "<space>bd", _3_)
-local function _5_()
-  local _6_
+map("n", "<space>bd", _2_)
+local function _4_()
+  local _5_
   do
     local _, snackbuf = pcall(require, "snacks")
-    _6_ = snackbuf.bufdelete.other
+    _5_ = snackbuf.bufdelete.other
   end
-  _6_()
+  _5_()
   return {desc = "Delete Other Buffers"}
 end
-map("n", "<space>bo", _5_)
+map("n", "<space>bo", _4_)
 map("n", "<leader>bD", "<cmd>:bd<cr>", {desc = "Delete Buffer and Window"})
-local function _7_()
+local function _6_()
   vim.cmd("noh")
   return "<esc>"
 end
-map({"i", "n", "s"}, "<esc>", _7_, {expr = true, desc = "Escape and Clear hlsearch"})
+map({"i", "n", "s"}, "<esc>", _6_, {expr = true, desc = "Escape and Clear hlsearch"})
 map("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", {desc = "Redraw / Clear hlsearch / Diff Update"})
 map("n", "n", "'Nn'[v:searchforward].'zv'", {expr = true, desc = "Next Search Result"})
 map("x", "n", "'Nn'[v:searchforward]", {expr = true, desc = "Next Search Result"})
@@ -79,29 +73,29 @@ map("n", "<leader>xl", "<cmd>lopen<cr>", {desc = "Location List"})
 map("n", "<leader>xq", "<cmd>copen<cr>", {desc = "Quickfix List"})
 map("n", "[q", vim.cmd.cprev, {desc = "Previous Quickfix"})
 map("n", "]q", vim.cmd.cnext, {desc = "Next Quickfix"})
-local function _8_()
+local function _7_()
   return vim.lsp.buf.format()
 end
-map({"n", "v"}, "<leader>cf", _8_, {desc = "Format"})
+map({"n", "v"}, "<leader>cf", _7_, {desc = "Format"})
 map("n", "<leader>cd", vim.diagnostic.open_float, {desc = "Line Diagnostics"})
 map("n", "]d", vim.diagnostic.goto_next, {desc = "Next Diagnostic"})
 map("n", "[d", vim.diagnostic.goto_prev, {desc = "Prev Diagnostic"})
-local function _9_()
+local function _8_()
   return vim.diagnostic.goto_next({severity = 1})
 end
-map("n", "]e", _9_, {desc = "Next Error"})
-local function _10_()
+map("n", "]e", _8_, {desc = "Next Error"})
+local function _9_()
   return vim.diagnostic.goto_prev({severity = 1})
 end
-map("n", "[e", _10_, {desc = "Prev Error"})
-local function _11_()
+map("n", "[e", _9_, {desc = "Prev Error"})
+local function _10_()
   return vim.diagnostic.goto_next({severity = 2})
 end
-map("n", "]w", _11_, {desc = "Next Warning"})
-local function _12_()
+map("n", "]w", _10_, {desc = "Next Warning"})
+local function _11_()
   return vim.diagnostic.goto_prev({severity = 2})
 end
-map("n", "[w", _12_, {desc = "Prev Warning"})
+map("n", "[w", _11_, {desc = "Prev Warning"})
 map("n", "<leader>qq", "<cmd>qa<cr>", {desc = "Quit All"})
 map("n", "<leader>ui", vim.show_pos, {desc = "Inspect Pos"})
 map("n", "<leader>uI", "<cmd>InspectTree<cr>", {desc = "Inspect Tree"})
@@ -119,22 +113,22 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", {desc = "Next Tab"})
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", {desc = "Close Tab"})
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", {desc = "Previous Tab"})
 if (vim.fn.has("nvim-0.11") == false) then
-  local function _13_()
+  local function _12_()
     if vim.snippet.active({direction = 1}) then
       return "<cmd>lua vim.snippet.jump(1)<cr>"
     else
       return "<Tab>"
     end
   end
-  map({"i", "s"}, "<Tab>", _13_, {expr = true, desc = "Jump Next"})
-  local function _15_()
+  map({"i", "s"}, "<Tab>", _12_, {expr = true, desc = "Jump Next"})
+  local function _14_()
     if vim.snippet.active({direction = -1}) then
       return "<cmd>lua vim.snippet.jump(-1)<cr>"
     else
       return "<S-Tab>"
     end
   end
-  map({"i", "s"}, "<S-Tab>", _15_, {expr = true, desc = "Jump Previous"})
+  map({"i", "s"}, "<S-Tab>", _14_, {expr = true, desc = "Jump Previous"})
 else
 end
 return nil

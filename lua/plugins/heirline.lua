@@ -197,7 +197,7 @@ return {
             FileIcon,
             utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
             FileFlags,
-            { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
+            { provider = "%<" }                      -- this means that the statusline is cut here when there's not enough space
         )
         local FileType = {
             provider = function()
@@ -523,7 +523,7 @@ return {
         ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
         local DefaultStatusline = {
             condition = function()
-                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy")
+                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
             end,
             ViMode,
             Space,
@@ -551,7 +551,7 @@ return {
         }
         local InactiveStatusline = {
             condition = function()
-                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy")
+                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
                     and conditions.is_not_active()
             end,
             FileType,
@@ -562,9 +562,10 @@ return {
         local SpecialStatusline = {
             condition = function()
                 return conditions.buffer_matches({
-                    buftype = { "nofile", "prompt", "help", "quickfix" },
-                    filetype = { "^git.*", "fugitive" },
-                }) and (not vim.o.filetype == "neotree")
+                        buftype = { "nofile", "prompt", "help", "quickfix" },
+                        filetype = { "^git.*", "fugitive" },
+                    }) and
+                    (not (vim.bo.ft == "neotree" or vim.bo.ft == "yazi" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "edgy" or vim.bo.ft == "terminal"))
             end,
 
             FileType,
@@ -575,7 +576,8 @@ return {
         local TerminalStatusline = {
 
             condition = function()
-                return conditions.buffer_matches({ buftype = { "terminal" } }) and not (vim.bo.filetype == "yazi")
+                return conditions.buffer_matches({ buftype = { "terminal" } }) and
+                    not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
             end,
 
             hl = { bg = "dark_red" },
@@ -677,7 +679,7 @@ return {
             fallthrough = false,
             { -- A special winbar for terminals
                 condition = function()
-                    return conditions.buffer_matches({ buftype = { "terminal" } })
+                    return conditions.buffer_matches({ buftype = { "terminal", "snacks_terminal" } })
                 end,
                 utils.surround({ "", "" }, "dark_red", {
                     FileType,
@@ -689,17 +691,31 @@ return {
             },
             { -- An inactive winbar for regular files
                 condition = function()
-                    return not conditions.is_active()
+                    return not conditions.is_active() and
+                        not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
                 end,
                 utils.surround({ "", "" }, "bright_bg", { hl = { fg = "gray", force = true }, MyFileNameBlock }),
-                Space,
-                DropBar,
+                {
+                    condition = function()
+                        return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
+                    end,
+                    Space,
+                    DropBar,
+                }
             },
             {
+                condition = function()
+                    return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
+                end,
                 -- A winbar for regular files
                 utils.surround({ "", "" }, "bright_bg", MyFileNameBlock),
-                Space,
-                DropBar,
+                {
+                    condition = function()
+                        return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
+                    end,
+                    Space,
+                    DropBar
+                }
             },
         }
         local TablineBufnr = {
@@ -829,7 +845,7 @@ return {
         local buflist_cache = {}
 
         -- setup an autocmd that updates the buflist_cache every time that buffers are added/removed
-        vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "BufAdd", "BufDelete" }, {
+        vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
             callback = function()
                 vim.schedule(function()
                     local buffers = get_bufs()
@@ -842,9 +858,9 @@ return {
 
                     -- check how many buffers we have and set showtabline accordingly
                     if #buflist_cache > 1 then
-                        vim.o.showtabline = 2 -- always
+                        vim.o.showtabline = 2          -- always
                     elseif vim.o.showtabline ~= 1 then -- don't reset the option if it's already at default value
-                        vim.o.showtabline = 1 -- only when #tabpages > 1
+                        vim.o.showtabline = 1          -- only when #tabpages > 1
                     end
                 end)
             end,

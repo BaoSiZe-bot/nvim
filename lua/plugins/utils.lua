@@ -25,7 +25,7 @@ return {
             },
         },
     },
-    { "nvim-lua/plenary.nvim", lazy = true },
+    { "nvim-lua/plenary.nvim"},
     {
         "folke/persistence.nvim",
         event = "BufReadPre",
@@ -116,9 +116,6 @@ return {
             },
         },
         ft = { "markdown", "norg", "rmd", "org" },
-        config = function(_, opts)
-            require("render-markdown").setup(opts)
-        end,
     },
     {
         "stevearc/conform.nvim",
@@ -146,15 +143,6 @@ return {
             formatters_by_ft = {
                 ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
                 ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
-            },
-        },
-    },
-    {
-        "mfussenegger/nvim-lint",
-        optional = true,
-        opts = {
-            linters_by_ft = {
-                markdown = { "markdownlint-cli2" },
             },
         },
     },
@@ -251,10 +239,6 @@ return {
         }
     },
     {
-        "mateuszwieloch/automkdir.nvim",
-        event = "LazyFile"
-    },
-    {
         "axieax/urlview.nvim",
         cmd = { "UrlView" }
     },
@@ -273,7 +257,6 @@ return {
     },
     {
         'abecodes/tabout.nvim',
-        lazy = false,
         opts = {
             tabkey = '<Tab>',             -- key to trigger tabout, set to an empty string to disable
             backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
@@ -299,6 +282,7 @@ return {
     },
     {
         "Freed-Wu/rime.nvim",
+        enabled = false,
         keys = {
             {
                 "<C-\\>",
@@ -310,6 +294,7 @@ return {
     },
     {
         'noearc/jieba.nvim',
+        enabled = false,
         dependencies = { 'noearc/jieba-lua' },
         event = "LazyFile",
         config = function()

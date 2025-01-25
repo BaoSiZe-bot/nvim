@@ -1,32 +1,86 @@
 -- [nfnl] Compiled from fnl/autocmds.fnl by https://github.com/Olical/nfnl, do not edit.
-do
-  local autocmd = vim.api.nvim_create_autocmd
-  autocmd({"InsertLeave", "TextChanged"}, {pattern = {"*"}, command = "silent! wall", nested = true})
-  local function _1_(args)
-    _G.assert((nil ~= args), "Missing argument args on /home/bszzz/.config/nvim/fnl/autocmds.fnl:6")
-    local file = vim.api.nvim_buf_get_name(args.buf)
-    local buftype = vim.api.nvim_get_option_value("buftype", {buf = args.buf})
-    if (not vim.g.ui_entered and (args.event == "UIEnter")) then
-      vim.g.ui_entered = true
-    else
-    end
-    if (not (file == "") and not (buftype == "nofile") and vim.g.ui_entered) then
-      vim.api.nvim_exec_autocmds("User", {pattern = "FilePost", modeline = false})
-      vim.api.nvim_del_augroup_by_name("NvFilePost")
-      local function _3_()
-        vim.api.nvim_exec_autocmds("FileType", {})
-        if vim.g.editorconfig then
-          local _, editorconf = pcall(require, "editorconfig")
-          return editorconf.config(args.buf)
-        else
-          return nil
+local autocmd = vim.api.nvim_create_autocmd
+autocmd({ "InsertLeave", "TextChanged" }, { pattern = { "*" }, command = "silent! wall", nested = true })
+-- autocmd({ "BufWritePre" }, {
+--     callback = function(event)
+--         if event.match:match("^%w%w+:[\\/][\\/]") then
+--             return
+--         end
+--         local file = vim.uv.fs_realpath(event.match) or event.match
+--         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+--     end,
+-- })
+autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+    callback = function()
+        if vim.o.buftype ~= "nofile" then
+            vim.cmd("checktime")
         end
-      end
-      return vim.schedule(_3_)
-    else
-      return nil
-    end
-  end
-  autocmd({"UIEnter", "BufReadPost", "BufNewFile"}, {group = vim.api.nvim_create_augroup("NvFilePost", {clear = true}), callback = _1_})
-end
-return nil
+    end,
+})
+autocmd("BufReadPost", {
+    callback = function(event)
+        local exclude = { "gitcommit" }
+        local buf = event.buf
+        if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
+            return
+        end
+        vim.b[buf].lazyvim_last_loc = true
+        local mark = vim.api.nvim_buf_get_mark(buf, '"')
+        local lcount = vim.api.nvim_buf_line_count(buf)
+        if mark[1] > 0 and mark[1] <= lcount then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        end
+    end,
+})
+autocmd("FileType", {
+    pattern = {
+        "PlenaryTestPopup",
+        "checkhealth",
+        "dbout",
+        "gitsigns-blame",
+        "grug-far",
+        "help",
+        "lspinfo",
+        "neotest-output",
+        "neotest-output-panel",
+        "neotest-summary",
+        "notify",
+        "qf",
+        "spectre_panel",
+        "startuptime",
+        "tsplayground",
+    },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.schedule(function()
+            vim.keymap.set("n", "q", function()
+                vim.cmd("close")
+                pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+            end, {
+                buffer = event.buf,
+                silent = true,
+                desc = "Quit buffer",
+            })
+        end)
+    end,
+})
+
+autocmd("FileType", {
+    pattern = { "man" },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+    end,
+})
+autocmd("FileType", {
+    pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.spell = true
+    end,
+})
+autocmd({ "FileType" }, {
+    pattern = { "json", "jsonc", "json5" },
+    callback = function()
+        vim.opt_local.conceallevel = 0
+    end,
+})

@@ -89,7 +89,7 @@ return {
     },
     {
         "dstein64/nvim-scrollview",
-        event = "UIEnter",
+        event = "LazyFile",
     },
     {
         "soulis-1256/eagle.nvim",

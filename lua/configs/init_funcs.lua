@@ -1,9 +1,3 @@
----@class LazyRoot
----@field spec LazyRootSpec
----@field paths string[]
----@alias LazyRootFn fun(buf: number): (string|string[])
----@alias LazyRootSpec string|string[]|LazyRootFn
----@type LazyRootSpec[]
 local spec = { "lsp", { ".git", "lua" }, "cwd" }
 function GitNorm(path)
     if path:sub(1, 1) == "~" then
@@ -52,7 +46,6 @@ function detectors.pattern(buf, patterns)
     return pattern and { vim.fs.dirname(pattern) } or {}
 end
 
----@param spec LazyRootSpec
 function GitResolve(spec)
     if detectors[spec] then
         return detectors[spec]
@@ -116,16 +109,8 @@ function GitInfo()
     return roots[1] and roots[1].paths[1] or vim.uv.cwd()
 end
 
----@type table<number, string>
 local cache = {}
 
--- returns the root directory based on:
--- * lsp workspace folders
--- * lsp root_dir
--- * root pattern of filename of the current buffer
--- * root pattern of cwd
----@param opts? {normalize?:boolean, buf?:number}
----@return string
 function RootGet(opts)
     opts = opts or {}
     local buf = opts.buf or vim.api.nvim_get_current_buf()
@@ -137,3 +122,9 @@ function RootGet(opts)
     end
     return ret
 end
+vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost", "DirChanged", "BufEnter" }, {
+    group = vim.api.nvim_create_augroup("lazyvim_root_cache", { clear = true }),
+    callback = function(event)
+        cache[event.buf] = nil
+    end,
+})
