@@ -1,70 +1,40 @@
+-- [nfnl] Compiled from init.fnl by https://github.com/Olical/nfnl, do not edit.
 vim.g.mapleader = " "
-
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = (vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
+local nfnlpath = (vim.fn.stdpath("data") .. "/lazy/nfnl")
 if vim.env.PROF then
-    -- example for lazy.nvim
-    -- change this to the correct path for your plugin manager
-    local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
-    vim.opt.rtp:append(snacks)
-    require("snacks.profiler").startup({
-        startup = {
-            event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
-            -- event = "UIEnter",
-            -- event = "VeryLazy",
-        },
-    })
+  local snacks = (vim.fn.stdpath("data") .. "/lazy/snacks.nvim")
+  vim.opt.rtp:append(snacks)
+  local _, profiler = pcall(require, "snacks")
+  profiler.startup({startup = {{event = "VeryLazy"}}})
+else
 end
 if not vim.uv.fs_stat(lazypath) then
-    local repo = "https://github.com/folke/lazy.nvim.git"
-    vim.fn.system({ "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath })
+  local repo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({git = "clone", ["--filter=blob:none"] = repo, ["--branch=stable"] = lazypath})
+else
 end
-
+if not vim.uv.fs_stat(nfnlpath) then
+  local repo = "https://github.com/Olical/nfnl.git"
+  vim.fn.system({git = "clone", [repo] = lazypath})
+else
+end
+vim.opt.rtp:prepend(nfnlpath)
 vim.opt.rtp:prepend(lazypath)
-
 local lazy_config = require("configs.lazy")
-
-require("lazy.core.handler.event").mappings.LazyFile =
-    { id = "LazyFile", event = { "BufReadPost", "BufWritePre", "BufNewFile" } }
--- load plugins
-require("lazy").setup({
-    { import = "plugins" },
-}, lazy_config)
-
+do
+  local _, lazyevent = pcall(require, "lazy.core.handler.event")
+  lazyevent.mappings.LazyFile = {id = "LazyFile", event = "BufReadPost", BufWrite = "BufNewFile"}
+end
+do
+  local _, lazy = pcall(require, "lazy")
+  lazy.setup({{url = "https://github.com/Olical/nfnl", ft = "fennel"}, {import = "plugins"}}, lazy_config)
+end
 require("options")
-local autocmd = vim.api.nvim_create_autocmd
-autocmd({ "InsertLeave", "TextChanged" }, {
-    pattern = { "*" },
-    command = "silent! wall",
-    nested = true,
-})
--- user event that loads after UIEnter + only if file buf is there
-autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
-    group = vim.api.nvim_create_augroup("NvFilePost", { clear = true }),
-    callback = function(args)
-        local file = vim.api.nvim_buf_get_name(args.buf)
-        local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
-
-        if not vim.g.ui_entered and args.event == "UIEnter" then
-            vim.g.ui_entered = true
-        end
-
-        if file ~= "" and buftype ~= "nofile" and vim.g.ui_entered then
-            vim.api.nvim_exec_autocmds("User", { pattern = "FilePost", modeline = false })
-            vim.api.nvim_del_augroup_by_name("NvFilePost")
-
-            vim.schedule(function()
-                vim.api.nvim_exec_autocmds("FileType", {})
-
-                if vim.g.editorconfig then
-                    require("editorconfig").config(args.buf)
-                end
-            end)
-        end
-    end,
-})
-
-vim.schedule(function()
-    require("mappings")
-    require("configs.init_funcs")
-end)
+require("autocmds")
+local function _4_()
+  require("mappings")
+  return require("configs.init_funcs")
+end
+vim.schedule(_4_)
+return nil

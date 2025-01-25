@@ -90,9 +90,32 @@ require("lspconfig").lua_ls.setup({
     },
 })
 local lspconfig = require("lspconfig")
+require 'lspconfig.configs'.fennel_language_server = {
+  default_config = {
+    -- replace it with true path
+    cmd = {'/home/bszzz/.cargo/bin/fennel-language-server'},
+    filetypes = {'fennel'},
+    single_file_support = true,
+    -- source code resides in directory `fnl/`
+    root_dir = lspconfig.util.root_pattern("fnl"),
+    settings = {
+      fennel = {
+        workspace = {
+          -- If you are using hotpot.nvim or aniseed,
+          -- make the server aware of neovim runtime files.
+          library = vim.api.nvim_list_runtime_paths(),
+        },
+        diagnostics = {
+          globals = {'vim'},
+        },
+      },
+    },
+  },
+}
+
 
 -- EXAMPLE
-local servers = { "basedpyright", "clangd" }
+local servers = { "basedpyright", "clangd", "fennel_language_server" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
