@@ -1,6 +1,21 @@
 local include_in_completion = vim.g.lazyvim_mini_snippets_in_completion == nil
     or vim.g.lazyvim_mini_snippets_in_completion
+local function cmpborder(symbol, type, neovide, highlight)
+    symbol = symbol or "═"
+    type = type or "top"
+    neovide = neovide or false
+    highlight = "MyBorder"
 
+    if vim.fn.exists("g:neovide") == 1 and not neovide then
+        return "none"
+    end
+
+    if type == "top" then
+        return { '', { symbol, highlight }, '', '', '', '', '', '' }
+    elseif type == "bottom" then
+        return { '', '', '', '', '', { symbol, highlight }, '', '' }
+    end
+end
 local function expand_from_lsp(snippet)
     local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
     insert({ body = snippet })
@@ -223,152 +238,138 @@ return {
                 },
                 dependencies = {
                     "rafamadriz/friendly-snippets",
-                    -- add blink.compat to dependencies
-                    {
-                        "saghen/blink.compat",
-                        optional = true, -- make optional so it's only enabled if any extras need it
-                        opts = {},
-                        version = not vim.g.lazyvim_blink_main and "*",
-                    },
                 },
                 event = "InsertEnter",
 
                 ---@module 'blink.cmp'
-                opts = {
-                    snippets = {
-                        expand = function(snippet, _)
-                            return expand(snippet)
-                        end,
-                    },
-                    -- draw = function(ctx)
-                    --     local MiniIcons = require("mini.icons")
-                    --     local source = ctx.item.source_name
-                    --     local label = ctx.item.label
-                    --     local icon = source == "LSP" and MiniIcons.get("lsp", ctx.kind)
-                    --     or source == "Path" and (label:match("%.[^/]+$") and MiniIcons.get("file", label) or MiniIcons.get(
-                    --         "directory",
-                    --         ctx.item.label
-                    --     ))
-                    --     or source == "codeium" and MiniIcons.get("lsp", "event")
-                    --     or ctx.kind_icon
-                    --     return {
-                    --         " ",
-                    --         { icon, ctx.icon_gap, hl_group = "BlinkCmpKind" .. ctx.kind },
-                    --         {
-                    --             ctx.label,
-                    --             ctx.kind == "Snippet" and "~" or "",
-                    --             (ctx.item.labelDetails and ctx.item.labelDetails.detail)
-                    --                 and ctx.item.labelDetails.detail
-                    --                 or "",
-                    --             fill = true,
-                    --             hl_group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
-                    --             max_width = 80,
-                    --         },
-                    --         " ",
-                    --     }
-                    -- end,
-                    appearance = {
-                        -- sets the fallback highlight groups to nvim-cmp's highlight groups
-                        -- useful for when your theme doesn't support blink.cmp
-                        -- will be removed in a future release, assuming themes add support
-                        use_nvim_cmp_as_default = false,
-                        -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-                        -- adjusts spacing to ensure icons are aligned
-                        nerd_font_variant = "normal",
-                    },
-                    completion = {
-                        accept = {
-                            -- experimental auto-brackets support
-                            auto_brackets = {
+                opts = function(_, opts)
+                    local border = cmpborder(" ", "bottom")
+                    local config = {
+                        snippets = {
+                            expand = function(snippet, _)
+                                return expand(snippet)
+                            end,
+                        },
+                        appearance = {
+                            -- sets the fallback highlight groups to nvim-cmp's highlight groups
+                            -- useful for when your theme doesn't support blink.cmp
+                            -- will be removed in a future release, assuming themes add support
+                            use_nvim_cmp_as_default = false,
+                            -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+                            -- adjusts spacing to ensure icons are aligned
+                            nerd_font_variant = "mono",
+                            kind_icons = {
+                                Text = "",
+                            },
+                        },
+                        completion = {
+                            accept = {
+                                -- experimental auto-brackets support
+                                auto_brackets = {
+                                    enabled = true,
+                                },
+                            },
+                            menu = {
+                                border = border,
+                                auto_show = true,
+                                draw = {
+                                    treesitter = { "lsp" },
+                                    columns = { { "kind_icon" }, { "label", gap = 1 } },
+                                    components = {
+                                        label = {
+                                            text = function(ctx)
+                                                return require("colorful-menu").blink_components_text(ctx)
+                                            end,
+                                            highlight = function(ctx)
+                                                return require("colorful-menu").blink_components_highlight(ctx)
+                                            end,
+                                        },
+                                        kind_icon = {
+                                            ellipsis = false,
+                                            text = function(ctx)
+                                                local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                                                return kind_icon
+                                            end,
+                                        }
+                                    },
+                                },
+                            },
+
+                            keyword = {
+                                range = "prefix",
+                                -- regex = "[_,:\\?!]\\|[A-Za-z0-9]",
+                            },
+                            list = {
+                                selection = {
+                                    preselect = true,
+                                    auto_insert = true,
+                                },
+                            },
+                            documentation = {
+                                -- border = border,
+                                auto_show = true,
+                                auto_show_delay_ms = 20,
+                            },
+                            ghost_text = {
                                 enabled = true,
                             },
                         },
-                        menu = {
-                            draw = {
-                                treesitter = { "lsp" },
+
+                        -- experimental signature help support
+                        -- signature = { enabled = true },
+
+                        sources = {
+                            -- adding any nvim-cmp sources here will enable them
+                            -- with blink.compat
+                            -- compat = {},
+                            default = { "lsp", "path", "snippets", "buffer", "markdown" },
+                            cmdline = {},
+                            providers = {
+                                lsp = {
+                                    enabled = true,
+                                    transform_items = function(_, items)
+                                        -- the default transformer will do this
+                                        for _, item in ipairs(items) do
+                                            if item.kind == require("blink.cmp.types").CompletionItemKind.Snippet then
+                                                item.score_offset = item.score_offset - 3
+                                            end
+                                            if
+                                                item.kind == require("blink.cmp.types").CompletionItemKind.Text
+                                                and item.source_id == "lsp"
+                                                and vim.lsp.get_client_by_id(item.client_id).name == "rime_ls"
+                                            then
+                                                item.score_offset = item.score_offset - 3
+                                            end
+                                        end
+                                        -- you can define your own filter for rime item
+                                        return items
+                                    end,
+                                },
+                                markdown = {
+                                    name = "RenderMarkdown",
+                                    module = "render-markdown.integ.blink",
+                                    fallbacks = { "lsp" },
+                                },
                             },
                         },
-                        documentation = {
-                            auto_show = true,
-                            auto_show_delay_ms = 20,
+
+                        keymap = {
+                            preset = "enter",
+                            ["<C-y>"] = { "select_and_accept" },
                         },
-                        ghost_text = {
-                            enabled = true,
-                        },
-                    },
-
-                    -- experimental signature help support
-                    -- signature = { enabled = true },
-
-                    sources = {
-                        -- adding any nvim-cmp sources here will enable them
-                        -- with blink.compat
-                        compat = {},
-                        default = { "lsp", "path", "snippets", "buffer" },
-                        cmdline = {},
-                    },
-
-                    keymap = {
-                        preset = "enter",
-                        ["<C-y>"] = { "select_and_accept" },
-                    },
-                },
-                config = function(_, opts)
-                    -- setup compat sources
-                    local enabled = opts.sources.default
-                    for _, source in ipairs(opts.sources.compat or {}) do
-                        opts.sources.providers[source] = vim.tbl_deep_extend(
-                            "force",
-                            { name = source, module = "blink.compat.source" },
-                            opts.sources.providers[source] or {}
-                        )
-                        if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
-                            table.insert(enabled, source)
-                        end
-                    end
-
-                    opts.keymap["<Tab>"] = {
-                        function()
-                            return jump("next")
-                        end,
-                        "fallback",
                     }
-
-                    -- Unset custom prop to pass blink.cmp validation
-                    opts.sources.compat = nil
-
-                    -- check if we need to override symbol kinds
-                    for _, provider in pairs(opts.sources.providers or {}) do
-                        if provider.kind then
-                            local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-                            local kind_idx = #CompletionItemKind + 1
-
-                            CompletionItemKind[kind_idx] = provider.kind
-                            ---@diagnostic disable-next-line: no-unknown
-                            CompletionItemKind[provider.kind] = kind_idx
-
-                            local transform_items = provider.transform_items
-                            provider.transform_items = function(ctx, items)
-                                items = transform_items and transform_items(ctx, items) or items
-                                for _, item in ipairs(items) do
-                                    item.kind = kind_idx or item.kind
-                                end
-                                return items
-                            end
-
-                            -- Unset custom prop to pass blink.cmp validation
-                            provider.kind = nil
-                        end
-                    end
-
-                    require("blink.cmp").setup(opts)
+                    return vim.tbl_deep_extend("force", opts, config)
                 end,
             },
-            -- - shell repl
-            -- - nvim lua api
-            -- - scientific calculator
-            -- - comment banner
-            -- - etc
+            { -- "saghen/blink.compat"
+                "saghen/blink.compat",
+                lazy = true,
+                opts = {},
+            },
+            { -- xzbdmw/colorful-menu.nvim
+                "xzbdmw/colorful-menu.nvim",
+                config = true,
+            },
         },
         event = "LazyFile",
         config = function()
@@ -481,13 +482,6 @@ return {
         end,
     },
     {
-        "j-hui/fidget.nvim",
-        event = "LazyFile",
-        opts = {
-            -- options
-        },
-    },
-    {
         "smjonas/inc-rename.nvim",
         cmd = "IncRename",
         opts = {},
@@ -555,4 +549,36 @@ return {
         opts = {},
         event = "LspAttach",
     },
+    {
+        "liubianshi/cmp-lsp-rimels",
+        keys = { { "<localleader>f", mode = "i" } },
+        branch = "blink.cmp",
+        lazy = true,
+        priority = 100,
+        opts = {
+            keys = { start = "<localleader>f", stop = "<localleader>;", esc = "<localleader>j" },
+            cmd = vim.lsp.rpc.connect("127.0.0.1", 9257),
+            always_incomplete = false,
+            schema_trigger_character = "&",
+            cmp_keymaps = {
+                disable = {
+                    space = false,
+                    numbers = false,
+                    enter = false,
+                    brackets = false,
+                    backspace = false,
+                },
+            },
+        },
+        init = function()
+            vim.system({
+                "rime_ls",
+                "--listen",
+                "127.0.0.1:9257",
+            }, { detach = true })
+        end,
+        config = function(_, opts)
+            require("rimels").setup(opts)
+        end,
+    }
 }

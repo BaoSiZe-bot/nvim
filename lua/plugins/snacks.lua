@@ -75,15 +75,15 @@ return {
                         return require("snacks").picker.pick(cmd, opts)()
                     end,
                     header = [[
-         (   )              (   )                                 .-.                 
-  .---.   | |.-.     .---.   | |    .--.    ___ .-.    ___  ___  ( __)  ___ .-. .-.   
- / .-, \  | /   \   / .-, \  | |   /    \  (   )   \  (   )(   ) (''") (   )   '   \  
-(__) ; |  |  .-. | (__) ; |  | |  |  .-. ;  |  .-. .   | |  | |   | |   |  .-.  .-. ; 
-  .'`  |  | |  | |   .'`  |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | | 
- / .'| |  | |  | |  / .'| |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | | 
-| /  | |  | |  | | | /  | |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | | 
-; |  ; |  | '  | | ; |  ; |  | |  | '  | |  | |  | |   ' '  ; '   | |   | |  | |  | | 
-' `-'  |  ' `-' ;  ' `-'  |  | |  '  `-' /  | |  | |    \ `' /    | |   | |  | |  | | 
+         (   )              (   )                                 .-.
+  .---.   | |.-.     .---.   | |    .--.    ___ .-.    ___  ___  ( __)  ___ .-. .-.
+ / .-, \  | /   \   / .-, \  | |   /    \  (   )   \  (   )(   ) (''") (   )   '   \
+(__) ; |  |  .-. | (__) ; |  | |  |  .-. ;  |  .-. .   | |  | |   | |   |  .-.  .-. ;
+  .'`  |  | |  | |   .'`  |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | |
+ / .'| |  | |  | |  / .'| |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | |
+| /  | |  | |  | | | /  | |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | |
+; |  ; |  | '  | | ; |  ; |  | |  | '  | |  | |  | |   ' '  ; '   | |   | |  | |  | |
+' `-'  |  ' `-' ;  ' `-'  |  | |  '  `-' /  | |  | |    \ `' /    | |   | |  | |  | |
 `.__.'_.   `.__.   `.__.'_. (___)  `.__.'  (___)(___)    '_.'    (___) (___)(___)(___)
                 ]],
                     keys = {
@@ -104,7 +104,7 @@ return {
                             icon = " ",
                             key = "r",
                             desc = "Recent Files",
-                            action = ":lua require(\"snacks\").picker.pick('oldfiles')",
+                            action = ":lua require(\"snacks\").picker.pick('recent')",
                         },
                         {
                             icon = " ",
@@ -162,9 +162,9 @@ return {
             {
                 "<leader>n",
                 function()
-                    require("snacks").notifier.show_history()
+                    Snacks.picker.notifications()
                 end,
-                desc = "Notification History",
+                desc = "Notification History"
             },
             {
                 "<leader>un",
@@ -483,12 +483,13 @@ return {
     {
         "folke/snacks.nvim",
         opts = function(_, opts)
-            Snacks.toggle.profiler():map("<leader>pp")
-            Snacks.toggle.profiler_highlights():map("<leader>ph")
-
             return vim.tbl_deep_extend("force", opts or {}, {
                 picker = {
-                    actions = require("trouble.sources.snacks").actions,
+                    actions = {
+                        trouble_open = function(...)
+                            return require("trouble.sources.snacks").actions.trouble_open.action(...)
+                        end,
+                    },
                     win = {
                         input = {
                             keys = {
@@ -503,4 +504,70 @@ return {
             })
         end,
     },
+    {
+        "folke/flash.nvim",
+        optional = true,
+        specs = {
+            {
+                "folke/snacks.nvim",
+                opts = {
+                    picker = {
+                        win = {
+                            input = {
+                                keys = {
+                                    ["<a-s>"] = { "flash", mode = { "n", "i" } },
+                                    ["s"] = { "flash" },
+                                },
+                            },
+                        },
+                        actions = {
+                            flash = function(picker)
+                                require("flash").jump({
+                                    pattern = "^",
+                                    label = { after = { 0, 0 } },
+                                    search = {
+                                        mode = "search",
+                                        exclude = {
+                                            function(win)
+                                                return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~=
+                                                    "snacks_picker_list"
+                                            end,
+                                        },
+                                    },
+                                    action = function(match)
+                                        local idx = picker.list:row2idx(match.pos[1])
+                                        picker.list:_move(idx, true, true)
+                                    end,
+                                })
+                            end,
+                        },
+                    },
+                },
+            },
+        },
+    },
+    { "nvim-neo-tree/neo-tree.nvim", enabled = false },
+    {
+        "folke/snacks.nvim",
+        opts = { explorer = {} },
+        keys = {
+            {
+                "<leader>fe",
+                function()
+                    Snacks.explorer({ cwd = RootGet() })
+                end,
+                desc = "Explorer Snacks (root dir)",
+            },
+            {
+                "<leader>fE",
+                function()
+                    Snacks.explorer()
+                end,
+                desc = "Explorer Snacks (cwd)",
+            },
+            { "<leader>e", "<leader>fe", desc = "Explorer Snacks (root dir)", remap = true },
+            { "<leader>E", "<leader>fE", desc = "Explorer Snacks (cwd)",      remap = true },
+        },
+    },
+
 }

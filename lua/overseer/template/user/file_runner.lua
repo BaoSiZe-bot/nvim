@@ -11,6 +11,7 @@ return {
                         "clang_build",
                     },
                 },
+                "default"
             },
         }
     end,

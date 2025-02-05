@@ -225,5 +225,5 @@ return {
     --         vim.g.blamer_delay = 300
     --     end,
     -- },
-    { "akinsho/git-conflict.nvim", opts = {} },
+    { "akinsho/git-conflict.nvim", opts = {}, event = "LazyFile"},
 }

@@ -2,6 +2,7 @@
 local opt = vim.opt
 local o = vim.o
 local g = vim.g
+opt.iskeyword = "_,49-57,A-Z,a-z"
 o.laststatus = 3
 o.showmode = false
 o.relativenumber = true

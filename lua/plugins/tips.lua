@@ -105,6 +105,7 @@ return {
     },
     {
         "notomo/gesture.nvim",
+        enabled = false,
         config = function()
             vim.keymap.set("n", "<RightDrag>", [[<Cmd>lua require("gesture").draw()<CR>]], { silent = true })
             vim.keymap.set("n", "<RightRelease>", [[<Cmd>lua require("gesture").finish()<CR>]], { silent = true })
@@ -230,13 +231,6 @@ return {
         opts = { picker = "snacks" }, -- required, `setup()` must be called
     },
     {
-        "ziontee113/icon-picker.nvim",
-        opts = { disable_legacy_commands = true },
-        keymap = {
-            vim.keymap.set("n", "<Leader>N", "<cmd>IconPickerYank<cr>", { noremap = true, silent = true }), --> Yank the selected icon into register
-        },
-    },
-    {
         "ja-ford/delaytrain.nvim",
         event = "VeryLazy",
         opts = {
@@ -246,7 +240,7 @@ return {
                 ["nv"] = { "h", "j", "k", "l" },
                 ["nvi"] = { "<Left>", "<Down>", "<Up>", "<Right>" },
             },
-            ignore_filetypes = { "neo-tree", "minifiles" }, -- Example: set to {"help", "NvimTr*"} to
+            ignore_filetypes = { "minifiles" }, -- Example: set to {"help", "NvimTr*"} to
             -- disable the plugin for help and NvimTree
         },
         config = function(_, opts)

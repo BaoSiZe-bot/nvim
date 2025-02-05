@@ -25,7 +25,7 @@ return {
             },
         },
     },
-    { "nvim-lua/plenary.nvim"},
+    { "nvim-lua/plenary.nvim" },
     {
         "folke/persistence.nvim",
         event = "BufReadPre",
@@ -115,7 +115,7 @@ return {
                 enabled = false,
             },
         },
-        ft = { "markdown", "norg", "rmd", "org" },
+        ft = { "markdown", "norg", "rmd", "org", "codecompanion" },
     },
     {
         "stevearc/conform.nvim",
@@ -185,6 +185,12 @@ return {
     {
         "2kabhishek/nerdy.nvim",
         cmd = "Nerdy",
+        keys = { {
+            "<leader>N",
+            mode = { "n" },
+            "<Cmd>Nerdy<CR>",
+            desc = "Pick Icons",
+        } }
     },
     {
         "cpea2506/relative-toggle.nvim",

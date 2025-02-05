@@ -523,7 +523,7 @@ return {
         ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
         local DefaultStatusline = {
             condition = function()
-                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
+                return not (vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
             end,
             ViMode,
             Space,
@@ -551,7 +551,7 @@ return {
         }
         local InactiveStatusline = {
             condition = function()
-                return not (vim.bo.ft == "neo-tree" or vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
+                return not (vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
                     and conditions.is_not_active()
             end,
             FileType,
@@ -923,13 +923,6 @@ return {
                 local win = vim.api.nvim_tabpage_list_wins(0)[1]
                 local bufnr = vim.api.nvim_win_get_buf(win)
                 self.winid = win
-
-                if vim.bo[bufnr].filetype == "neo-tree" then
-                    self.title = "Neo-Tree"
-                    return true
-                    -- elseif vim.bo[bufnr].filetype == "TagBar" then
-                    --     ...
-                end
             end,
 
             provider = function(self)

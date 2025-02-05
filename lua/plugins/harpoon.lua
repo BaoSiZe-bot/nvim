@@ -2,14 +2,14 @@ return {
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
-        opts = {
-            menu = {
-                width = vim.api.nvim_win_get_width(0) - 4,
-            },
-            settings = {
-                save_on_toggle = true,
-            },
-        },
+        -- opts = {
+        -- menu = {
+        -- width = vim.api.nvim_win_get_width(0) - 4,
+        -- },
+        -- settings = {
+        -- save_on_toggle = true,
+        -- },
+        -- },
         keys = function()
             local keys = {
                 {
@@ -21,7 +21,9 @@ return {
                 },
                 {
                     "<leader>h",
-                    "<cmd>Neotree harpoon-buffers<cr>",
+                    function()
+                        require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+                    end,
                     desc = "Harpoon Quick Menu",
                 },
             }
@@ -37,5 +39,8 @@ return {
             end
             return keys
         end,
+        config = function()
+            require("harpoon"):setup()
+        end
     },
 }
