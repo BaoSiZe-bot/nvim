@@ -182,16 +182,16 @@ return {
             -- your configuration there
         },
     },
-    {
-        "2kabhishek/nerdy.nvim",
-        cmd = "Nerdy",
-        keys = { {
-            "<leader>N",
-            mode = { "n" },
-            "<Cmd>Nerdy<CR>",
-            desc = "Pick Icons",
-        } }
-    },
+    -- {
+    --     "2kabhishek/nerdy.nvim",
+    --     cmd = "Nerdy",
+    --     keys = { {
+    --         "<leader>N",
+    --         mode = { "n" },
+    --         "<Cmd>Nerdy<CR>",
+    --         desc = "Pick Icons",
+    --     } }
+    -- },
     {
         "cpea2506/relative-toggle.nvim",
         event = "LazyFile",

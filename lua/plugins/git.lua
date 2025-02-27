@@ -7,7 +7,7 @@ return {
             enable_builtin = true,
             default_to_projects_v2 = true,
             default_merge_method = "squash",
-            picker = "telescope",
+            picker = "snacks",
         },
         keys = {
             { "<leader>gi", "<cmd>Octo issue list<CR>", desc = "List Issues (Octo)" },
@@ -34,7 +34,6 @@ return {
         "pwntester/octo.nvim",
         opts = function(_, opts)
             vim.treesitter.language.register("markdown", "octo")
-            opts.picker = "fzf-lua"
             vim.api.nvim_create_autocmd("ExitPre", {
                 group = vim.api.nvim_create_augroup("octo_exit_pre", { clear = true }),
                 callback = function(ev)
@@ -60,7 +59,6 @@ return {
         },
         dependencies = {
             "sindrets/diffview.nvim", -- optional - Diff integration
-            "ibhagwan/fzf-lua", -- optional
         },
         opts = {
             -- When enabled, will watch the `.git/` directory for changes and refresh the status buffer in response to filesystem

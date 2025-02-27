@@ -4,14 +4,9 @@ return {
         "Isrothy/neominimap.nvim",
         version = "false",
         branch = "v4",
-        enabled = true,
         event = "UIEnter",
         -- Optional
-        init = function()
-            -- The following options are recommended when layout == "float"
-            vim.opt.wrap = false
-            vim.opt.sidescrolloff = 36 -- Set a large value
-
+        config = function()
             vim.g.neominimap = {
                 auto_enable = true,
             }
@@ -74,8 +69,8 @@ return {
                     pattern = "^",
                 })
             end
-            vim.keymap.set({ "o", "x", "n" }, "<leader>i", FlashWords, { desc = "Flash Words" })
-            vim.keymap.set({ "o", "x", "n" }, "<leader>j", FlashLines, { desc = "Flash Lines" })
+            vim.keymap.set({ "o", "x", "n" }, "gw", FlashWords, { desc = "Flash Words" })
+            vim.keymap.set({ "o", "x", "n" }, "gj", FlashLines, { desc = "Flash Lines" })
         end,
         keys = {
             {
@@ -132,31 +127,31 @@ return {
     {
         "hiphish/rainbow-delimiters.nvim",
         event = "LazyFile",
-        config = function()
-            local rainbow_delimiters = require("rainbow-delimiters")
-            require("rainbow-delimiters.setup").setup({
-                strategy = {
-                    [""] = rainbow_delimiters.strategy["global"],
-                    vim = rainbow_delimiters.strategy["local"],
-                },
-                query = {
-                    [""] = "rainbow-delimiters",
-                    lua = "rainbow-blocks",
-                },
-                priority = {
-                    [""] = 110,
-                    lua = 210,
-                },
-                highlight = {
-                    "RainbowDelimiterRed",
-                    "RainbowDelimiterYellow",
-                    "RainbowDelimiterBlue",
-                    "RainbowDelimiterOrange",
-                    "RainbowDelimiterGreen",
-                    "RainbowDelimiterViolet",
-                    "RainbowDelimiterCyan",
-                },
-            })
+        opts = {
+            query = {
+                [""] = "rainbow-delimiters",
+                lua = "rainbow-blocks",
+            },
+            priority = {
+                [""] = 110,
+                lua = 210,
+            },
+            highlight = {
+                "RainbowDelimiterRed",
+                "RainbowDelimiterYellow",
+                "RainbowDelimiterBlue",
+                "RainbowDelimiterOrange",
+                "RainbowDelimiterGreen",
+                "RainbowDelimiterViolet",
+                "RainbowDelimiterCyan",
+            },
+        },
+        config = function(_, opts)
+            opts.strategy = {
+                [""] = require("rainbow-delimiters").strategy["global"],
+                vim = require("rainbow-delimiters").strategy["local"],
+            }
+            vim.g.rainbow_delimiters = opts
         end,
     },
     {

@@ -236,13 +236,13 @@ return {
                 end,
                 desc = "Recent",
             },
-            {
-                "<leader>gc",
-                function()
-                    require("snacks").picker.git_log()
-                end,
-                desc = "Git Log",
-            },
+            -- {
+            --     "<leader>gc",
+            --     function()
+            --         require("snacks").picker.git_log()
+            --     end,
+            --     desc = "Git Log",
+            -- },
             {
                 "<leader>gd",
                 function()
@@ -256,6 +256,13 @@ return {
                     require("snacks").picker.git_status()
                 end,
                 desc = "Git Status",
+            },
+            {
+                "<leader>gS",
+                function() 
+                    require("snacks").picker.git_stash()
+                end,
+                desc = "Git Stash",
             },
             -- search
             {
@@ -429,6 +436,13 @@ return {
                 -- has = "workspace/symbols",
             },
             {
+                "<leader>s/",
+                function()
+                    require("snacks").picker.search_history()
+                end,
+                desc = "Search History"
+            },
+            {
                 "<leader>Z",
                 function()
                     require("snacks").picker.zoxide()
@@ -478,6 +492,13 @@ return {
                 end,
                 desc = "Zen mode",
             },
+            {
+                "<leader>cl",
+                function()
+                    Snacks.picker.lsp_config()
+                end,
+                desc = "Lsp Info"
+            },
         },
     },
     {
@@ -493,7 +514,7 @@ return {
                     win = {
                         input = {
                             keys = {
-                                ["<c-t>"] = {
+                                ["<a-t>"] = {
                                     "trouble_open",
                                     mode = { "n", "i" },
                                 },
@@ -546,7 +567,6 @@ return {
             },
         },
     },
-    { "nvim-neo-tree/neo-tree.nvim", enabled = false },
     {
         "folke/snacks.nvim",
         opts = { explorer = {} },
@@ -569,5 +589,4 @@ return {
             { "<leader>E", "<leader>fE", desc = "Explorer Snacks (cwd)",      remap = true },
         },
     },
-
 }

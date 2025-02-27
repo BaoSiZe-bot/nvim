@@ -75,11 +75,6 @@ return {
         cmd = { "Typr", "TyprStats" },
     },
     {
-        "m-demare/hlargs.nvim",
-        event = "LspAttach",
-        opts = {},
-    },
-    {
         "rainbowhxch/beacon.nvim",
         event = "CursorMoved",
         cond = function()
@@ -90,18 +85,6 @@ return {
     {
         "dstein64/nvim-scrollview",
         event = "LazyFile",
-    },
-    {
-        "soulis-1256/eagle.nvim",
-        event = "LspAttach",
-        opts = {
-            --override the default values found in config.lua
-        },
-    },
-    {
-        "Fildo7525/pretty_hover",
-        event = "LspAttach",
-        opts = {},
     },
     {
         "notomo/gesture.nvim",
@@ -181,15 +164,6 @@ return {
                 relculright = true,
             }
         end,
-    },
-    {
-        "kosayoda/nvim-lightbulb",
-        event = "LazyFile",
-        opts = {
-            autocmd = { enabled = true },
-            float = { enabled = true },
-            code_lenses = true,
-        },
     },
     {
         "brenton-leighton/multiple-cursors.nvim",
