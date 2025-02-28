@@ -123,7 +123,7 @@ return {
             notifier = { enabled = true },
             scope = { enabled = true },
             scroll = { enabled = true },
-            statuscolumn = { enabled = true }, -- we set this in options.lua
+            -- statuscolumn = { enabled = true }, -- we set this in options.lua
             toggle = { enabled = true },
             words = { enabled = true },
             bigfile = { enabled = true },

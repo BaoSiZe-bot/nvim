@@ -1,6 +1,5 @@
 return {
     "rebelot/heirline.nvim",
-    enabled = true,
     event = "UIEnter",
     opts = function()
         local Align = { provider = "%=" }
@@ -154,12 +153,6 @@ return {
                 hl = { fg = "orange" },
             },
         }
-
-        -- Now, let's say that we want the filename color to change if the buffer is
-        -- modified. Of course, we could do that directly using the FileName.hl field,
-        -- but we'll see how easy it is to alter existing components using a "modifier"
-        -- component
-
         local FileNameModifer = {
             hl = function()
                 if vim.bo.modified then
@@ -205,12 +198,7 @@ return {
             end,
             hl = { fg = utils.get_highlight("Type").fg, bold = true },
         }
-        -- We're getting minimalist here!
         local Ruler = {
-            -- %l = current line number
-            -- %L = number of lines in the buffer
-            -- %c = column number
-            -- %P = percentage through file of displayed window
             provider = "%7(%l/%3L%):%2c %P",
         }
         utils.surround({ "", "" }, function(self)
@@ -220,8 +208,6 @@ return {
         local ScrollBar = {
             static = {
                 sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" },
-                -- Another variant, because the more choice the better.
-                -- sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' }
             },
             provider = function(self)
                 local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -394,79 +380,6 @@ return {
                 provider = ")",
             },
         }
-        -- Note that we add spaces separately, so that only the icon characters will be clickable
-        local DAPMessages = {
-            condition = function()
-                local session = require("dap").session()
-                return session ~= nil
-            end,
-            provider = function()
-                return " " .. require("dap").status() .. " "
-            end,
-            hl = "Debug",
-            {
-                provider = " ",
-                on_click = {
-                    callback = function()
-                        require("dap").step_into()
-                    end,
-                    name = "heirline_dap_step_into",
-                },
-            },
-            { provider = " " },
-            {
-                provider = " ",
-                on_click = {
-                    callback = function()
-                        require("dap").step_out()
-                    end,
-                    name = "heirline_dap_step_out",
-                },
-            },
-            { provider = " " },
-            {
-                provider = " ",
-                on_click = {
-                    callback = function()
-                        require("dap").step_over()
-                    end,
-                    name = "heirline_dap_step_over",
-                },
-            },
-            { provider = " " },
-            {
-                provider = " ",
-                on_click = {
-                    callback = function()
-                        require("dap").step_back()
-                    end,
-                    name = "heirline_dap_step_back",
-                },
-            },
-            { provider = " " },
-            {
-                provider = " ",
-                on_click = {
-                    callback = function()
-                        require("dap").run_last()
-                    end,
-                    name = "heirline_dap_run_last",
-                },
-            },
-            { provider = " " },
-            {
-                provider = " ",
-                on_click = {
-                    callback = function()
-                        require("dap").terminate()
-                        require("dapui").close({})
-                    end,
-                    name = "heirline_dap_close",
-                },
-            },
-            { provider = " " },
-            -- icons:       ﰇ  
-        }
         local WorkDir = {
             init = function(self)
                 self.icon = (vim.fn.haslocaldir(0) == 1 and "l" or "g") .. " " .. " "
@@ -474,9 +387,7 @@ return {
                 self.cwd = vim.fn.fnamemodify(cwd, ":~")
             end,
             hl = { fg = "blue", bold = true },
-
             flexible = 1,
-
             {
                 -- evaluates to the full-lenth path
                 provider = function(self)
@@ -535,13 +446,10 @@ return {
             Space,
             Diagnostics,
             Space,
-            DAPMessages,
             Align,
             LSPActive,
             Space,
-            -- LSPMessages,
             Space,
-            -- UltTest,
             Space,
             FileType,
             Space,
@@ -574,7 +482,6 @@ return {
             Align,
         }
         local TerminalStatusline = {
-
             condition = function()
                 return conditions.buffer_matches({ buftype = { "terminal" } }) and
                     not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")

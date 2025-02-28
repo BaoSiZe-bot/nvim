@@ -214,8 +214,7 @@ return {
                 ["nv"] = { "h", "j", "k", "l" },
                 ["nvi"] = { "<Left>", "<Down>", "<Up>", "<Right>" },
             },
-            ignore_filetypes = { "minifiles" }, -- Example: set to {"help", "NvimTr*"} to
-            -- disable the plugin for help and NvimTree
+            ignore_filetypes = { "minifiles", "lazy", "sudoku"},
         },
         config = function(_, opts)
             require("delaytrain").setup(opts)
