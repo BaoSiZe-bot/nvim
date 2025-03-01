@@ -2,8 +2,7 @@ return {
     ---@module "neominimap.config.meta"
     {
         "Isrothy/neominimap.nvim",
-        version = "false",
-        branch = "v4",
+        version = "v3.*.*",
         event = "UIEnter",
         -- Optional
         config = function()
@@ -127,31 +126,31 @@ return {
     {
         "hiphish/rainbow-delimiters.nvim",
         event = "LazyFile",
-        opts = {
-            query = {
-                [""] = "rainbow-delimiters",
-                lua = "rainbow-blocks",
-            },
-            priority = {
-                [""] = 110,
-                lua = 210,
-            },
-            highlight = {
-                "RainbowDelimiterRed",
-                "RainbowDelimiterYellow",
-                "RainbowDelimiterBlue",
-                "RainbowDelimiterOrange",
-                "RainbowDelimiterGreen",
-                "RainbowDelimiterViolet",
-                "RainbowDelimiterCyan",
-            },
-        },
-        config = function(_, opts)
-            opts.strategy = {
-                [""] = require("rainbow-delimiters").strategy["global"],
-                vim = require("rainbow-delimiters").strategy["local"],
-            }
-            vim.g.rainbow_delimiters = opts
+        config = function()
+            local rainbow_delimiters = require("rainbow-delimiters")
+            require("rainbow-delimiters.setup").setup({
+                strategy = {
+                    [""] = rainbow_delimiters.strategy["global"],
+                    vim = rainbow_delimiters.strategy["local"],
+                },
+                query = {
+                    [""] = "rainbow-delimiters",
+                    lua = "rainbow-blocks",
+                },
+                priority = {
+                    [""] = 110,
+                    lua = 210,
+                },
+                highlight = {
+                    "RainbowDelimiterRed",
+                    "RainbowDelimiterYellow",
+                    "RainbowDelimiterBlue",
+                    "RainbowDelimiterOrange",
+                    "RainbowDelimiterGreen",
+                    "RainbowDelimiterViolet",
+                    "RainbowDelimiterCyan",
+                },
+            })
         end,
     },
     {

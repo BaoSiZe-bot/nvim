@@ -218,7 +218,7 @@ return {
         },
         config = function(_, opts)
             require("delaytrain").setup(opts)
-            vim.cmd([[DelayTrainEnable]])
+            -- vim.cmd([[DelayTrainEnable]])
         end,
     },
 }

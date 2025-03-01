@@ -217,7 +217,7 @@ return {
             },
         },
     },
-    { "echasnovski/mini.trailspace", opts = {} , event = "LazyFile"},
+    { "echasnovski/mini.trailspace", opts = {}, event = "LazyFile"},
     {
         "echasnovski/mini.files",
         opts = {

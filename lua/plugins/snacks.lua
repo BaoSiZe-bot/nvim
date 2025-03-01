@@ -259,7 +259,7 @@ return {
             },
             {
                 "<leader>gS",
-                function() 
+                function()
                     require("snacks").picker.git_stash()
                 end,
                 desc = "Git Stash",

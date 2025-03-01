@@ -1,9 +1,8 @@
--- [nfnl] Compiled from init.fnl by https://github.com/Olical/nfnl, do not edit.
 vim.g.mapleader = " "
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
     local repo = "https://github.com/folke/lazy.nvim.git"
-    vim.fn.system({"git", "clone", repo, lazypath})
+    vim.fn.system({ "git", "clone", repo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 local lazy_config = require("configs.lazy")
@@ -15,7 +14,7 @@ lazyevent.mappings.LazyFile = {
 }
 local _, lazy = pcall(require, "lazy")
 if not vim.g.vscode then
-    lazy.setup({{
+    lazy.setup({ {
         import = "plugins"
     }, {
         "Old-Farmer/im-autoswitch.nvim",
@@ -32,11 +31,11 @@ if not vim.g.vscode then
                 switch_im_cmd = "fcitx5-remote -t"
             }
         }
-    }}, lazy_config)
+    } }, lazy_config)
 else
-    lazy.setup({{
+    lazy.setup({ {
         import = "plugins-vscode"
-    }}, {
+    } }, {
         defaults = {
             lazy = true,
             version = false
@@ -56,11 +55,11 @@ else
         },
         performance = {
             rtp = {
-                disabled_plugins = {"2html_plugin", "tohtml", "getscript", "getscriptPlugin", "gzip", "logipat",
-                                    "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers", "matchit", "tar",
-                                    "tarPlugin", "rrhelper", "spellfile_plugin", "vimball", "vimballPlugin", "zip",
-                                    "zipPlugin", "tutor", "rplugin", "syntax", "synmenu", "optwin", "compiler",
-                                    "bugreport", "ftplugin"}
+                disabled_plugins = { "2html_plugin", "tohtml", "getscript", "getscriptPlugin", "gzip", "logipat",
+                    "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers", "matchit", "tar",
+                    "tarPlugin", "rrhelper", "spellfile_plugin", "vimball", "vimballPlugin", "zip",
+                    "zipPlugin", "tutor", "rplugin", "syntax", "synmenu", "optwin", "compiler",
+                    "bugreport", "ftplugin" }
             }
         }
     })
