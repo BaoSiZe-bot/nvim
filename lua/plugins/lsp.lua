@@ -1,17 +1,4 @@
-local function cmpborder(symbol, neovide, highlight)
-    symbol = symbol or "═"
-    type = type or "top"
-    neovide = neovide or false
-    highlight = "MyBorder"
-    if vim.fn.exists("g:neovide") == 1 and not neovide then
-        return "none"
-    end
-    if type == "top" then
-        return { '', { symbol, highlight }, '', '', '', '', '', '' }
-    elseif type == "bottom" then
-        return { '', '', '', '', '', { symbol, highlight }, '', '' }
-    end
-end
+
 local function snippet_replace(snippet, fn)
     return snippet:gsub("%$%b{}", function(m)
         local n, name = m:match("^%${(%d+):(.+)}$")
@@ -123,8 +110,6 @@ return {
         event = "InsertEnter",
         ---@module 'blink.cmp'
         opts = function(_, opts)
-            local border = cmpborder(" ", "bottom")
-            -- local border = { '', '', '', '', '', { " ", "FloatBorder" }, '', '' }
             local config = {
                 snippets = {
                     expand = function(snippet, _)
@@ -145,7 +130,9 @@ return {
                         },
                     },
                     menu = {
-                        border = border,
+                        border = "rounded",
+                        enabled = true,
+                        winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
                         auto_show = true,
                         draw = {
                             treesitter = { "lsp" },
@@ -180,9 +167,11 @@ return {
                         },
                     },
                     documentation = {
-                        -- border = border,
                         auto_show = true,
                         auto_show_delay_ms = 20,
+                        window = {
+                            border = "rounded",
+                        }
                     },
                     ghost_text = {
                         enabled = true,
@@ -218,7 +207,10 @@ return {
                     },
                 },
                 cmdline = {
-                    enabled = false,
+                    enabled = true,
+                },
+                term = {
+                    enabled = true,
                 },
                 keymap = {
                     preset = "enter",
