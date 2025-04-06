@@ -22,19 +22,40 @@ if not vim.g.vscode then
         opts = {
             cmd = {
                 -- default im
-                default_im = "1",
+                -- default_im = "1",
+                default_im = "2052",
                 -- get current im
-                get_im_cmd = "fcitx5-remote",
+                -- get_im_cmd = "fcitx5-remote",
+                get_im_cmd = "im-select",
                 -- cmd to switch im. the plugin will put an im name in "{}"
                 -- or
                 -- cmd to switch im between active/inactive
-                switch_im_cmd = "fcitx5-remote -t"
+                -- switch_im_cmd = "fcitx5-remote -t"
+                switch_im_cmd = "im-select {}"
             }
         }
     } }, lazy_config)
 else
     lazy.setup({ {
         import = "plugins-vscode"
+    }, {
+        "Old-Farmer/im-autoswitch.nvim",
+        event = "BufEnter",
+        opts = {
+            cmd = {
+                -- default im
+                -- default_im = "1",
+                default_im = "2052",
+                -- get current im
+                -- get_im_cmd = "fcitx5-remote",
+                get_im_cmd = "im-select",
+                -- cmd to switch im. the plugin will put an im name in "{}"
+                -- or
+                -- cmd to switch im between active/inactive
+                -- switch_im_cmd = "fcitx5-remote -t"
+                switch_im_cmd = "im-select {}"
+            }
+        }
     } }, {
         defaults = {
             lazy = true,

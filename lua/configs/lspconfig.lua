@@ -131,3 +131,5 @@ end
 --   on_init = nvlsp.on_init,
 --   capabilities = nvlsp.capabilities,
 -- }
+--
+vim.diagnostic.config({ virtual_text = false, virtual_lines = true, underline = true, update_in_insert = true}) -- Only if needed in your configuration, if you already have native LSP diagnostics

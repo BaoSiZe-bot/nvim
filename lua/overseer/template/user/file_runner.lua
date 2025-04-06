@@ -2,7 +2,7 @@ return {
     name = "build_and_run",
     builder = function()
         return {
-            cmd = { "/tmp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r") },
+            cmd = { "C:/Users/Administrator/AppData/Local/Temp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r") .. ".exe"},
             strategy = "toggleterm",
             components = {
                 {

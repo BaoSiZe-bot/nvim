@@ -111,6 +111,7 @@ return {
     },
     {
         "saghen/blink.cmp",
+        -- version = "*",
         build = "cargo build --release",
         opts_extend = {
             "sources.completion.enabled_providers",
@@ -135,7 +136,46 @@ return {
                     use_nvim_cmp_as_default = false,
                     nerd_font_variant = "mono",
                     kind_icons = {
-                        Text = "",
+                        Array         = " ",
+                        Boolean       = "󰨙 ",
+                        Class         = " ",
+                        Codeium       = "󰘦 ",
+                        Color         = " ",
+                        Control       = " ",
+                        Collapsed     = " ",
+                        Constant      = "󰏿 ",
+                        Constructor   = " ",
+                        Copilot       = " ",
+                        Enum          = " ",
+                        EnumMember    = " ",
+                        Event         = " ",
+                        Field         = " ",
+                        File          = " ",
+                        Folder        = " ",
+                        Function      = "󰊕 ",
+                        Interface     = " ",
+                        Key           = " ",
+                        Keyword       = " ",
+                        Method        = "󰊕 ",
+                        Module        = " ",
+                        Namespace     = "󰦮 ",
+                        Null          = " ",
+                        Number        = "󰎠 ",
+                        Object        = " ",
+                        Operator      = " ",
+                        Package       = " ",
+                        Property      = " ",
+                        Reference     = " ",
+                        Snippet       = "󱄽 ",
+                        String        = " ",
+                        Struct        = "󰆼 ",
+                        Supermaven    = " ",
+                        TabNine       = "󰏚 ",
+                        Text          = " ",
+                        TypeParameter = " ",
+                        Unit          = " ",
+                        Value         = " ",
+                        Variable      = "󰀫 ",
                     },
                 },
                 completion = {
@@ -161,10 +201,6 @@ return {
                                 },
                                 kind_icon = {
                                     ellipsis = false,
-                                    text = function(ctx)
-                                        local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                                        return kind_icon
-                                    end,
                                 }
                             },
                         },
@@ -190,7 +226,7 @@ return {
                 },
                 -- signature = { enabled = true }, -- have other plugin instead.
                 sources = {
-                    default = { "lsp", "path", "snippets", "buffer", "markdown" },
+                    default = { "lsp", "path", "snippets", "buffer", "markdown", "copilot", "codeium", "codecompanion", "supermaven" },
                     providers = {
                         lsp = {
                             enabled = true,
@@ -218,7 +254,10 @@ return {
                     },
                 },
                 cmdline = {
-                    enabled = false,
+                    enabled = true,
+                },
+                term = {
+                    enabled = true
                 },
                 keymap = {
                     preset = "enter",
@@ -253,37 +292,37 @@ return {
     --     event = "LazyFile",
     --     opts = {}
     -- },
-    {
-        "rachartier/tiny-inline-diagnostic.nvim",
-        event = "LspAttach",
-        priority = 1919810, -- needs to be loaded in first
-        opts = {
-            preset = "ghost",
-            options = {
-                virt_texts = {
-                    priority = 8192,
-                },
-                show_source = true,
-                use_icons_from_diagnostic = true,
-                multiple_diag_under_cursor = true,
-                multilines = {
-                    enabled = true,
-                    always_show = true,
-                },
-                show_all_diags_on_cursorline = true,
-                enable_on_insert = true,
-                enable_on_select = true,
-                break_line = {
-                    enabled = true,
-                    after = 80,
-                },
-            }
-        },
-        config = function(_, opts)
-            vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-            require("tiny-inline-diagnostic").setup(opts)
-        end,
-    },
+    -- {
+    --     "rachartier/tiny-inline-diagnostic.nvim",
+    --     event = "VeryLazy",
+    --     priority = 1919810, -- needs to be loaded in first
+    --     opts = {
+    --         preset = "ghost",
+    --         options = {
+    --             virt_texts = {
+    --                 priority = 8192,
+    --             },
+    --             show_source = true,
+    --             use_icons_from_diagnostic = true,
+    --             multiple_diag_under_cursor = true,
+    --             multilines = {
+    --                 enabled = true,
+    --                 always_show = true,
+    --             },
+    --             show_all_diags_on_cursorline = true,
+    --             enable_on_insert = true,
+    --             enable_on_select = true,
+    --             break_line = {
+    --                 enabled = true,
+    --                 after = 80,
+    --             },
+    --         }
+    --     },
+    --     config = function(_, opts)
+    --         require("tiny-inline-diagnostic").setup(opts)
+    --         vim.diagnostic.config({ virtual_text = false, virtual_lines = true, underline = true}) -- Only if needed in your configuration, if you already have native LSP diagnostics
+    --     end,
+    -- },
     {
         "VidocqH/lsp-lens.nvim",
         opts = {},
@@ -343,4 +382,21 @@ return {
             code_lenses = true,
         },
     },
+    {
+        cond = false,
+        "hinell/lsp-timeout.nvim",
+        event = "LspAttach",
+        init = function()
+            vim.g.lspTimeoutConfig = {
+                stopTimeout  = 1000 * 60 * 5, -- ms, timeout before stopping all LSPs
+                startTimeout = 1000,          -- ms, timeout before restart
+                silent       = false,         -- true to suppress notifications
+                filetypes    = {
+                    ignore = {                -- filetypes to ignore; empty by default
+                        -- lsp-timeout is disabled completely
+                    }                         -- for these filetypes
+                }
+            }
+        end
+    }
 }

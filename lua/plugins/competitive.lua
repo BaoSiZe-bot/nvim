@@ -123,12 +123,12 @@ return {
             hint = "floating-big-letter",
         },
     },
-    {
-        "Bot-wxt1221/Luogu-On-Neovim",
-        event = "VeryLazy",
-        build = function()
-            require("Luogu-On-Neovim").install()
-        end,
-        opts = {},
-    },
+    -- {
+    --     "Bot-wxt1221/Luogu-On-Neovim",
+    --     event = "VeryLazy",
+    --     build = function()
+    --         require("Luogu-On-Neovim").install()
+    --     end,
+    --     opts = {},
+    -- },
 }

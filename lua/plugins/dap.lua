@@ -214,15 +214,25 @@ return {
             if not dap.adapters["codelldb"] then
                 require("dap").adapters["codelldb"] = {
                     type = "server",
-                    host = "localhost",
-                    port = "${port}",
+                    port = "13000",
                     executable = {
-                        command = "codelldb",
+                        command = "C:/Users/Administrator/Downloads/extension/adapter/codelldb.exe",
                         args = {
                             "--port",
-                            "${port}",
+                            "13000",
                         },
+                        detached = false,
                     },
+                }
+            end
+            if not dap.adapters["cppdbg"] then
+                require("dap").adapters.cppdbg = {
+                    id = 'cppdbg',
+                    type = 'executable',
+                    command = 'C:\\Users\\Administrator\\Downloads\\cpptools-windows-x64\\extension\\debugAdapters\\bin\\OpenDebugAD7.exe',
+                    options = {
+                        detached = false
+                    }
                 }
             end
             for _, lang in ipairs({ "c", "cpp" }) do
@@ -232,7 +242,7 @@ return {
                         request = "launch",
                         name = "Launch file",
                         program = function()
-                            return "/tmp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r")
+                            return "C:/Users/Administrator/AppData/Local/Temp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r") .. ".exe"
                         end,
                         cwd = "${workspaceFolder}",
                         preLaunchTask = "clang_build",
@@ -243,6 +253,43 @@ return {
                         name = "Attach to process",
                         pid = require("dap.utils").pick_process,
                         cwd = "${workspaceFolder}",
+                    },
+                    {
+                        type = "cppdbg",
+                        request = "launch",
+                        name = "CPPDBG Launch file",
+                        program = function()
+                            return "C:/Users/Administrator/AppData/Local/Temp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r") .. ".exe"
+                        end,
+                        cwd = "${workspaceFolder}",
+                        preLaunchTask = "clang_build",
+                        stopAtEntry = true,
+                        setupCommands = {  
+                            { 
+                                text = '-enable-pretty-printing',
+                                description =  'enable pretty printing',
+                                ignoreFailures = false 
+                            },
+                        },
+                    },
+                    {
+                        name = 'Attach to gdbserver :1234',
+                        type = 'cppdbg',
+                        request = 'launch',
+                        MIMode = 'gdb',
+                        miDebuggerServerAddress = 'localhost:1234',
+                        miDebuggerPath = '/usr/bin/gdb',
+                        cwd = '${workspaceFolder}',
+                        program = function()
+                            return "C:/Users/Administrator/AppData/Local/Temp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r") .. ".exe"
+                        end,
+                        setupCommands = {  
+                            { 
+                                text = '-enable-pretty-printing',
+                                description =  'enable pretty printing',
+                                ignoreFailures = false 
+                            },
+                        },
                     },
                 }
             end
