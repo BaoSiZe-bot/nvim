@@ -28,6 +28,7 @@ local function expand(snippet)
         ok = pcall(vim.snippet.expand, fixed)
     end
 end
+local utils = require("configs.utils")
 return {
     {
         "lewis6991/hover.nvim",
@@ -36,65 +37,6 @@ return {
                 require("hover.providers.lsp")
             end,
         },
-    },
-    {
-        "Bekaboo/dropbar.nvim",
-        event = "UIEnter",
-        opts = {
-            icons = {
-                kinds = {
-                    symbols = {
-                        Array = " ",
-                        Boolean = "󰨙 ",
-                        Class = " ",
-                        Codeium = "󰘦 ",
-                        Color = " ",
-                        Control = " ",
-                        Collapsed = " ",
-                        Constant = "󰏿 ",
-                        Constructor = " ",
-                        Copilot = " ",
-                        Enum = " ",
-                        EnumMember = " ",
-                        Event = " ",
-                        Field = " ",
-                        File = " ",
-                        Folder = " ",
-                        Function = "󰊕 ",
-                        Interface = " ",
-                        Key = " ",
-                        Keyword = " ",
-                        Method = "󰊕 ",
-                        Module = " ",
-                        Namespace = "󰦮 ",
-                        Null = " ",
-                        Number = "󰎠 ",
-                        Object = " ",
-                        Operator = " ",
-                        Package = " ",
-                        Property = " ",
-                        Reference = " ",
-                        Snippet = "󱄽 ",
-                        String = " ",
-                        Struct = "󰆼 ",
-                        Supermaven = " ",
-                        TabNine = "󰏚 ",
-                        Text = " ",
-                        TypeParameter = " ",
-                        Unit = " ",
-                        Value = " ",
-                        Variable = "󰀫 ",
-                    },
-                },
-            },
-        },
-        config = function(_, opts)
-            local dropbar_api = require("dropbar.api")
-            vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
-            vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
-            vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
-            require("dropbar").setup(opts)
-        end,
     },
     {
         "saghen/blink.cmp",
@@ -119,9 +61,7 @@ return {
                 appearance = {
                     use_nvim_cmp_as_default = false,
                     nerd_font_variant = "mono",
-                    kind_icons = {
-                        Text = "",
-                    },
+                    kind_icons = vim.tbl_extend("force", {}, utils.icons.kinds)
                 },
                 completion = {
                     accept = {
@@ -130,9 +70,10 @@ return {
                         },
                     },
                     menu = {
-                        border = "rounded",
+                        -- border = "rounded",
                         enabled = true,
-                        winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                        winhighlight =
+                        "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
                         auto_show = true,
                         draw = {
                             treesitter = { "lsp" },
@@ -148,10 +89,10 @@ return {
                                 },
                                 kind_icon = {
                                     ellipsis = false,
-                                    text = function(ctx)
-                                        local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                                        return kind_icon
-                                    end,
+                                    -- text = function(ctx)
+                                    --     local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                                    --     return kind_icon
+                                    -- end,
                                 }
                             },
                         },
@@ -169,9 +110,9 @@ return {
                     documentation = {
                         auto_show = true,
                         auto_show_delay_ms = 20,
-                        window = {
-                            border = "rounded",
-                        }
+                        -- window = {
+                        --     border = "rounded",
+                        -- }
                     },
                     ghost_text = {
                         enabled = true,
