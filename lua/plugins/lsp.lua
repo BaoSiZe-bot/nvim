@@ -247,20 +247,26 @@ return {
     -- },
     {
         "rachartier/tiny-inline-diagnostic.nvim",
-        event = "LspAttach",
+        lazy = false,
+        -- event = "LazyFile",
         priority = 1919810, -- needs to be loaded in first
         opts = {
-            preset = "ghost",
+            preset = "modern",
+            -- transparent_bg = true,
+            -- transparent_cursorline = true, -- Set the background of the cursorline to transparent (only one the first diagnostic)
             options = {
                 virt_texts = {
                     priority = 8192,
                 },
-                show_source = true,
-                use_icons_from_diagnostic = true,
+                show_source = {
+                    enabled = true,
+                    if_many = true,
+                },
+                use_icons_from_diagnostic = false,
                 multiple_diag_under_cursor = true,
                 multilines = {
                     enabled = true,
-                    always_show = true,
+                    always_show = false,
                 },
                 show_all_diags_on_cursorline = true,
                 enable_on_insert = true,
@@ -269,11 +275,15 @@ return {
                     enabled = true,
                     after = 80,
                 },
+                format = function(diagnostic)
+                    return diagnostic.source .. ": " .. diagnostic.message
+                end
             }
         },
         config = function(_, opts)
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
             require("tiny-inline-diagnostic").setup(opts)
+            vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
         end,
     },
     {

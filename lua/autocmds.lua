@@ -154,3 +154,8 @@ autocmd({ "FileType" }, {
         vim.opt_local.conceallevel = 0
     end,
 })
+autocmd('BufReadPre', {
+    callback = function()
+        vim.diagnostic.config({ virtual_text = false })                        -- Only if needed in your configuration, if you already have native LSP diagnostics
+    end,
+})
