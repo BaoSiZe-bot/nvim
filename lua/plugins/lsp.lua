@@ -120,7 +120,7 @@ return {
                 },
                 -- signature = { enabled = true }, -- have other plugin instead.
                 sources = {
-                    default = { "lsp", "path", "snippets", "buffer", "markdown" },
+                    default = { "lsp", "path", "snippets", "buffer", "markdown", "minuet" },
                     providers = {
                         lsp = {
                             enabled = true,
@@ -156,6 +156,7 @@ return {
                 keymap = {
                     preset = "enter",
                     ["<C-y>"] = { "select_and_accept" },
+                    -- ["<C-S-y>"] = require('minuet').make_blink_map(),
                 },
             }
             return vim.tbl_deep_extend("force", opts, config)
