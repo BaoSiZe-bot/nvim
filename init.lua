@@ -16,8 +16,12 @@ lazyevent.mappings.LazyFile = {
 local _, lazy = pcall(require, "lazy")
 if not vim.g.vscode then
     lazy.setup({ {
-        import = "plugins"
+        import = "plugins",
     }, {
+        import = "plugins.extras.gemini"
+    }, --[[ {
+        import = "plugins.extras.spacevim"
+    }, ]] {
         "Old-Farmer/im-autoswitch.nvim",
         event = "BufEnter",
         opts = {
