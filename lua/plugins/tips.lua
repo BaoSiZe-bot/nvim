@@ -170,7 +170,7 @@ return {
         opts = {}, -- This causes the plugin setup function to be called
         keys = {
             { "<C-j>", "<Cmd>MultipleCursorsAddDown<CR>", mode = { "n", "x" }, desc = "Add cursor and move down" },
-            { "<C-k>", "<Cmd>MultipleCursorsAddUp<CR>", mode = { "n", "x" }, desc = "Add cursor and move up" },
+            { "<C-k>", "<Cmd>MultipleCursorsAddUp<CR>",   mode = { "n", "x" }, desc = "Add cursor and move up" },
 
             {
                 "<C-LeftMouse>",
@@ -179,7 +179,7 @@ return {
                 desc = "Add or remove cursor",
             },
 
-            { "ga", "<Cmd>MultipleCursorsAddMatches<CR>", mode = { "n", "x" }, desc = "Add cursors to cword" },
+            { "ga",    "<Cmd>MultipleCursorsAddMatches<CR>",    mode = { "n", "x" }, desc = "Add cursors to cword" },
             {
                 "gA",
                 "<Cmd>MultipleCursorsAddMatchesV<CR>",
@@ -200,21 +200,22 @@ return {
         "v1nh1shungry/cppman.nvim",
         cmd = "Cppman",
         dependencies = {
-            "folke/snacks.nvim", -- optional for snacks picker
+            "folke/snacks.nvim",      -- optional for snacks picker
         },
         opts = { picker = "snacks" }, -- required, `setup()` must be called
     },
     {
         "ja-ford/delaytrain.nvim",
+        enabled = false,
         event = "VeryLazy",
         opts = {
-            delay_ms = 1000, -- How long repeated usage of a key should be prevented
+            delay_ms = 1000,  -- How long repeated usage of a key should be prevented
             grace_period = 2, -- How many repeated keypresses are allowed
-            keys = { -- Which keys (in which modes) should be delayed
+            keys = {          -- Which keys (in which modes) should be delayed
                 ["nv"] = { "h", "j", "k", "l" },
                 ["nvi"] = { "<Left>", "<Down>", "<Up>", "<Right>" },
             },
-            ignore_filetypes = { "minifiles", "lazy", "sudoku"},
+            ignore_filetypes = { "minifiles", "lazy", "sudoku" },
         },
         config = function(_, opts)
             require("delaytrain").setup(opts)
