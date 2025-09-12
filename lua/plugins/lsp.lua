@@ -321,11 +321,11 @@ return {
             require("rimels").setup(opts)
         end,
     },
-    {
-        "m-demare/hlargs.nvim",
-        event = "LspAttach",
-        opts = {},
-    },
+    -- {
+    --     "m-demare/hlargs.nvim",
+    --     event = "LspAttach",
+    --     opts = {},
+    -- },
     {
         "soulis-1256/eagle.nvim",
         event = "LspAttach",

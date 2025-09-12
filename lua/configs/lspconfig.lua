@@ -1,8 +1,7 @@
 -- load defaults i.e lua_lsp
 local map = vim.keymap.set
--- vim.opt.mousemoveevent = true
 -- export on_attach & capabilities
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
     local function opts(desc)
         return { buffer = bufnr, desc = "LSP " .. desc }
     end
@@ -16,6 +15,13 @@ local on_attach = function(_, bufnr)
     -- map("n", "<space>wl", function()
     --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     -- end, opts("List workspace folders"))
+    if
+        client.supports_method("textDocument/inlayHints")
+        and vim.api.nvim_buf_is_valid(bufnr)
+        and vim.bo[bufnr].buftype == ""
+    then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
     vim.keymap.set("n", "<leader>lr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
     end, { expr = true })
@@ -24,9 +30,7 @@ end
 
 -- disable semanticTokens
 local on_init = function(client, _)
-    if client.supports_method("textDocument/semanticTokens") then
-        client.server_capabilities.semanticTokensProvider = nil
-    end
+
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -90,30 +94,29 @@ require("lspconfig").lua_ls.setup({
 })
 local lspconfig = require("lspconfig")
 require 'lspconfig.configs'.fennel_language_server = {
-  default_config = {
-    -- replace it with true path
-    cmd = {'/home/bszzz/.cargo/bin/fennel-language-server'},
-    filetypes = {'fennel'},
-    single_file_support = true,
-    -- source code resides in directory `fnl/`
-    root_dir = lspconfig.util.root_pattern("fnl"),
-    settings = {
-      fennel = {
-        workspace = {
-          -- If you are using hotpot.nvim or aniseed,
-          -- make the server aware of neovim runtime files.
-          library = vim.api.nvim_list_runtime_paths(),
+    default_config = {
+        -- replace it with true path
+        cmd = { '/home/bszzz/.cargo/bin/fennel-language-server' },
+        filetypes = { 'fennel' },
+        single_file_support = true,
+        -- source code resides in directory `fnl/`
+        root_dir = lspconfig.util.root_pattern("fnl"),
+        settings = {
+            fennel = {
+                workspace = {
+                    -- If you are using hotpot.nvim or aniseed,
+                    -- make the server aware of neovim runtime files.
+                    library = vim.api.nvim_list_runtime_paths(),
+                },
+                diagnostics = {
+                    globals = { 'vim' },
+                },
+            },
         },
-        diagnostics = {
-          globals = {'vim'},
-        },
-      },
     },
-  },
 }
 
 
--- EXAMPLE
 local servers = { "basedpyright", "clangd", "fennel_language_server" }
 
 -- lsps with default config
@@ -125,9 +128,3 @@ for _, lsp in ipairs(servers) do
     })
 end
 
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
