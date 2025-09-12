@@ -1,4 +1,3 @@
-
 local function snippet_replace(snippet, fn)
     return snippet:gsub("%$%b{}", function(m)
         local n, name = m:match("^%${(%d+):(.+)}$")
