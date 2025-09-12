@@ -246,13 +246,6 @@ return {
         local bit = require("bit")
         -- Full nerd (with icon colors and clickable elements)!
         -- works in multi window, but does not support flexible components (yet ...)
-        local dropbar = {
-            provider = function(self)
-                return _G.dropbar()
-            end,
-            hl = { fg = "gray" },
-            update = "CursorMoved",
-        }
         local Diagnostics = {
             on_click = {
                 callback = function()
@@ -429,7 +422,6 @@ return {
         }
 
         vim.opt.showcmdloc = "statusline"
-        local DropBar = { flexible = 3, dropbar, { provider = "" } }
 
         ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
         local DefaultStatusline = {
@@ -607,7 +599,6 @@ return {
                         return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
                     end,
                     Space,
-                    DropBar,
                 }
             },
             {
@@ -621,7 +612,6 @@ return {
                         return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
                     end,
                     Space,
-                    DropBar
                 }
             },
         }
