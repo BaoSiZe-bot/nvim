@@ -69,11 +69,13 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-require("lspconfig").lua_ls.setup({
+-- local lspconfig = require("lspconfig")
+local lspconfig = vim.lsp.config
+lspconfig("lua_ls", {
     on_attach = on_attach,
     capabilities = capabilities,
     on_init = on_init,
-
+    filetypes = { "lua" },
     settings = {
         Lua = {
             diagnostics = {
@@ -92,15 +94,17 @@ require("lspconfig").lua_ls.setup({
         },
     },
 })
-local lspconfig = require("lspconfig")
-require 'lspconfig.configs'.fennel_language_server = {
+vim.lsp.enable("lua_ls")
+
+lspconfig.fennel_language_server = {
     default_config = {
         -- replace it with true path
         cmd = { '/home/bszzz/.cargo/bin/fennel-language-server' },
         filetypes = { 'fennel' },
         single_file_support = true,
         -- source code resides in directory `fnl/`
-        root_dir = lspconfig.util.root_pattern("fnl"),
+        root_dir = require("lspconfig.util").root_pattern("fnl"),
+        -- root_dir = lspconfig["util"].root_pattern("fnl"),
         settings = {
             fennel = {
                 workspace = {
@@ -121,10 +125,12 @@ local servers = { "basedpyright", "clangd", "fennel_language_server" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup({
+    lspconfig(lsp, {
         on_attach = on_attach,
         on_init = on_init,
         capabilities = capabilities,
     })
+    vim.lsp.enable(lsp)
 end
+
 
