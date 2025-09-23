@@ -274,9 +274,6 @@ return {
             update = { "DiagnosticChanged", "BufEnter" },
 
             {
-                provider = "![",
-            },
-            {
                 provider = function(self)
                     -- 0 is just another output, we can decide to print it or not!
                     return self.errors > 0 and (self.error_icon .. self.errors .. " ")
@@ -300,9 +297,6 @@ return {
                     return self.hints > 0 and (self.hint_icon .. self.hints)
                 end,
                 hl = { fg = "diag_hint" },
-            },
-            {
-                provider = "]",
             },
         }
         local Git = {
@@ -431,8 +425,6 @@ return {
             ViMode,
             Space,
             WorkDir,
-            Space,
-            MyFileNameBlock,
             Space,
             Git,
             Space,
@@ -655,10 +647,76 @@ return {
                     if vim.api.nvim_get_option_value("buftype", { buf = self.bufnr }) == "terminal" then
                         return "  "
                     else
-                        return ""
+                        return " "
                     end
                 end,
                 hl = { fg = "orange" },
+            },
+
+            static = {
+                error_icon = "  ",
+                warn_icon = "  ",
+                info_icon = "  ",
+                hint_icon = "  ",
+            },
+
+            init = function(self)
+                local bufnr = self.bufnr
+                self.errors = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity.ERROR })
+                self.warnings = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity.WARN })
+                self.hints = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity.HINT })
+                self.info = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity.INFO })
+            end,
+
+            update = { "DiagnosticChanged", "BufEnter" },
+
+            {
+                condition = function(self)
+                    return #vim.diagnostic.get(self.bufnr) > 0
+                end,
+                provider = function(self)
+                    -- 0 is just another output, we can decide to print it or not!
+                    return self.errors > 0 and (self.error_icon .. self.errors)
+                end,
+                hl = function(self)
+                    return self.is_active and { fg = "diag_error" } or { fg = "gray" }
+                end,
+            },
+            {
+                condition = function(self)
+                    return #vim.diagnostic.get(self.bufnr) > 0
+                end,
+                provider = function(self)
+                    return self.warnings > 0 and (self.warn_icon .. self.warnings)
+                end,
+                hl = function(self)
+                    return self.is_active and { fg = "diag_warn" } or { fg = "gray" }
+                end,
+                -- hl = { fg = "diag_warn" },
+            },
+            {
+                condition = function(self)
+                    return #vim.diagnostic.get(self.bufnr) > 0
+                end,
+                provider = function(self)
+                    return self.info > 0 and (self.info_icon .. self.info)
+                end,
+                hl = function(self)
+                    return self.is_active and { fg = "diag_info" } or { fg = "gray" }
+                end,
+                -- hl = { fg = "diag_info" },
+            },
+            {
+                condition = function(self)
+                    return #vim.diagnostic.get(self.bufnr) > 0
+                end,
+                provider = function(self)
+                    return self.hints > 0 and (self.hint_icon .. self.hints)
+                end,
+                hl = function(self)
+                    return self.is_active and { fg = "diag_hint" } or { fg = "gray" }
+                end,
+                -- hl = { fg = "diag_hint" },
             },
         }
 
@@ -840,7 +898,7 @@ return {
         local TabLine = { TabLineOffset, BufferLine, TabPages }
 
         -- Yep, with heirline we're driving manual!
-        vim.o.showtabline = 2
+        vim.o.showtabline = 1
         vim.cmd([[au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif]])
         return {
             statusline = StatusLines,
