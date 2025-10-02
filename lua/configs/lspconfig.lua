@@ -5,10 +5,10 @@ local on_attach = function(client, bufnr)
     local function opts(desc)
         return { buffer = bufnr, desc = "LSP " .. desc }
     end
-    map("n", "gd", require("snacks").picker.lsp_definitions, { desc = "Goto Definition" })
-    map("n", "gr", require("snacks").picker.lsp_references, { nowait = true, desc = "References" })
-    map("n", "gI", require("snacks").picker.lsp_implementations, { desc = "Goto Implementation" })
-    map("n", "gy", require("snacks").picker.lsp_type_definitions, { desc = "Goto T[y]pe Definition" })
+    map("n", "gd", function() require("snacks").picker.lsp_definitions() end, { desc = "Goto Definition" })
+    map("n", "gr", function() require("snacks").picker.lsp_references() end, { nowait = true, desc = "References" })
+    map("n", "gI", function() require("snacks").picker.lsp_implementations() end, { desc = "Goto Implementation" })
+    map("n", "gy", function() require("snacks").picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
 
     map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts("Add workspace folder"))
     map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts("Remove workspace folder"))
@@ -22,10 +22,10 @@ local on_attach = function(client, bufnr)
     then
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
-    vim.keymap.set("n", "<leader>lr", function()
+    vim.keymap.set("n", "<leader>cr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
-    end, { expr = true })
-    map({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts("Code action"))
+    end, { expr = true, desc = "Rename" })
+    map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts("Code action"))
 end
 
 -- disable semanticTokens

@@ -17,7 +17,7 @@ map("n", "gr", require("snacks").picker.lsp_references, { nowait = true, desc = 
 map("n", "gI", require("snacks").picker.lsp_implementations, { desc = "Goto Implementation" })
 map("n", "gy", require("snacks").picker.lsp_type_definitions, { desc = "Goto T[y]pe Definition" })
 
-vim.keymap.set("n", "<leader>lr", function()
+vim.keymap.set("n", "<leader>cr", function()
     return ":IncRename " .. vim.fn.expand("<cword>")
-end, { expr = true })
-map({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts("Code action"))
+end, { expr = true , desc = "Rename"})
+map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts("Code action"))

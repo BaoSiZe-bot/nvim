@@ -7,13 +7,13 @@ return ---@type LazySpec
             "<leader>fy",
             mode = { "n", "v" },
             "<cmd>Yazi<cr>",
-            desc = "Open yazi at the current file",
+            desc = "Open yazi in filedir",
         },
         {
             -- Open in the current working directory
             "<leader>fY",
             "<cmd>Yazi cwd<cr>",
-            desc = "Open the file manager in nvim's working directory",
+            desc = "Open yazi in workspace",
         },
         {
             -- NOTE: this requires a version of yazi that includes

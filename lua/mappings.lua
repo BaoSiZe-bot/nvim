@@ -25,26 +25,8 @@ map("n", "[b", "<cmd>bprevious<cr>", {desc = "Prev Buffer"})
 map("n", "]b", "<cmd>bnext<cr>", {desc = "Next Buffer"})
 map("n", "<leader>bb", "<cmd>e #<cr>", {desc = "Switch to Other Buffer"})
 map("n", "<leader>`", "<cmd>e #<cr>", {desc = "Switch to Other Buffer"})
-local function _2_()
-  local _3_
-  do
-    local _, snackbuf = pcall(require, "snacks")
-    _3_ = snackbuf.bufdelete
-  end
-  _3_()
-  return {desc = "Delete Buffer"}
-end
-map("n", "<space>bd", _2_)
-local function _4_()
-  local _5_
-  do
-    local _, snackbuf = pcall(require, "snacks")
-    _5_ = snackbuf.bufdelete.other
-  end
-  _5_()
-  return {desc = "Delete Other Buffers"}
-end
-map("n", "<space>bo", _4_)
+map("n", "<space>bd", function() require("snacks").bufdelete() end, { desc = "Delete Buffer" })
+map("n", "<space>bo", function() require("snacks").bufdelete.other() end, { desc = "Delete Other Buffers" })
 map("n", "<leader>bD", "<cmd>:bd<cr>", {desc = "Delete Buffer and Window"})
 local function _6_()
   vim.cmd("noh")

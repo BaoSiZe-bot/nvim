@@ -113,6 +113,7 @@ return {
                     { "<leader>q", group = "quit/session" },
                     { "<leader>s", group = "search" },
                     { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
+                    { "<leader>v", group = "org", icon = " " },
                     { "<leader>x", group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },
                     { "[", group = "prev" },
                     { "]", group = "next" },
@@ -162,7 +163,7 @@ return {
                 wk.register(opts.defaults)
             end
             require("which-key").add({
-                { "<leader>a", group = "Full text", icon = "󰒆" },
+                { "<leader>a", group = "Full text/Sidekick", icon = "󰒆" },
                 { "<leader>ac", "<cmd>%d_<CR>i", desc = "Edit", icon = "" },
                 { "<leader>ak", "<cmd>%d<CR>", desc = "Cut", icon = "" },
                 { "<leader>ad", "<cmd>%d_<CR>", desc = "Delete", icon = "" },

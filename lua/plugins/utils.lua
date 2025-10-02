@@ -207,7 +207,7 @@ return {
         event = "LspAttach",
         keymap = {
             {
-                "<leader>lp",
+                "<leader>cp",
                 "<cmd>Glance<cr>",
                 mode = { "n" },
                 desc = "Lsp Peek",
