@@ -45,7 +45,10 @@ local kind_filter = {
 return {
     {
         "folke/snacks.nvim",
-        event = "UIEnter",
+        -- lazy = true,
+        priority = 1000,
+        lazy = false,
+        -- enabled = false,
         opts = {
             picker = {
                 win = {
