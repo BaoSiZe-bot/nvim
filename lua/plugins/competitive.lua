@@ -125,6 +125,7 @@ return {
     },
     {
         "Bot-wxt1221/Luogu-On-Neovim",
+        enabled = false,
         event = "VeryLazy",
         build = function()
             require("Luogu-On-Neovim").install()
