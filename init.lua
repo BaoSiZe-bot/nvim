@@ -18,6 +18,12 @@ if not vim.g.vscode then
         {
             import = "plugins",
         },
+        {
+            import = "plugins.extras.sidekick",
+        },
+        {
+            import = "plugins.extras.mini-hipatterns",
+        },
         -- {
         --    import = "plugins.extras.gemini"
         -- },
