@@ -1,7 +1,6 @@
 return {
     "p00f/clangd_extensions.nvim",
-    lazy = true,
-    config = function() end,
+    event = "LspAttach",
     opts = {
         inlay_hints = {
             inline = false,

@@ -92,14 +92,14 @@ return {
                                     --     local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
                                     --     return kind_icon
                                     -- end,
-                                }
+                                },
                             },
                         },
                     },
-                    keyword = {
-                        range = "prefix",
-                        -- regex = "[_,:\\?!]\\|[A-Za-z0-9]",
-                    },
+                    -- keyword = {
+                    -- 	range = "prefix",
+                    -- 	regex = "[_,:\\?!]\\|[A-Za-z0-9]",
+                    -- },
                     list = {
                         selection = {
                             preselect = true,
@@ -108,7 +108,7 @@ return {
                     },
                     documentation = {
                         auto_show = true,
-                        auto_show_delay_ms = 20,
+                        auto_show_delay_ms = 200,
                         -- window = {
                         --     border = "rounded",
                         -- }
@@ -199,13 +199,14 @@ return {
     },
     {
         "xzbdmw/colorful-menu.nvim",
-        opts = {}
+        opts = {},
     },
     {
         "neovim/nvim-lspconfig",
-        event = "LazyFile",
+        event = "VeryLazy",
         config = function()
             require("configs.lspconfig")
+            vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
         end,
     },
     {
@@ -250,14 +251,9 @@ return {
                 },
                 format = function(diagnostic)
                     return diagnostic.source .. ": " .. diagnostic.message
-                end
-            }
+                end,
+            },
         },
-        config = function(_, opts)
-            vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-            require("tiny-inline-diagnostic").setup(opts)
-            vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-        end,
     },
     {
         "VidocqH/lsp-lens.nvim",

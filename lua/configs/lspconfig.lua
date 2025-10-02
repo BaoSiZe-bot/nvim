@@ -36,6 +36,7 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities.textDocument.completion.completionItem = {
+    offsetEncoding = { "utf-16" },
     documentationFormat = { "markdown", "plaintext" },
     snippetSupport = true,
     preselectSupport = true,
@@ -120,8 +121,41 @@ lspconfig.fennel_language_server = {
     },
 }
 
+lspconfig("clangd", {
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
+    root_markers = {
+        "compile_commands.json",
+        "compile_flags.txt",
+        "configure.ac", -- AutoTools
+        "Makefile",
+        "configure.ac",
+        "configure.in",
+        "config.h.in",
+        "meson.build",
+        "meson_options.txt",
+        "build.ninja",
+        ".git",
+    },
+    cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+    },
+    init_options = {
+        usePlaceholders = true,
+        completeUnimported = true,
+        clangdFileStatus = true,
+    },
+})
+vim.lsp.enable("clangd")
 
-local servers = { "basedpyright", "clangd", "fennel_language_server" }
+local servers = { "basedpyright", "fennel_language_server" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
@@ -132,5 +166,3 @@ for _, lsp in ipairs(servers) do
     })
     vim.lsp.enable(lsp)
 end
-
-
