@@ -12,7 +12,7 @@
 
 ** TODO 使用 fennel
 
-** TODO 等待 <https://github.com/pwntester/octo.nvim/issues/809>
+** DONE 等待 <https://github.com/pwntester/octo.nvim/issues/809>
 
 ** DONE 等待 <https://kkgithub.com/stevearc/overseer.nvim/discussions/399>
 
@@ -26,6 +26,6 @@
 
 ** TODO powermode
 
-** TODO rime-ls
+** DONE rime-ls
 
 ** TODO 显示图片
