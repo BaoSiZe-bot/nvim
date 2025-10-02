@@ -48,7 +48,7 @@ return {
         dependencies = {
             "rafamadriz/friendly-snippets",
         },
-        event = "InsertEnter",
+        event = { "InsertEnter", "CmdlineEnter" },
         ---@module 'blink.cmp'
         opts = function(_, opts)
             local config = {
@@ -76,7 +76,7 @@ return {
                         auto_show = true,
                         draw = {
                             treesitter = { "lsp" },
-                            columns = { { "kind_icon" }, { "label", gap = 1 } },
+                            -- columns = { { "kind_icon" }, { "label", gap = 1 } },
                             components = {
                                 label = {
                                     text = function(ctx)
@@ -119,7 +119,13 @@ return {
                 },
                 -- signature = { enabled = true }, -- have other plugin instead.
                 sources = {
-                    default = { "lsp", "path", "snippets", "buffer", "markdown", "minuet" },
+                    default = {
+                        "lsp",
+                        "path",
+                        "snippets",
+                        "buffer",
+                        "markdown" --[[, "minuet" -- ]],
+                    },
                     providers = {
                         lsp = {
                             enabled = true,
@@ -310,7 +316,7 @@ return {
         event = "LazyFile",
         opts = {
             autocmd = { enabled = true },
-            float = { enabled = true },
+            float = { enabled = false },
             code_lenses = true,
         },
     },

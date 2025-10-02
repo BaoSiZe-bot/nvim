@@ -5,6 +5,7 @@ local g = vim.g
 if not vim.g.vscode then
     opt.sidescrolloff = 36
     opt.iskeyword = "_,49-57,A-Z,a-z"
+    o.guifont = "JetbrainsMono Nerd Font:h14"
     o.laststatus = 3
     o.showmode = false
     o.relativenumber = true
@@ -64,4 +65,10 @@ else
     -- o.timeoutlen = 400
     -- o.undofile = true
     -- o.updatetime = 250
+end
+if vim.g.neovide then
+    g.neovide_opacity=0.8
+    g.neovide_normal_opacity=0.8
+    g.neovide_cursor_vfx_mode="ripple"
+    g.neovide_scroll_animation_length=0.1
 end
