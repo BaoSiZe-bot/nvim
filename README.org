@@ -7,27 +7,16 @@
 * Screenshots
 
 * Todos
-
-** TODO 补充截图
-
-** TODO 使用 fennel
-
-** DONE 等待 <https://github.com/pwntester/octo.nvim/issues/809>
-
-** DONE 等待 <https://kkgithub.com/stevearc/overseer.nvim/discussions/399>
-
-** DONE 添加多光标
-
-** TODO 等哪位大佬写一个完美的音乐播放器 :)
-
-** TODO edgy-group
-
-** TODO eaf&exwm
-
-** TODO powermode
-
-** DONE rime-ls
-
-** TODO 显示图片
+ * [ ] 补充截图
+ * [ ] 使用 fennel
+ * [X] 等待 <https://github.com/pwntester/octo.nvim/issues/809>
+ * [X] 等待 <https://github.com/stevearc/overseer.nvim/discussions/399>
+ * [X] 添加多光标
+ * [ ] 等哪位大佬写一个完美的音乐播放器 :)
+ * [ ] TODO edgy-group
+ * [ ] eaf&exwm
+ * [ ] powermode
+ * [x] rime-ls
+ * [ ] 显示图片
 * Known Issues
- * 如果 LspAttach 事件触发前已经触发过 CmdlineEnter, 会导致的补全菜单的签名不是彩色的。
+ * [ ] 如果 LspAttach 事件触发前已经触发过 CmdlineEnter, 会导致的补全菜单的签名不是彩色的。
