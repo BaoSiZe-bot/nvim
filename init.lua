@@ -81,7 +81,7 @@ else
                     "netrwPlugin",
                     "netrwSettings",
                     "netrwFileHandlers",
-                    "matchit",
+                    -- "matchit",
                     "tar",
                     "tarPlugin",
                     "rrhelper",
