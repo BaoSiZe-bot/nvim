@@ -28,31 +28,41 @@ local on_attach = function(client, bufnr)
     map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts("Code action"))
 end
 
--- disable semanticTokens
-local on_init = function(client, _)
 
-end
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem = {
+--     offsetEncoding = { "utf-16" },
+--     documentationFormat = { "markdown", "plaintext" },
+--     snippetSupport = true,
+--     preselectSupport = false,
+--     insertReplaceSupport = true,
+--     labelDetailsSupport = true,
+--     deprecatedSupport = false,
+--     commitCharactersSupport = false,
+--     tagSupport = { valueSet = { 1 } },
+--     insertTextModeSupport = { valueSet = { 1 } },
+--     resolveSupport = {
+--         properties = {
+--             "documentation",
+--             "detail",
+--             "additionalTextEdits",
+--             "command",
+--             "data"
+--         }
+--     },
+-- }]
 
-capabilities.textDocument.completion.completionItem = {
+local capabilities = {
     offsetEncoding = { "utf-16" },
-    documentationFormat = { "markdown", "plaintext" },
-    snippetSupport = true,
-    preselectSupport = true,
-    insertReplaceSupport = true,
-    labelDetailsSupport = true,
-    deprecatedSupport = true,
-    commitCharactersSupport = true,
-    tagSupport = { valueSet = { 1 } },
-    resolveSupport = {
-        properties = {
-            "documentation",
-            "detail",
-            "additionalTextEdits",
+    workspace = {
+        fileOperations = {
+            didRename = true,
+            willRename = true,
         },
     },
 }
+
 local x = vim.diagnostic.severity
 
 vim.diagnostic.config({
@@ -75,7 +85,6 @@ local lspconfig = vim.lsp.config
 lspconfig("lua_ls", {
     on_attach = on_attach,
     capabilities = capabilities,
-    on_init = on_init,
     filetypes = { "lua" },
     settings = {
         Lua = {
@@ -121,9 +130,14 @@ lspconfig.fennel_language_server = {
     },
 }
 
-lspconfig("clangd", {
+local clangd_flags = {
+    keys = { {
+        "<leader>ch",
+        "<cmd>ClangdSwitchSourceHeader<cr>",
+        desc = "Switch Source/Header (C/C++)",
+        mode = "n"
+    } },
     on_attach = on_attach,
-    on_init = on_init,
     capabilities = capabilities,
     root_markers = {
         "compile_commands.json",
@@ -152,7 +166,10 @@ lspconfig("clangd", {
         completeUnimported = true,
         clangdFileStatus = true,
     },
-})
+}
+require("clangd_extensions").setup(vim.tbl_deep_extend("force", Lazy.opts("clangd_extensions.nvim") or {},
+    { server = clangd_flags }))
+lspconfig("clangd", clangd_flags)
 vim.lsp.enable("clangd")
 
 local servers = { "basedpyright", "fennel_language_server" }
@@ -161,7 +178,6 @@ local servers = { "basedpyright", "fennel_language_server" }
 for _, lsp in ipairs(servers) do
     lspconfig(lsp, {
         on_attach = on_attach,
-        on_init = on_init,
         capabilities = capabilities,
     })
     vim.lsp.enable(lsp)

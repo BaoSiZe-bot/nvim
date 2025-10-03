@@ -13,9 +13,29 @@ return {
         -- or add custom linters.
         ---@type table<string,table>
         linters = {
-            -- cppcheck = {
-            --     args = { "--check-level=exhaustive", "--" },
-            -- },
+            cppcheck = {
+                args = {
+                    "--enable=warning,style,performance,information",
+                    "--check-level=exhaustive",
+                    function()
+                        if vim.bo.filetype == "cpp" then
+                            return "--language=c++"
+                        else
+                            return "--language=c"
+                        end
+                    end,
+                    "--inline-suppr",
+                    "--quiet",
+                    function()
+                        if vim.fn.isdirectory("build") == 1 then
+                            return "--cppcheck-build-dir=build"
+                        else
+                            return nil
+                        end
+                    end,
+                    "--template={file}:{line}:{column}: [{id}] {severity}: {message}",
+                },
+            },
         },
     },
     config = function(_, opts)
