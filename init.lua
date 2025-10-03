@@ -104,13 +104,11 @@ else
     })
 end
 require("options")
-local function _3_()
-    require("mappings")
-    return require("configs.init_funcs")
-end
 if not vim.g.vscode then
-    vim.schedule(_3_)
     require("autocmds")
+    require("mappings")
+    require("configs.init_funcs")
+    Lazy = require("configs.lazy_funcs")
 else
     require("mappings-vscode")
 end

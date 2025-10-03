@@ -1,4 +1,5 @@
 local spec = { "lsp", { ".git", "lua" }, "cwd" }
+
 function GitNorm(path)
     if path:sub(1, 1) == "~" then
         local home = vim.uv.os_homedir()
