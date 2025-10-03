@@ -73,11 +73,13 @@ vim.diagnostic.config({
 })
 
 -- Default border style
+---@type fun(contents: table, syntax: string|nil, opts: table|nil, ...): any
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
     opts = opts or {}
     opts.border = "rounded"
-    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+    return orig_util_open_floating_preview(contents, syntax, opts)
 end
 
 local lsps = {
