@@ -80,105 +80,19 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
--- local lspconfig = require("lspconfig")
-local lspconfig = vim.lsp.config
-lspconfig("lua_ls", {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { "lua" },
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { "vim" },
-            },
-            workspace = {
-                library = {
-                    vim.fn.expand("$VIMRUNTIME/lua"),
-                    vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
-                    vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy",
-                    "${3rd}/luv/library",
-                },
-                maxPreload = 100000,
-                preloadFileSize = 10000,
-            },
-        },
-    },
-})
-vim.lsp.enable("lua_ls")
-
-lspconfig.fennel_language_server = {
-    default_config = {
-        -- replace it with true path
-        cmd = { '/home/bszzz/.cargo/bin/fennel-language-server' },
-        filetypes = { 'fennel' },
-        single_file_support = true,
-        -- source code resides in directory `fnl/`
-        root_dir = require("lspconfig.util").root_pattern("fnl"),
-        -- root_dir = lspconfig["util"].root_pattern("fnl"),
-        settings = {
-            fennel = {
-                workspace = {
-                    -- If you are using hotpot.nvim or aniseed,
-                    -- make the server aware of neovim runtime files.
-                    library = vim.api.nvim_list_runtime_paths(),
-                },
-                diagnostics = {
-                    globals = { 'vim' },
-                },
-            },
-        },
-    },
+local lsps = {
+    "cpp",
+    "lua",
+    "python",
+    "fennel",
 }
 
-local clangd_flags = {
-    keys = { {
-        "<leader>ch",
-        "<cmd>ClangdSwitchSourceHeader<cr>",
-        desc = "Switch Source/Header (C/C++)",
-        mode = "n"
-    } },
-    on_attach = on_attach,
-    capabilities = capabilities,
-    root_markers = {
-        "compile_commands.json",
-        "compile_flags.txt",
-        "configure.ac", -- AutoTools
-        "Makefile",
-        "configure.ac",
-        "configure.in",
-        "config.h.in",
-        "meson.build",
-        "meson_options.txt",
-        "build.ninja",
-        ".git",
-    },
-    cmd = {
-        "clangd",
-        "--background-index",
-        "--clang-tidy",
-        "--header-insertion=iwyu",
-        "--completion-style=detailed",
-        "--function-arg-placeholders",
-        "--fallback-style=llvm",
-    },
-    init_options = {
-        usePlaceholders = true,
-        completeUnimported = true,
-        clangdFileStatus = true,
-    },
-}
-require("clangd_extensions").setup(vim.tbl_deep_extend("force", Lazy.opts("clangd_extensions.nvim") or {},
-    { server = clangd_flags }))
-lspconfig("clangd", clangd_flags)
-vim.lsp.enable("clangd")
+for _, lsp_name in ipairs(lsps) do
+    local success, config_module = pcall(require, "configs.lsp." .. lsp_name)
 
-local servers = { "basedpyright", "ruff", "fennel_language_server" }
-
--- lsps with default config
-for _, lsp in ipairs(servers) do
-    lspconfig(lsp, {
-        on_attach = on_attach,
-        capabilities = capabilities,
-    })
-    vim.lsp.enable(lsp)
+    if success and config_module and config_module.setup then
+        config_module.setup(on_attach, capabilities)
+    else
+        print("Error loading or setting up LSP config for: " .. lsp_name)
+    end
 end
