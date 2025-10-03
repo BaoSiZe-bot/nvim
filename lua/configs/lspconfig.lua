@@ -172,7 +172,7 @@ require("clangd_extensions").setup(vim.tbl_deep_extend("force", Lazy.opts("clang
 lspconfig("clangd", clangd_flags)
 vim.lsp.enable("clangd")
 
-local servers = { "basedpyright", "fennel_language_server" }
+local servers = { "basedpyright", "ruff", "fennel_language_server" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
