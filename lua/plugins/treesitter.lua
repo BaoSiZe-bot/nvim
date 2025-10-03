@@ -161,4 +161,10 @@ return {
 		event = "LazyFile",
 		opts = {},
 	},
+
+    {
+        "folke/ts-comments.nvim",
+        event = "VeryLazy",
+        opts = {},
+    },
 }
