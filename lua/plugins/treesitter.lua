@@ -163,6 +163,12 @@ return {
     },
 
     {
+        "nvim-treesitter/nvim-treesitter-context",
+        event = "LazyFile",
+        opts = {},
+    },
+
+    {
         "folke/ts-comments.nvim",
         event = "VeryLazy",
         opts = {},
