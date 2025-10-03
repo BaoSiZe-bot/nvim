@@ -292,18 +292,6 @@ return {
         priority = 1000,
     },
     {
-        "Freed-Wu/rime.nvim",
-        enabled = false,
-        keys = {
-            {
-                "<C-\\>",
-                function() require('rime.nvim').toggle() end,
-                mode = { "i", "n" },
-                desc = "toggle rime"
-            }
-        }
-    },
-    {
         'noearc/jieba.nvim',
         enabled = false,
         dependencies = { 'noearc/jieba-lua' },
