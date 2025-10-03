@@ -1,6 +1,6 @@
 return {
     {
-        "echasnovski/mini.icons",
+        "nvim-mini/mini.icons",
         lazy = true,
         opts = {
             file = {
@@ -19,7 +19,7 @@ return {
         end,
     },
     {
-        "echasnovski/mini.ai",
+        "nvim-mini/mini.ai",
         event = "VeryLazy",
         opts = function()
             local ai = require("mini.ai")
@@ -129,7 +129,7 @@ return {
         end,
     },
     {
-        "echasnovski/mini.pairs",
+        "nvim-mini/mini.pairs",
         event = "VeryLazy",
         opts = {
             modes = { insert = true, command = true, terminal = false },
@@ -187,14 +187,14 @@ return {
         end,
     },
     {
-        "echasnovski/mini.surround",
+        "nvim-mini/mini.surround",
         recommended = true,
         keys = function(_, keys)
             -- Populate the keys based on the user's options
             local mappings = {
                 { "gsa", desc = "Add Surrounding",                     mode = { "n", "v" } },
                 { "gsd", desc = "Delete Surrounding" },
-                { "gsf", desc = "Find Right Surrounding" },
+                { "gsF", desc = "Find Right Surrounding" },
                 { "gsf", desc = "Find Left Surrounding" },
                 { "gsh", desc = "Highlight Surrounding" },
                 { "gsr", desc = "Replace Surrounding" },
@@ -217,9 +217,9 @@ return {
             },
         },
     },
-    { "echasnovski/mini.trailspace", opts = {}, event = "LazyFile"},
+    { "nvim-mini/mini.trailspace", opts = {}, event = "LazyFile"},
     {
-        "echasnovski/mini.files",
+        "nvim-mini/mini.files",
         opts = {
             windows = {
                 preview = true,
@@ -335,7 +335,7 @@ return {
         end,
     },
     {
-        "echasnovski/mini.snippets",
+        "nvim-mini/mini.snippets",
         event = "InsertEnter", -- don't depend on other plugins to load...
         dependencies = "rafamadriz/friendly-snippets",
         opts = function()
@@ -361,7 +361,7 @@ return {
         end,
     },
     {
-        "echasnovski/mini.bracketed",
+        "nvim-mini/mini.bracketed",
         event = "LazyFile",
     }
 }

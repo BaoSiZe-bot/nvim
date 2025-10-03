@@ -1,14 +1,17 @@
 return {
     {
         "Isrothy/neominimap.nvim",
-        -- version = "v3.x.x",
+        version = "v3.x.x",
         lazy = false,
-        enabled = false,
+        -- enabled = false,
         init = function()
             vim.opt.wrap = false
             vim.opt.sidescrolloff = 36
             vim.g.neominimap = {
                 auto_enable = true,
+                float = {
+                    window_border = "none",
+                },
             }
         end,
     },
@@ -117,25 +120,25 @@ return {
             },
         },
     },
-{
-  "sphamba/smear-cursor.nvim",
-  event = "VeryLazy",
-  cond = vim.g.neovide == nil,
-  opts = {
-    hide_target_hack = true,
-    cursor_color = "none",
-  },
-  specs = {
-    -- disable mini.animate cursor
     {
-      "echasnovski/mini.animate",
-      optional = true,
-      opts = {
-        cursor = { enable = false },
-      },
+        "sphamba/smear-cursor.nvim",
+        event = "VeryLazy",
+        cond = vim.g.neovide == nil,
+        opts = {
+            hide_target_hack = true,
+            cursor_color = "none",
+        },
+        specs = {
+            -- disable mini.animate cursor
+            {
+                "nvim-mini/mini.animate",
+                optional = true,
+                opts = {
+                    cursor = { enable = false },
+                },
+            },
+        },
     },
-  },
-},
     -- {
     --     "sphamba/smear-cursor.nvim",
     --     event = "CursorMoved",

@@ -134,11 +134,11 @@ return {
         opts = {},
     },
     {
-        "echasnovski/mini.bracketed",
+        "nvim-mini/mini.bracketed",
         event = "LazyFile",
     },
     {
-        "echasnovski/mini.surround",
+        "nvim-mini/mini.surround",
         keys = function(_, keys)
             -- Populate the keys based on the user's options
             local mappings = {{
@@ -149,7 +149,7 @@ return {
                     "gsd",
                     desc = "Delete Surrounding"
                 }, {
-                    "gsf",
+                    "gsF",
                     desc = "Find Right Surrounding"
                 }, {
                     "gsf",
@@ -182,7 +182,7 @@ return {
         }
     },
     {
-        "echasnovski/mini.ai",
+        "nvim-mini/mini.ai",
         event = "VeryLazy",
         opts = function()
             local ai = require("mini.ai")
@@ -231,7 +231,7 @@ return {
         end,
     },
     {
-        "echasnovski/mini.pairs",
+        "nvim-mini/mini.pairs",
         event = "VeryLazy",
         opts = {
             modes = { insert = true, command = true, terminal = false },
