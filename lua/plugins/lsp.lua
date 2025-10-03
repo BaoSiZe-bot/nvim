@@ -225,8 +225,8 @@ return {
 	-- },
 	{
 		"rachartier/tiny-inline-diagnostic.nvim",
-		lazy = false,
-		-- event = "LazyFile",
+		-- lazy = false,
+		event = "LazyFile",
 		priority = 1919810, -- needs to be loaded in first
 		opts = {
 			preset = "modern",
