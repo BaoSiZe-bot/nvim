@@ -4,9 +4,9 @@
 本人自己的 nvim 配置， 紧跟时代潮流（大雾）
 
 目前尚未补充截图。
-* screenshots
+* Screenshots
 
-* todos
+* Todos
 
 ** TODO 补充截图
 
@@ -29,3 +29,5 @@
 ** DONE rime-ls
 
 ** TODO 显示图片
+* Known Issues
+ * 如果 LspAttach 事件触发前已经触发过 CmdlineEnter, 会导致的补全菜单的签名不是彩色的。
