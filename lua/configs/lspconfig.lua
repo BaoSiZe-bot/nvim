@@ -28,31 +28,6 @@ local on_attach = function(client, bufnr)
     map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts("Code action"))
 end
 
-
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
-
--- capabilities.textDocument.completion.completionItem = {
---     offsetEncoding = { "utf-16" },
---     documentationFormat = { "markdown", "plaintext" },
---     snippetSupport = true,
---     preselectSupport = false,
---     insertReplaceSupport = true,
---     labelDetailsSupport = true,
---     deprecatedSupport = false,
---     commitCharactersSupport = false,
---     tagSupport = { valueSet = { 1 } },
---     insertTextModeSupport = { valueSet = { 1 } },
---     resolveSupport = {
---         properties = {
---             "documentation",
---             "detail",
---             "additionalTextEdits",
---             "command",
---             "data"
---         }
---     },
--- }]
-
 local capabilities = {
     offsetEncoding = { "utf-16" },
     workspace = {
