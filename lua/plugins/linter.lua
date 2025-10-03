@@ -15,8 +15,8 @@ return {
         linters = {
             cppcheck = {
                 args = {
+                    -- "--check-level=exhaustive",
                     "--enable=warning,style,performance,information",
-                    "--check-level=exhaustive",
                     function()
                         if vim.bo.filetype == "cpp" then
                             return "--language=c++"
