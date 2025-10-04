@@ -63,7 +63,7 @@ return {
                 },
                 actions = {
                     toggle_cwd = function(p)
-                        local root = RootGet({ buf = p.input.filter.current_buf, normalize = true })
+                        local root = Abalone.rootGet({ buf = p.input.filter.current_buf, normalize = true })
                         local cwd = vim.fs.normalize((vim.uv or vim.loop).cwd() or ".")
                         local current = p:cwd()
                         p:set_cwd(current == root and cwd or root)
@@ -577,7 +577,7 @@ return {
             {
                 "<leader>fe",
                 function()
-                    Snacks.explorer({ cwd = RootGet() })
+                    Snacks.explorer({ cwd = Abalone.rootGet() })
                 end,
                 desc = "Explorer Snacks (root dir)",
             },

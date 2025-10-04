@@ -53,7 +53,7 @@ return {
         keys = {
             {
                 "<leader>gn",
-                "<cmd>lua require('neogit').open({cwd = RootGet()})<CR>",
+                "<cmd>lua require('neogit').open({cwd = Abalone.rootGet()})<CR>",
                 desc = "Neogit",
             },
         },

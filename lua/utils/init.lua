@@ -1,6 +1,7 @@
+local M = {}
 local spec = { "lsp", { ".git", "lua" }, "cwd" }
 
-function GitNorm(path)
+function M.gitNorm(path)
     if path:sub(1, 1) == "~" then
         local home = vim.uv.os_homedir()
         if home:sub(-1) == "\\" or home:sub(-1) == "/" then
@@ -12,16 +13,16 @@ function GitNorm(path)
     return path:sub(-1) == "/" and path:sub(1, -2) or path
 end
 
-function GitRealpath(path)
+function M.gitRealpath(path)
     if path == "" or path == nil then
         return nil
     end
     path = vim.uv.fs_realpath(path) or path
-    return GitNorm(path)
+    return M.gitNorm(path)
 end
 
-function GitBufpath(buf)
-    return GitRealpath(vim.api.nvim_buf_get_name(assert(buf)))
+function M.gitBufpath(buf)
+    return M.gitRealpath(vim.api.nvim_buf_get_name(assert(buf)))
 end
 
 local detectors = {}
@@ -32,7 +33,7 @@ end
 
 function detectors.pattern(buf, patterns)
     patterns = type(patterns) == "string" and { patterns } or patterns
-    local path = GitBufpath(buf) or vim.uv.cwd()
+    local path = M.gitBufpath(buf) or vim.uv.cwd()
     local pattern = vim.fs.find(function(name)
         for _, p in ipairs(patterns) do
             if name == p then
@@ -47,7 +48,7 @@ function detectors.pattern(buf, patterns)
     return pattern and { vim.fs.dirname(pattern) } or {}
 end
 
-function GitResolve(spec)
+function M.gitResolve(spec)
     if detectors[spec] then
         return detectors[spec]
     elseif type(spec) == "function" then
@@ -58,19 +59,19 @@ function GitResolve(spec)
     end
 end
 
-function GitDetect(opts)
+function M.gitDetect(opts)
     opts = opts or {}
     opts.spec = opts.spec or type(vim.g.root_spec) == "table" and vim.g.root_spec or spec
     opts.buf = (opts.buf == nil or opts.buf == 0) and vim.api.nvim_get_current_buf() or opts.buf
 
     local ret = {}
     for _, spec in ipairs(opts.spec) do
-        local paths = GitResolve(spec)(opts.buf)
+        local paths = M.gitResolve(spec)(opts.buf)
         paths = paths or {}
         paths = type(paths) == "table" and paths or { paths }
         local roots = {}
         for _, p in ipairs(paths) do
-            local pp = GitRealpath(p)
+            local pp = M.gitRealpath(p)
             if pp and not vim.tbl_contains(roots, pp) then
                 roots[#roots + 1] = pp
             end
@@ -88,10 +89,10 @@ function GitDetect(opts)
     return ret
 end
 
-function GitInfo()
+function M.gitInfo()
     local spec = type(vim.g.root_spec) == "table" and vim.g.root_spec or spec
 
-    local roots = GitDetect({ all = true })
+    local roots = M.gitDetect({ all = true })
     local lines = {} ---@type string[]
     local first = true
     for _, root in ipairs(roots) do
@@ -112,20 +113,27 @@ end
 
 local cache = {}
 
-function RootGet(opts)
+function M.rootGet(opts)
     opts = opts or {}
     local buf = opts.buf or vim.api.nvim_get_current_buf()
     local ret = cache[buf]
     if not ret then
-        local roots = GitDetect({ all = false, buf = buf })
+        local roots = M.gitDetect({ all = false, buf = buf })
         ret = roots[1] and roots[1].paths[1] or vim.uv.cwd()
         cache[buf] = ret
     end
     return ret
 end
+
 vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost", "DirChanged", "BufEnter" }, {
     group = vim.api.nvim_create_augroup("lazyvim_root_cache", { clear = true }),
     callback = function(event)
         cache[event.buf] = nil
     end,
 })
+
+
+M.lazy = require("utils.lazy")
+M.treesitter = require("utils.treesitter")
+
+return M

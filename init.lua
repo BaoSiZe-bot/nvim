@@ -107,8 +107,7 @@ require("options")
 if not vim.g.vscode then
     require("autocmds")
     require("mappings")
-    require("configs.init_funcs")
-    Lazy = require("configs.lazy_funcs")
+    Abalone = require("utils")
 else
     require("mappings-vscode")
 end

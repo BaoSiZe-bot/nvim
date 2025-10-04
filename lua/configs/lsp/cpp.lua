@@ -38,7 +38,7 @@ M.setup = function(on_attach, capabilities)
             clangdFileStatus = true,
         },
     }
-    require("clangd_extensions").setup(vim.tbl_deep_extend("force", Lazy.opts("clangd_extensions.nvim") or {},
+    require("clangd_extensions").setup(vim.tbl_deep_extend("force", Abalone.lazy.opts("clangd_extensions.nvim") or {},
         { server = clangd_flags }))
     vim.lsp.config("clangd", clangd_flags)
     vim.lsp.enable("clangd")

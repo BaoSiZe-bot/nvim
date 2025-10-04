@@ -27,7 +27,7 @@ local function expand(snippet)
 		ok = pcall(vim.snippet.expand, fixed)
 	end
 end
-local utils = require("configs.utils")
+local utils = require("configs")
 return {
 	{
 		"lewis6991/hover.nvim",
@@ -209,7 +209,7 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
 		config = function()
-			require("configs.lspconfig")
+			require("configs.lsp")
 			vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
 		end,
 	},
