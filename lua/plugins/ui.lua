@@ -175,21 +175,21 @@ return {
     },
     {
         "LuxVim/nvim-luxmotion",
-        -- enabled = false,
+        enabled = false, -- kill it because it cause matchit don't work, it cause I can't insert 'web' in select mode.
         event = "CursorMoved",
         config = function()
             require("luxmotion").setup({
                 cursor = {
                     duration = 250,
                     easing = "ease-out",
-                    enabled = false,
+                    enabled = true,
                 },
                 scroll = {
                     duration = 400,
                     easing = "ease-out",
                     enabled = true,
                 },
-                performance = { enabled = false },
+                performance = { enabled = true },
                 keymaps = {
                     cursor = true,
                     scroll = true,
