@@ -1,9 +1,5 @@
--- [nfnl] Compiled from fnl/mappings.fnl by https://github.com/Olical/nfnl, do not edit.
 local map = vim.keymap.set
-local function _1_()
-  return Snacks.terminal(nil, {cwd = RootGet()})
-end
-map({"n", "v"}, "<space>ft", _1_, {desc = "Open Terminal"})
+map({"n", "v"}, "<space>ft", function() require("snacks").terminal(nil, {cwd = RootGet()}) end, {desc = "Open Terminal"})
 map({"n", "i", "v"}, "<C-s>", "<cmd> w <cr>", {desc = "Save Buffer"})
 map("n", "<C-h>", "<C-w>h", {desc = "Go to Left Window", remap = true})
 map("n", "<C-j>", "<C-w>j", {desc = "Go to Lower Window", remap = true})
@@ -121,6 +117,4 @@ if (vim.fn.has("nvim-0.11") == false) then
     end
   end
   map({"i", "s"}, "<S-Tab>", _14_, {expr = true, desc = "Jump Previous"})
-else
 end
-return nil
