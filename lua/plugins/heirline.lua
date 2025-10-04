@@ -1,6 +1,6 @@
 return {
     "rebelot/heirline.nvim",
-    event = "UIEnter",
+    event = "LazyFile",
     opts = function()
         local Align = { provider = "%=" }
         local Space = { provider = " " }
