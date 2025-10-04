@@ -67,9 +67,6 @@ return {
             }
         },
         config = function(_, opts)
-            -- if type(opts.ensure_installed) == "table" then
-            --     opts.ensure_installed = require("configs.funcs").dedup(opts.ensure_installed)
-            -- end
             require("nvim-treesitter.configs").setup(opts)
         end
     },
