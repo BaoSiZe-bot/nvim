@@ -45,7 +45,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", {desc = "Add Comment Below"})
 map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", {desc = "Add Comment Above"})
-map("n", "<leader>L", "<cmd>Lazy<cr>", {desc = "Lazy"})
+map("n", "<leader>l", "<cmd>Lazy<cr>", {desc = "Lazy"})
 map("n", "<leader>fn", "<cmd>enew<cr>", {desc = "New File"})
 -- location list
 map("n", "<leader>xl", function()
