@@ -18,6 +18,7 @@ return {
         config = function(_, opts)
             local notify = vim.notify
             Snacks.setup(opts)
+            Snacks.pick = Snacks.picker.pick
             vim.notify = notify
         end,
     },
@@ -104,26 +105,26 @@ return {
                             icon = " ",
                             key = "f",
                             desc = "Find File",
-                            action = ":lua Snacks.picker.files({hidden = true})",
+                            action = ":lua Snacks.pick('files', {hidden = true})",
                         },
                         { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
                         {
                             icon = " ",
                             key = "g",
                             desc = "Find Text",
-                            action = ":lua Snacks.picker.pick('live_grep')",
+                            action = ":lua Snacks.pick('live_grep')",
                         },
                         {
                             icon = " ",
                             key = "r",
                             desc = "Recent Files",
-                            action = ":lua Snacks.picker.pick('recent')",
+                            action = ":lua Snacks.pick('recent')",
                         },
                         {
                             icon = " ",
                             key = "c",
                             desc = "Config",
-                            action = ":lua Snacks.picker.pick('files', {cwd = vim.fn.stdpath('config')})",
+                            action = ":lua Snacks.pick('files', {cwd = vim.fn.stdpath('config')})",
                         },
                         { icon = " ", key = "s", desc = "Restore Session", section = "session" },
                         { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
@@ -173,6 +174,12 @@ return {
             { "<leader>gd",      function() Snacks.picker.git_diff() end,                                      desc = "Git Diff (hunks)", },
             { "<leader>gs",      function() Snacks.picker.git_status() end,                                    desc = "Git Status", },
             { "<leader>gS",      function() Snacks.picker.git_stash() end,                                     desc = "Git Stash", },
+            { "<leader>gm",      function() Snacks.terminal({ "magit" }) end,                                  desc = "Magit (cwd)", },
+            { "<leader>gM",      function() Snacks.terminal({ "magit", { cwd = Abalone.rootGet() }}) end,      desc = "Magit (Root Dir)", },
+            { "<leader>gg",      function() Snacks.terminal({ "gitui" }) end,                                  desc = "GitUI (cwd)", },
+            { "<leader>gG",      function() Snacks.terminal({ "gitui", { cwd = Abalone.rootGet() }}) end,      desc = "GitUI (Root Dir)", },
+            { "<leader>gl",      function() Snacks.terminal({ "lazygit" }) end,                                desc = "LazyGit (cwd)", },
+            { "<leader>gL",      function() Snacks.terminal({ "lazygit", { cwd = Abalone.rootGet() }}) end,    desc = "LazyGit (Root Dir)", },
             { '<leader>s"',      function() Snacks.picker.registers() end,                                     desc = "Registers", },
             { "<leader>sa",      function() Snacks.picker.autocmds() end,                                      desc = "Auto Commands", },
             { "<leader>sb",      function() Snacks.picker.lines() end,                                         desc = "Buffer", },
@@ -181,7 +188,7 @@ return {
             { "<leader>sC",      function() Snacks.picker.commands() end,                                      desc = "Commands", },
             { "<leader>sd",      function() Snacks.picker.diagnostics_buffer() end,                            desc = "Buffer Diagnostics", },
             { "<leader>sD",      function() Snacks.picker.diagnostics() end,                                   desc = "Wordkspace Diagnostics", },
-            { "<leader>sg",      function() Snacks.picker.pick("live_grep") end,                               desc = "Grep (Root Dir)", },
+            { "<leader>sg",      function() Snacks.pick("live_grep") end,                               desc = "Grep (Root Dir)", },
             { "<leader>sh",      function() Snacks.picker.help() end,                                          desc = "Help Pages", },
             { "<leader>sp",      function() Snacks.picker.lazy() end,                                          desc = "Search for Plugin Spec", },
             { "<leader>sH",      function() Snacks.picker.highlights() end,                                    desc = "Search Highlight Groups", },
