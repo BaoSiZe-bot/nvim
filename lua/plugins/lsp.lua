@@ -70,21 +70,21 @@ return {
 					menu = {
 						-- border = "rounded",
 						-- enabled = true,
-						-- winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+						winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
 						-- auto_show = true,
 						draw = {
 							treesitter = { "lsp" },
-							-- columns = { { "kind_icon" }, { "label", gap = 1 } },
-							-- components = {
-							--     label = {
-							--         text = function(ctx)
-							--             return require("colorful-menu").blink_components_text(ctx)
-							--         end,
-							--         highlight = function(ctx)
-							--             return require("colorful-menu").blink_components_highlight(ctx)
-							--         end,
-							--     },
-							-- },
+							columns = { { "kind_icon" }, { "label", gap = 0 } },
+							components = {
+							    label = {
+							        -- text = function(ctx)
+							        --     return require("colorful-menu").blink_components_text(ctx)
+							        -- end,
+							        -- highlight = function(ctx)
+							        --     return require("colorful-menu").blink_components_highlight(ctx)
+							        -- end,
+							    },
+							},
 						},
 					},
 					-- keyword = {
@@ -206,7 +206,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
-		event = "VeryLazy",
+		event = "BufReadPre",
 		config = function()
 			require("configs.lsp")
 			vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
@@ -239,15 +239,15 @@ return {
 					enabled = true,
 					if_many = true,
 				},
-				use_icons_from_diagnostic = false,
+				use_icons_from_diagnostic = true,
 				multiple_diag_under_cursor = true,
 				multilines = {
 					enabled = true,
-					always_show = false,
+					always_show = true,
 				},
 				show_all_diags_on_cursorline = true,
-				enable_on_insert = true,
-				enable_on_select = true,
+				enable_on_insert = false,
+				enable_on_select = false,
 				break_line = {
 					enabled = true,
 					after = 80,

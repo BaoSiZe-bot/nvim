@@ -5,10 +5,10 @@ local on_attach = function(client, bufnr)
     local function opts(desc)
         return { buffer = bufnr, desc = "LSP " .. desc }
     end
-    map("n", "gd", function() require("snacks").picker.lsp_definitions() end, { desc = "Goto Definition" })
-    map("n", "gr", function() require("snacks").picker.lsp_references() end, { nowait = true, desc = "References" })
-    map("n", "gI", function() require("snacks").picker.lsp_implementations() end, { desc = "Goto Implementation" })
-    map("n", "gy", function() require("snacks").picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
+    map("n", "gd", function() Snacks.picker.lsp_definitions() end, { desc = "Goto Definition" })
+    map("n", "gr", function() Snacks.picker.lsp_references() end, { nowait = true, desc = "References" })
+    map("n", "gI", function() Snacks.picker.lsp_implementations() end, { desc = "Goto Implementation" })
+    map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
 
     map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts("Add workspace folder"))
     map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts("Remove workspace folder"))

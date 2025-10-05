@@ -123,14 +123,14 @@ return {
                 name = "close buffer",
                 inputs = { gesture.left(), gesture.right() },
                 action = function()
-                    require("snacks").bufdelete()
+                    Snacks.bufdelete()
                 end,
             })
             gesture.register({
                 name = "close buffer",
                 inputs = { gesture.down(), gesture.right() },
                 action = function()
-                    require("snacks").bufdelete()
+                    Snacks.bufdelete()
                 end,
             })
             gesture.register({

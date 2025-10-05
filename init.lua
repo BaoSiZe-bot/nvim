@@ -5,12 +5,19 @@ if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({ "git", "clone", repo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
+require("options")
+if not vim.g.vscode then
+    require("autocmds")
+    require("mappings")
+    Abalone = require("utils")
+else
+    require("mappings-vscode")
+end
 local lazy_config = require("configs.lazy")
 local _, lazyevent = pcall(require, "lazy.core.handler.event")
 lazyevent.mappings.LazyFile = {
     id = "LazyFile",
-    event = "BufReadPost",
-    BufWrite = "BufNewFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" }
 }
 local _, lazy = pcall(require, "lazy")
 if not vim.g.vscode then
@@ -32,7 +39,7 @@ if not vim.g.vscode then
         --},
         {
             "Old-Farmer/im-autoswitch.nvim",
-            event = "BufEnter",
+            event = "LazyFile",
             opts = {
                 cmd = {
                     -- default im
@@ -103,11 +110,4 @@ else
         },
     })
 end
-require("options")
-if not vim.g.vscode then
-    require("autocmds")
-    require("mappings")
-    Abalone = require("utils")
-else
-    require("mappings-vscode")
-end
+

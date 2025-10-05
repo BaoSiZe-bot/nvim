@@ -12,10 +12,10 @@ vim.keymap.set(
     { silent = true, buffer = bufnr }
 )
 
-map("n", "gd", require("snacks").picker.lsp_definitions, { desc = "Goto Definition" })
-map("n", "gr", require("snacks").picker.lsp_references, { nowait = true, desc = "References" })
-map("n", "gI", require("snacks").picker.lsp_implementations, { desc = "Goto Implementation" })
-map("n", "gy", require("snacks").picker.lsp_type_definitions, { desc = "Goto T[y]pe Definition" })
+map("n", "gd", Snacks.picker.lsp_definitions, { desc = "Goto Definition" })
+map("n", "gr", Snacks.picker.lsp_references, { nowait = true, desc = "References" })
+map("n", "gI", Snacks.picker.lsp_implementations, { desc = "Goto Implementation" })
+map("n", "gy", Snacks.picker.lsp_type_definitions, { desc = "Goto T[y]pe Definition" })
 
 vim.keymap.set("n", "<leader>cr", function()
     return ":IncRename " .. vim.fn.expand("<cword>")
