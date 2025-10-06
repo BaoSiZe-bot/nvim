@@ -1,26 +1,25 @@
 vim.g.mapleader = " "
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
     local repo = "https://github.com/folke/lazy.nvim.git"
     vim.fn.system({ "git", "clone", repo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
+
+local lazy_config = require("configs.lazy")
+local lazyevent = require("lazy.core.handler.event")
+lazyevent.mappings.LazyFile = {
+    id = "LazyFile",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" }
+}
+local lazy = require("lazy")
+
 require("options")
 if not vim.g.vscode then
     require("autocmds")
     require("mappings")
     Abalone = require("utils")
-else
-    require("mappings-vscode")
-end
-local lazy_config = require("configs.lazy")
-local _, lazyevent = pcall(require, "lazy.core.handler.event")
-lazyevent.mappings.LazyFile = {
-    id = "LazyFile",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" }
-}
-local _, lazy = pcall(require, "lazy")
-if not vim.g.vscode then
     lazy.setup({
         {
             import = "plugins",
@@ -55,59 +54,9 @@ if not vim.g.vscode then
         },
     }, lazy_config)
 else
+    require("mappings-vscode")
     lazy.setup({ {
         import = "plugins-vscode",
-    } }, {
-        defaults = {
-            lazy = true,
-            version = false,
-        },
-        {
-            rocks = {
-                hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
-            },
-        },
-        ui = {
-            icons = {
-                ft = "",
-                lazy = "󰂠 ",
-                loaded = "",
-                not_loaded = "",
-            },
-        },
-        performance = {
-            rtp = {
-                disabled_plugins = {
-                    "2html_plugin",
-                    "tohtml",
-                    "getscript",
-                    "getscriptPlugin",
-                    "gzip",
-                    "logipat",
-                    "netrw",
-                    "netrwPlugin",
-                    "netrwSettings",
-                    "netrwFileHandlers",
-                    -- "matchit",
-                    "tar",
-                    "tarPlugin",
-                    "rrhelper",
-                    "spellfile_plugin",
-                    "vimball",
-                    "vimballPlugin",
-                    "zip",
-                    "zipPlugin",
-                    "tutor",
-                    "rplugin",
-                    "syntax",
-                    "synmenu",
-                    "optwin",
-                    "compiler",
-                    "bugreport",
-                    "ftplugin",
-                },
-            },
-        },
-    })
+    } }, lazy_config)
 end
 
