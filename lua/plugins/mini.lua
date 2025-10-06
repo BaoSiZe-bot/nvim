@@ -20,7 +20,7 @@ return {
     },
     {
         "nvim-mini/mini.ai",
-        event = "VeryLazy",
+        event = "BufReadPost",
         opts = function()
             local ai = require("mini.ai")
             return {
@@ -130,7 +130,7 @@ return {
     },
     {
         "nvim-mini/mini.pairs",
-        event = "VeryLazy",
+        event = "InsertEnter",
         opts = {
             modes = { insert = true, command = true, terminal = false },
             -- skip autopair when next character is one of these

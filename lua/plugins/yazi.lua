@@ -1,7 +1,6 @@
 return ---@type LazySpec
 {
     "mikavilpas/yazi.nvim",
-    event = "VeryLazy",
     keys = {
         {
             "<leader>fy",
@@ -24,7 +23,7 @@ return ---@type LazySpec
         },
     },
     opts = {
-        open_for_directories = true,
+        open_for_directories = false,
         keymaps = {
             show_help = "<f1>",
         },
