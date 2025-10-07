@@ -7,16 +7,18 @@
 * Screenshots
 
 * Todos
+ 先后顺序大致代表优先级
  * [ ] 补充截图
- * [ ] 使用 fennel
  * [X] 等待 <https://github.com/pwntester/octo.nvim/issues/809>
  * [X] 等待 <https://github.com/stevearc/overseer.nvim/discussions/399>
- * [X] 添加多光标
- * [ ] 等哪位大佬写一个完美的音乐播放器 :)
- * [ ] TODO edgy-group
- * [ ] eaf&exwm
- * [ ] powermode
  * [x] rime-ls
+ * [X] 添加多光标
+ * [ ] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
+ * [ ] 使用 fennel
+ * [ ] edgy-group
  * [ ] 显示图片
+ * [ ] 音乐播放器
+ * [ ] powermode
+ * [ ] eaf&exwm
 * Known Issues
- * [x] 如果 LspAttach 事件触发前已经触发过 CmdlineEnter, 会导致的补全菜单的签名不是彩色的。
+暂无
