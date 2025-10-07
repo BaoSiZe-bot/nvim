@@ -1,5 +1,8 @@
 #+title: Abalonvim
 #+author: baosize-bot
+
+* ATTENTION: 此 branch 已不再维护，如有需要，自行适配。
+
 * Summary
 本人自己的 nvim 配置， 紧跟时代潮流（大雾）
 
