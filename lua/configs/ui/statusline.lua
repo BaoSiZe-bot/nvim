@@ -51,7 +51,7 @@ local ViMode = {
             t = "T",
         },
         mode_colors = {
-            n = "red",
+            n = "blue",
             i = "green",
             v = "cyan",
             V = "cyan",
@@ -169,9 +169,6 @@ local FileType = {
 local Ruler = {
     provider = "%l:%c %P",
 }
-utils.surround({ "", "" }, function(self)
-    return self:mode_color()
-end, { Ruler, hl = { fg = "black" } })
 -- I take no credits for this! 🦁
 local ScrollBar = {
     static = {
@@ -351,7 +348,8 @@ local CurrentFileIcon = {
 }
 local WorkDir = {
     init = function(self)
-        local cwd = Abalone.rootGet()
+        local cwd = vim.fn.expand("%:p:h")
+        -- local cwd = Abalone.root.get()
         self.cwd = vim.fn.fnamemodify(cwd, ":~")
     end,
     hl = { bold = true },
@@ -394,7 +392,6 @@ local HelpFileName = {
 
 vim.opt.showcmdloc = "statusline"
 
-ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
 local DefaultStatusline = {
     condition = function()
         return not (vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
@@ -479,7 +476,7 @@ local StatusLines = {
     DefaultStatusline,
     static = {
         mode_colors_map = {
-            n = "red",
+            n = "blue",
             i = "green",
             v = "cyan",
             V = "cyan",

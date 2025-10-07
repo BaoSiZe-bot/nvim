@@ -135,7 +135,7 @@ local TablineFileNameBlock = {
     end,
     hl = function(self)
         if self.is_active then
-            return "TabLineSel"
+            return "TabLineFill"
             -- why not?
         elseif not vim.api.nvim_buf_is_loaded(self.bufnr) then
             return { fg = "gray" }
@@ -164,6 +164,13 @@ local TablineFileNameBlock = {
     TablineFileFlags,
 }
 
+local TablineSplitLine = {
+    condition = function(self)
+        return self.is_active
+    end,
+    { provider = "▎" }
+}
+
 -- a nice "x" button to close the buffer
 local TablineCloseButton = {
     condition = function(self)
@@ -186,16 +193,17 @@ local TablineCloseButton = {
             name = "heirline_tabline_close_buffer_callback",
         },
     },
+    { provider = " " },
 }
 
 -- The final touch!
-local TablineBufferBlock = utils.surround({ "", "" }, function(self)
+local TablineBufferBlock = utils.surround({ "", "" }, function(self)
     if self.is_active then
-        return utils.get_highlight("TabLineSel").bg
+        return utils.get_highlight("TabLineFill").bg
     else
         return utils.get_highlight("TabLine").bg
     end
-end, { TablineFileNameBlock, TablineCloseButton })
+end, { TablineSplitLine, TablineFileNameBlock, TablineCloseButton })
 
 -- this is the default function used to retrieve buffers
 local get_bufs = function()
@@ -262,7 +270,7 @@ local Tabpage = {
         if not self.is_active then
             return "TabLine"
         else
-            return "TabLineSel"
+            return "TabLineFill"
         end
     end,
 }
@@ -296,7 +304,7 @@ local TabLineOffset = {
 
     hl = function(self)
         if vim.api.nvim_get_current_win() == self.winid then
-            return "TablineSel"
+            return "TablineFill"
         else
             return "Tabline"
         end
