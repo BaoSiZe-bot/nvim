@@ -45,5 +45,12 @@ return {
             vim.cmd.colorscheme("catppuccin-frappe")
         end,
     },
+
+    {
+        "folke/tokyonight.nvim",
+        lazy = true,
+        opts = { style = "moon" },
+    },
+
     "askfiy/visual_studio_code",
 }
