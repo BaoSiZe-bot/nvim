@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-map({"n", "v"}, "<space>ft", function() Snacks.terminal(nil, {cwd = Abalone.rootGet()}) end, {desc = "Open Terminal"})
+map({"n", "v"}, "<space>ft", function() Snacks.terminal(nil, {cwd = Abalone.root.get()}) end, {desc = "Open Terminal"})
 map({"n", "i", "v"}, "<C-s>", "<cmd> w <cr>", {desc = "Save Buffer"})
 map("n", "<C-h>", "<C-w>h", {desc = "Go to Left Window", remap = true})
 map("n", "<C-j>", "<C-w>j", {desc = "Go to Lower Window", remap = true})

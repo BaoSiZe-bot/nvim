@@ -1,3 +1,5 @@
+---@class abalone.utils.treesitter
+
 local M = {}
 
 M._installed = nil ---@type table<string,boolean>?

@@ -64,7 +64,7 @@ return {
             {
                 "<leader>fe",
                 function()
-                    Snacks.explorer({ cwd = Abalone.rootGet() })
+                    Snacks.explorer({ cwd = Abalone.root.get() })
                 end,
                 desc = "Explorer Snacks (root dir)",
             },
@@ -150,7 +150,7 @@ return {
                 },
                 actions = {
                     toggle_cwd = function(p)
-                        local root = Abalone.rootGet({ buf = p.input.filter.current_buf, normalize = true })
+                        local root = Abalone.root.get({ buf = p.input.filter.current_buf, normalize = true })
                         local cwd = vim.fs.normalize((vim.uv or vim.loop).cwd() or ".")
                         local current = p:cwd()
                         p:set_cwd(current == root and cwd or root)
@@ -175,11 +175,11 @@ return {
             { "<leader>gs",      function() Snacks.picker.git_status() end,                                    desc = "Git Status", },
             { "<leader>gS",      function() Snacks.picker.git_stash() end,                                     desc = "Git Stash", },
             { "<leader>gm",      function() Snacks.terminal({ "magit" }) end,                                  desc = "Magit (cwd)", },
-            { "<leader>gM",      function() Snacks.terminal({ "magit", { cwd = Abalone.rootGet() }}) end,      desc = "Magit (Root Dir)", },
+            { "<leader>gM",      function() Snacks.terminal({ "magit", { cwd = Abalone.root.get() }}) end,      desc = "Magit (Root Dir)", },
             { "<leader>gg",      function() Snacks.terminal({ "gitui" }) end,                                  desc = "GitUI (cwd)", },
-            { "<leader>gG",      function() Snacks.terminal({ "gitui", { cwd = Abalone.rootGet() }}) end,      desc = "GitUI (Root Dir)", },
+            { "<leader>gG",      function() Snacks.terminal({ "gitui", { cwd = Abalone.root.get() }}) end,      desc = "GitUI (Root Dir)", },
             { "<leader>gl",      function() Snacks.terminal({ "lazygit" }) end,                                desc = "LazyGit (cwd)", },
-            { "<leader>gL",      function() Snacks.terminal({ "lazygit", { cwd = Abalone.rootGet() }}) end,    desc = "LazyGit (Root Dir)", },
+            { "<leader>gL",      function() Snacks.terminal({ "lazygit", { cwd = Abalone.root.get() }}) end,    desc = "LazyGit (Root Dir)", },
             { '<leader>s"',      function() Snacks.picker.registers() end,                                     desc = "Registers", },
             { "<leader>sa",      function() Snacks.picker.autocmds() end,                                      desc = "Auto Commands", },
             { "<leader>sb",      function() Snacks.picker.lines() end,                                         desc = "Buffer", },

@@ -2,6 +2,7 @@
 local opt = vim.opt
 local o = vim.o
 local g = vim.g
+_G.Abalone = require("utils")
 if not vim.g.vscode then
     opt.sidescrolloff = 36
     opt.iskeyword = "_,49-57,A-Z,a-z"

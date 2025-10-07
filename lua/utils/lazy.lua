@@ -1,3 +1,5 @@
+---@class abalone.utils.lazy
+
 local M = {}
 function M.get_plugin(name)
   return require("lazy.core.config").spec.plugins[name]

@@ -19,7 +19,6 @@ require("options")
 if not vim.g.vscode then
     require("autocmds")
     require("mappings")
-    Abalone = require("utils")
     lazy.setup({
         {
             import = "plugins",
