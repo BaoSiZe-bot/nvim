@@ -19,4 +19,4 @@
  * [x] rime-ls
  * [ ] 显示图片
 * Known Issues
- * [ ] 如果 LspAttach 事件触发前已经触发过 CmdlineEnter, 会导致的补全菜单的签名不是彩色的。
+ * [x] 如果 LspAttach 事件触发前已经触发过 CmdlineEnter, 会导致的补全菜单的签名不是彩色的。
