@@ -78,7 +78,6 @@ return {
                             columns = { { "kind_icon" }, { "label", gap = 0 } },
                             components = {
                                 label = {
-                                    text = function(ctx) return ctx.label .. ctx.label_detail end,
                                     highlight = function(ctx)
                                         -- label and label details
                                         ctx.label = ctx.label .. ctx.label_detail
@@ -86,10 +85,6 @@ return {
                                         local highlights = {
                                             { 0, #label, group = ctx.deprecated and 'BlinkCmpLabelDeprecated' or 'BlinkCmpLabel' },
                                         }
-                                        if ctx.label_detail then
-                                            table.insert(highlights,
-                                                { #label, #label + #ctx.label_detail, group = 'BlinkCmpLabelDetail' })
-                                        end
 
                                         if vim.list_contains(ctx.self.treesitter, ctx.source_id) and not ctx.deprecated then
                                             -- add treesitter highlights
@@ -150,13 +145,6 @@ return {
                             transform_items = function(_, items)
                                 for _, item in ipairs(items) do
                                     if item.kind == require("blink.cmp.types").CompletionItemKind.Snippet then
-                                        item.score_offset = item.score_offset - 3
-                                    end
-                                    if
-                                        item.kind == require("blink.cmp.types").CompletionItemKind.Text
-                                        and item.source_id == "lsp"
-                                        and vim.lsp.get_client_by_id(item.client_id).name == "rime_ls"
-                                    then
                                         item.score_offset = item.score_offset - 3
                                     end
                                 end
@@ -221,23 +209,23 @@ return {
         "saghen/blink.compat",
         opts = {},
     },
-    {
-        "xzbdmw/colorful-menu.nvim",
-        opts = {
-            ls = {
-                clangd = {
-                    -- import_dot_hl = "@comment",
-                },
-            },
-        },
-    },
+    -- {
+    --     "xzbdmw/colorful-menu.nvim",
+    --     opts = {
+    --         ls = {
+    --             clangd = {
+    --                 -- import_dot_hl = "@comment",
+    --             },
+    --         },
+    --     },
+    -- },
     {
         "neovim/nvim-lspconfig",
         event = "BufReadPre",
-        config = function()
+        config = vim.schedule_wrap(function(_, opts)
             require("configs.lsp")
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-        end,
+        end)
     },
     {
         "smjonas/inc-rename.nvim",
