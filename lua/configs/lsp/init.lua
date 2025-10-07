@@ -12,9 +12,19 @@ local on_attach = function(client, bufnr)
 
     map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts("Add workspace folder"))
     map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts("Remove workspace folder"))
-    -- map("n", "<space>wl", function()
-    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    -- end, opts("List workspace folders"))
+
+
+    if
+        client.supports_method("textDocument/codeLens")
+        and vim.lsp.codelens
+    then
+        vim.lsp.codelens.refresh()
+        vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            buffer = bufnr,
+            callback = vim.lsp.codelens.refresh,
+        })
+    end
+
     if
         client.supports_method("textDocument/inlayHints")
         and vim.api.nvim_buf_is_valid(bufnr)
@@ -22,6 +32,15 @@ local on_attach = function(client, bufnr)
     then
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
+
+    if client.supports_method("textDocument/foldingRange") then
+        vim.o.foldmethod = "expr"
+        vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
+    end
+
+    -- map("n", "<space>wl", function()
+    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end, opts("List workspace folders"))
     vim.keymap.set("n", "<leader>cr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
     end, { expr = true, desc = "Rename" })
@@ -65,11 +84,5 @@ local lsps = {
 }
 
 for _, lsp_name in ipairs(lsps) do
-    local success, config_module = pcall(require, "configs.lsp." .. lsp_name)
-
-    if success and config_module and config_module.setup then
-        config_module.setup(on_attach, capabilities)
-    else
-        print("Error loading or setting up LSP config for: " .. lsp_name)
-    end
+    require("configs.lsp." .. lsp_name).setup(on_attach, capabilities)
 end
