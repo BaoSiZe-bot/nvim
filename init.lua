@@ -24,6 +24,7 @@ if not vim.g.vscode then
             import = "plugins",
         },
         {
+            cond = vim.fn.has("nvim-0.12") == 1,
             import = "plugins.extras.sidekick",
         },
         {
