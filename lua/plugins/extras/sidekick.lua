@@ -12,7 +12,7 @@ return {
         },
         config = function(_, opts)
             require("sidekick").setup(opts)
-            vim.lsp.inline_completion.enable()
+            -- vim.lsp.inline_completion.enable()
         end,
         keys = {
             {
@@ -77,9 +77,9 @@ return {
                     function() -- sidekick next edit suggestion
                         return require("sidekick").nes_jump_or_apply()
                     end,
-                    function() -- if you are using Neovim's native inline completions
-                        return vim.lsp.inline_completion.get()
-                    end,
+                    -- function() -- if you are using Neovim's native inline completions
+                    --     return vim.lsp.inline_completion.get()
+                    -- end,
                     "fallback",
                 },
             },
