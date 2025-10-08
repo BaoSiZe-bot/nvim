@@ -179,14 +179,14 @@ local Git = {
         callback = function()
             -- If you want to use Fugitive:
             -- vim.cmd("G")
-
+            require("neogit").open()
             -- If you prefer Lazygit
             -- use vim.defer_fn() if the callback requires
             -- opening of a floating window
             -- (this also applies to telescope)
-            vim.defer_fn(function()
-                vim.cmd("Lazygit")
-            end, 100)
+            -- vim.defer_fn(function()
+            --     vim.cmd("Lazygit")
+            -- end, 100)
         end,
         name = "heirline_git",
     },
