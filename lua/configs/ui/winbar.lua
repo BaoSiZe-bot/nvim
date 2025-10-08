@@ -67,24 +67,23 @@ local Overseer = {
 }
 local WinBars = {
     fallthrough = false,
-    {         -- A special winbar for terminals
+    { -- A special winbar for terminals
         condition = function()
             return conditions.buffer_matches({ buftype = { "terminal", "snacks_terminal" } })
         end,
-        utils.surround({ "", "" }, "dark_red", {
-            FileType,
-            Space,
-            TerminalName,
-            Space,
-            Overseer,
-        }),
+
+        FileType,
+        Space,
+        TerminalName,
+        Space,
+        Overseer,
     },
-    {         -- An inactive winbar for regular files
+    { -- An inactive winbar for regular files
         condition = function()
             return not conditions.is_active() and
                 not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
         end,
-        utils.surround({ "", "" }, "bright_bg", { hl = { fg = "gray", force = true }, MyFileNameBlock }),
+        { hl = { fg = "gray", force = true }, MyFileNameBlock },
         {
             condition = function()
                 return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
@@ -97,7 +96,7 @@ local WinBars = {
             return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
         end,
         -- A winbar for regular files
-        utils.surround({ "", "" }, "bright_bg", MyFileNameBlock),
+        MyFileNameBlock,
         {
             condition = function()
                 return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
