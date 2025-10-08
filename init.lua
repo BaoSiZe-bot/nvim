@@ -60,3 +60,4 @@ else
     } }, lazy_config)
 end
 
+require("custom")

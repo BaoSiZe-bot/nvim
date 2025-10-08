@@ -1,7 +1,7 @@
 return {
     {
         "catppuccin/nvim",
-        lazy = false,
+        -- lazy = false,
         name = "catppuccin",
         opts = {
             integrations = {
@@ -42,15 +42,15 @@ return {
         },
         config = function(_, opts)
             require("catppuccin").setup(opts)
-            vim.cmd.colorscheme("catppuccin-frappe")
         end,
     },
 
     {
         "folke/tokyonight.nvim",
-        lazy = true,
         opts = { style = "moon" },
     },
 
     "askfiy/visual_studio_code",
+    "NTBBloodbath/doom-one.nvim",
+    "GustavoPrietoP/doom-themes.nvim",
 }
