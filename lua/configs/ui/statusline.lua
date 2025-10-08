@@ -379,7 +379,13 @@ local TerminalStatusline = {
             not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
     end,
 
-    hl = { bg = "dark_red" },
+    hl = function()
+        if conditions.is_active() then
+            return "StatusLine"
+        else
+            return "StatusLineNC"
+        end
+    end,
 
     -- Quickly add a condition to the ViMode to only show it when buffer is active!
     { condition = conditions.is_active, ViMode, Space },
