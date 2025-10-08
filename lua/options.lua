@@ -47,7 +47,7 @@ if not vim.g.vscode then
     g.loaded_python3_provider = 0
     g.loaded_perl_provider = 0
     g.loaded_ruby_provider = 0
-    g.root_spec = {"lsp", {".git", "lua"}, "cwd"}
+    g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 else
     -- o.showmode = false
     -- o.clipboard = "unnamedplus"
@@ -68,7 +68,8 @@ else
     -- o.updatetime = 250
 end
 if vim.g.neovide then
-    g.neovide_opacity=0.8
-    g.neovide_normal_opacity=0.8
-    g.neovide_cursor_vfx_mode="ripple"
+    g.neovide_opacity = 0.8
+    g.neovide_normal_opacity = 0.8
+    g.neovide_cursor_vfx_mode = "ripple"
+    g.neovide_input_ime = false
 end
