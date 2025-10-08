@@ -108,16 +108,16 @@ return {
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
             code = {
-                sign = false,
+                sign = true,
                 width = "block",
                 right_pad = 1,
             },
             heading = {
-                sign = false,
-                icons = {},
+                sign = true,
+                -- icons = {},
             },
             checkbox = {
-                enabled = false,
+                enabled = true,
             },
         },
         ft = { "markdown", "norg", "rmd", "org", "codecompanion" },
