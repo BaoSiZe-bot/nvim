@@ -1,5 +1,7 @@
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
+local Align = { provider = "%=" }
+local Space = { provider = " " }
 
 local FileType = {
     provider = function()
@@ -18,7 +20,37 @@ local TerminalName = {
     hl = { fg = "blue", bold = true },
 }
 
-local Space = { provider = " " }
+local Sidekick = {
+    provider = "󰚩  ",
+    on_click = {
+        callback = function()
+            require("sidekick.cli").toggle()
+        end,
+        name = "heirline_open_sidekick"
+    }
+}
+
+local RunCode = {
+    provider = "󰑮  ",
+    on_click = {
+        callback = function()
+            vim.cmd("OverseerRun build_and_run")
+            -- require("overseer.commands").run_template({ name = "build_and_run" })
+        end,
+        name = "heirline_runcode"
+    }
+}
+
+local Split = {
+    provider = " ",
+    on_click = {
+        callback = function()
+            vim.cmd("vsplit")
+        end,
+        name = "heirline_split_window",
+    }
+}
+
 local function rpad(child)
     return {
         condition = child.condition,
@@ -26,6 +58,7 @@ local function rpad(child)
         Space,
     }
 end
+
 local function OverseerTasksForStatus(status)
     return {
         condition = function(self)
@@ -175,12 +208,10 @@ local WinBars = {
         end,
         -- A winbar for regular files
         MyFileNameBlock,
-        {
-            condition = function()
-                return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
-            end,
-            Space,
-        }
+        Align,
+        RunCode,
+        Sidekick,
+        Split,
     },
 }
 
