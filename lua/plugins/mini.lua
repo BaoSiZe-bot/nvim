@@ -223,7 +223,7 @@ return {
             },
         },
     },
-    { "nvim-mini/mini.trailspace", opts = {}, event = "LazyFile"},
+    { "nvim-mini/mini.trailspace", opts = {}, event = "LazyFile" },
     {
         "nvim-mini/mini.files",
         opts = {
