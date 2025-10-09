@@ -231,6 +231,7 @@ return {
                 preview = true,
                 width_focus = 30,
                 width_preview = 30,
+                max_number = 4
             },
             options = {
                 -- Whether to use for editing directories
