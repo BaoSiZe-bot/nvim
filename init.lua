@@ -58,6 +58,9 @@ if not vim.g.vscode then
             import = "plugins.extras.lang.clangd"
         },
         {
+            import = "plugins.extras.lang.json"
+        },
+        {
             import = "plugins.extras.dap.core"
         },
         {
