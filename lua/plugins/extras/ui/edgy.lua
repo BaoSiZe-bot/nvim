@@ -4,14 +4,14 @@ return {
         event = "VeryLazy",
         keys = {
             {
-                "<leader>ue",
+                "<leader>uet",
                 function()
                     require("edgy").toggle()
                 end,
                 desc = "Edgy Toggle",
             },
             {
-                "<leader>uE",
+                "<leader>ues",
                 function()
                     require("edgy").select()
                 end,
@@ -23,6 +23,7 @@ return {
                 bottom = {
                     {
                         ft = "toggleterm",
+                        title = "Terminal",
                         size = { height = 0.4 },
                         filter = function(buf, win)
                             return vim.api.nvim_win_get_config(win).relative == ""
@@ -36,7 +37,7 @@ return {
                         end,
                     },
                     "Trouble",
-                    { ft = "qf", title = "QuickFix" },
+                    { ft = "qf",                title = "QuickFix" },
                     {
                         ft = "help",
                         size = { height = 20 },
@@ -45,12 +46,12 @@ return {
                             return vim.bo[buf].buftype == "help"
                         end,
                     },
-                    { title = "Spectre", ft = "spectre_panel", size = { height = 0.4 } },
+                    { title = "Spectre",        ft = "spectre_panel",        size = { height = 0.4 } },
                     { title = "Neotest Output", ft = "neotest-output-panel", size = { height = 15 } },
                 },
                 left = {
                     { title = "Neotest Summary", ft = "neotest-summary" },
-                    { title = "Sidekick", ft = "sidekick_terminal", size = { width = 0.38 }}
+                    { title = "Sidekick",        ft = "sidekick_terminal", size = { width = 0.38 } }
                 },
                 right = {
                     { title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
@@ -76,17 +77,30 @@ return {
             }
             -- trouble
             for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
-                opts[pos] = opts[pos] or {}
-                table.insert(opts[pos], {
-                    ft = "trouble",
-                    filter = function(_buf, win)
-                        return vim.w[win].trouble
-                            and vim.w[win].trouble.position == pos
-                            and vim.w[win].trouble.type == "split"
-                            and vim.w[win].trouble.relative == "editor"
-                            and not vim.w[win].trouble_preview
-                    end,
-                })
+                for _, mode in ipairs({ "diagnostics", "symbols", "lsp", "loclist", "qflist" }) do
+                    opts[pos] = opts[pos] or {}
+                    local upper_firstletter = function(s)
+                        if type(s) ~= "string" or #s == 0 then
+                            return s
+                        end
+                        local rest = string.sub(s, 2)
+                        local upper_first = string.upper(string.sub(s, 1, 1))
+                        return upper_first .. rest
+                    end
+                    local title = (mode == "lsp" and "References" or upper_firstletter(mode))
+                    table.insert(opts[pos], {
+                        ft = "trouble",
+                        title = title,
+                        filter = function(_buf, win)
+                            return vim.w[win].trouble
+                                and vim.w[win].trouble.mode == mode
+                                and vim.w[win].trouble.position == pos
+                                and vim.w[win].trouble.type == "split"
+                                and vim.w[win].trouble.relative == "editor"
+                                and not vim.w[win].trouble_preview
+                        end,
+                    })
+                end
             end
 
             -- snacks terminal
@@ -95,7 +109,7 @@ return {
                 table.insert(opts[pos], {
                     ft = "snacks_terminal",
                     size = { height = 0.4 },
-                    title = "%{b:snacks_terminal.id}: %{b:term_title}",
+                    title = "Terminal",
                     filter = function(_buf, win)
                         return vim.w[win].snacks_win
                             and vim.w[win].snacks_win.position == pos
@@ -109,26 +123,68 @@ return {
     },
     {
         "lucobellic/edgy-group.nvim",
-        enabled = false,
+        -- enabled = false,
         event = "VeryLazy",
         dependencies = { "folke/edgy.nvim" },
         keys = {
             {
-                "<leader>el",
+                "<leader>ueh",
                 function()
                     require("edgy-group").open_group_offset("left", 1)
                 end,
                 desc = "Edgy Group Next Left",
             },
             {
-                "<leader>eh",
+                "<leader>ueH",
                 function()
                     require("edgy-group").open_group_offset("left", -1)
                 end,
                 desc = "Edgy Group Prev Left",
             },
             {
-                "<c-,>",
+                "<leader>uel",
+                function()
+                    require("edgy-group").open_group_offset("right", 1)
+                end,
+                desc = "Edgy Group Next Left",
+            },
+            {
+                "<leader>ueL",
+                function()
+                    require("edgy-group").open_group_offset("right", -1)
+                end,
+                desc = "Edgy Group Prev Left",
+            },
+            {
+                "<leader>uek",
+                function()
+                    require("edgy-group").open_group_offset("top", 1)
+                end,
+                desc = "Edgy Group Next Left",
+            },
+            {
+                "<leader>ueK",
+                function()
+                    require("edgy-group").open_group_offset("top", -1)
+                end,
+                desc = "Edgy Group Prev Left",
+            },
+            {
+                "<leader>uej",
+                function()
+                    require("edgy-group").open_group_offset("bottom", 1)
+                end,
+                desc = "Edgy Group Next Left",
+            },
+            {
+                "<leader>ueJ",
+                function()
+                    require("edgy-group").open_group_offset("bottom", -1)
+                end,
+                desc = "Edgy Group Prev Left",
+            },
+            {
+                "<leader>ueg",
                 function()
                     require("edgy-group.stl").pick()
                 end,
@@ -137,9 +193,24 @@ return {
         },
         opts = {
             groups = {
-                left = {
-                    { icon = "", titles = { "Outline" } },
+                right = {
+                    { icon = "", titles = { "Outline", "Symbols", "References" } },
+                    { icon = "󱎸", titles = { "Grug Far" } },
+                    { icon = "", titles = { "Terminal" } }
                 },
+                left = {
+                    { icon = "󰚩", titles = { "Sidekick" } },
+                    { icon = "", titles = { "Terminal" } }
+                },
+                bottom = {
+                    { icon = "", titles = { "Terminal" } },
+                    { icon = "󰍡", titles = { "Noice" } },
+                    { icon = "󰋗", titles = { "Help" } },
+                    { icon = "󱖫", titles = { "QuickFix", "Loclist", "Qflist", "Neotest Output" }}
+                },
+                top = {
+                    { icon = "", titles = { "Terminal" } }
+                }
             },
             statusline = {
                 separators = { " ", " " },

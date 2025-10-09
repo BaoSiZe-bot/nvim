@@ -8,13 +8,13 @@ local ViMode = {
     -- and the highlight functions, so we compute it only once per component
     -- evaluation and store it as a component attribute
     init = function(self)
-        self.mode = vim.fn.mode(1)         -- :h mode()
+        self.mode = vim.fn.mode(1) -- :h mode()
     end,
     -- Now we define some dictionaries to map the output of mode() to the
     -- corresponding string and color. We can put these into `static` to compute
     -- them at initialisation time.
     static = {
-        mode_names = {         -- change the strings if you like it vvvvverbose!
+        mode_names = { -- change the strings if you like it vvvvverbose!
             n = "N",
             no = "N?",
             nov = "N?",
@@ -78,7 +78,7 @@ local ViMode = {
     end,
     -- Same goes for the highlight. Now the foreground will change according to the current mode.
     hl = function(self)
-        local mode = self.mode:sub(1, 1)         -- get only the first mode character
+        local mode = self.mode:sub(1, 1) -- get only the first mode character
         return { fg = self.mode_colors[mode], bold = true }
     end,
 }
@@ -204,7 +204,7 @@ local Git = {
 
     hl = { fg = "green" },
 
-    {         -- git branch name
+    { -- git branch name
         provider = function(self)
             return " " .. self.status_dict.head
         end,
@@ -328,6 +328,18 @@ local FileName = {
 
 vim.opt.showcmdloc = "statusline"
 
+local EdgyGroup = {
+    provider = function()
+        if Abalone.lazy.has("edgy-group") then
+            local stl = require('edgy-group.stl')
+            local bottom_line = stl.get_statusline('bottom')
+            return table.concat(bottom_line)
+        else
+            return ""
+        end
+    end
+}
+
 local DefaultStatusline = {
     condition = function()
         return not (vim.bo.ft == "trouble" or vim.bo.ft == "edgy" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "yazi")
@@ -397,6 +409,8 @@ local TerminalStatusline = {
     TerminalName,
     Align,
 }
+
+
 local StatusLines = {
 
     hl = function()
@@ -436,5 +450,6 @@ local StatusLines = {
         end,
     },
 }
+
 
 return StatusLines
