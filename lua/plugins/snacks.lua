@@ -40,6 +40,7 @@ return {
             layout = { enabled = true },
             scratch = { enabled = true },
             win = { enabled = true },
+            image = { enabled = true },
         }
     },
     {

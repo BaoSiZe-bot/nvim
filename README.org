@@ -16,7 +16,7 @@
  * [ ] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
  * [ ] 使用 fennel
  * [ ] edgy-group
- * [ ] 显示图片
+ * [X] 显示图片
  * [ ] 音乐播放器
  * [ ] powermode
  * [ ] eaf&exwm
