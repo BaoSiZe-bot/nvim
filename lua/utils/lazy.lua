@@ -15,4 +15,23 @@ function M.opts(name)
   local Plugin = require("lazy.core.plugin")
   return Plugin.values(plugin, "opts", false)
 end
+---@param extra string
+function M.has_extra(extra)
+  local modname = "plugins.extras." .. extra
+  local LazyConfig = require("lazy.core.config")
+  -- check if it was imported already
+  if vim.tbl_contains(LazyConfig.spec.modules, modname) then
+    return true
+  end
+  -- check if it's in the imports
+  local spec = LazyConfig.options.spec
+  if type(spec) == "table" then
+    for _, s in ipairs(spec) do
+      if type(s) == "table" and s.import == modname then
+        return true
+      end
+    end
+  end
+  return false
+end
 return M
