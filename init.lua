@@ -25,16 +25,46 @@ if not vim.g.vscode then
         },
         {
             -- cond = vim.fn.has("nvim-0.12") == 1,
-            import = "plugins.extras.sidekick",
+            import = "plugins.extras.ai.sidekick",
         },
         {
-            import = "plugins.extras.mini-hipatterns",
+            import = "plugins.extras.editor.mini-hipatterns",
         },
         {
-            import = "plugins.extras.yazi"
+            import = "plugins.extras.editor.yazi"
         },
         {
-            import = "plugins.extras.rainbow"
+            import = "plugins.extras.ui.rainbow"
+        },
+        {
+            import = "plugins.extras.linting.linter"
+        },
+        {
+            import = "plugins.extras.lang.org"
+        },
+        {
+            import = "plugins.extras.editor.trouble"
+        },
+        {
+            import = "plugins.extras.editor.yanky"
+        },
+        {
+            import = "plugins.extras.editor.undo"
+        },
+        {
+            import = "plugins.extras.ui.bqf"
+        },
+        {
+            import = "plugins.extras.lang.clangd"
+        },
+        {
+            import = "plugins.extras.dap.core"
+        },
+        {
+            import = "plugins.extras.ui.edgy"
+        },
+        {
+            import = "plugins.extras.git"
         },
         -- {
         --    import = "plugins.extras.gemini"

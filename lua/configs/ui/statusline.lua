@@ -124,9 +124,12 @@ local LSPActive = {
 local Diagnostics = {
     on_click = {
         callback = function()
-            require("trouble").toggle({ mode = "diagnostics" })
+            if Abalone.lazy.has("trouble.nvim") then
+                require("trouble").toggle({ mode = "diagnostics" })
+            else
+                vim.diagnostic.setqflist()
+            end
             -- or
-            -- vim.diagnostic.setqflist()
         end,
         name = "heirline_diagnostics",
     },
