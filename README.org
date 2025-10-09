@@ -5,10 +5,15 @@
 
 目前尚未补充截图。
 * Screenshots
-
+[[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/d744aa71-a9b6-45a1-ac66-d9c11b03481f.png]]
+[[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114200.png]]
+[[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114530.png]]
+[[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114620.png]]
+[[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114932.png]]
+[[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_115532.png]]
 * Todos
  先后顺序大致代表优先级
- * [ ] 补充截图
+ * [X] 补充截图
  * [X] 等待 <https://github.com/pwntester/octo.nvim/issues/809>
  * [X] 等待 <https://github.com/stevearc/overseer.nvim/discussions/399>
  * [x] rime-ls
