@@ -113,7 +113,7 @@ return {
             {
                 "<Space>ww",
                 function()
-                    require("window-picker").pick_window()
+                    vim.api.nvim_set_current_win(require("window-picker").pick_window())
                 end,
                 mode = { "n" },
                 desc = "jump to window",
