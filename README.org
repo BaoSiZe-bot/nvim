@@ -16,7 +16,7 @@
  * [X] 等待 <https://github.com/stevearc/overseer.nvim/discussions/399>
  * [X] rime-ls
  * [X] 添加多光标
- * [ ] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
+ * [X] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
  * [ ] 使用 fennel
  * [ ] edgy-group
  * [X] 显示图片
