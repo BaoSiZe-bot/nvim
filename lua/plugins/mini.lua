@@ -6,9 +6,15 @@ return {
             file = {
                 [".keep"] = { glyph = "󰊢", hl = "MiniIconsGrey" },
                 ["devcontainer.json"] = { glyph = "", hl = "MiniIconsAzure" },
+                ["robots.txt"] = { glyph = "󰚩", name = "robots" },
             },
             filetype = {
                 dotenv = { glyph = "", hl = "MiniIconsYellow" },
+                default_icon = { glyph = "󰈚", name = "Default" },
+                cpp = { glyph = "", name = "cpp" },
+                js = { glyph = "󰌞", name = "js" },
+                ts = { glyph = "󰛦", name = "ts" },
+                lock = { glyph = "󰌾", name = "lock" },
             },
         },
         init = function()

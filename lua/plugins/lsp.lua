@@ -68,19 +68,36 @@ return {
                         },
                     },
                     menu = {
+                        border = "none",
                         -- border = "rounded",
                         -- enabled = true,
-                        winhighlight =
-                        "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                        -- scrollbar = false
                         -- auto_show = true,
                         draw = {
                             treesitter = { "lsp" },
-                            columns = { { "kind_icon" }, { "label", gap = 0 } },
+                            padding = { 0, 1 },
+                            columns = { { "kind_icon" }, { "label" }, { "kind" } },
                             components = {
+                                kind_icon = {
+                                    text = function(ctx)
+                                        local icons = vim.tbl_extend("force", {}, Abalone.icons.kinds)
+                                        local icon = (icons[ctx.kind] or "󰈚")
+                                        icon = " " .. icon .. " "
+                                        return icon
+                                    end,
+                                },
+
+                                kind = {
+                                    highlight = function(ctx)
+                                        return "comment"
+                                    end,
+                                },
+
                                 label = {
                                     highlight = function(ctx)
                                         -- label and label details
                                         ctx.label = ctx.label .. ctx.label_detail
+                                        ctx.label_detail = ""
                                         local label = ctx.label
                                         local highlights = {
                                             { 0, #label, group = ctx.deprecated and 'BlinkCmpLabelDeprecated' or 'BlinkCmpLabel' },
@@ -122,9 +139,9 @@ return {
                     documentation = {
                         auto_show = true,
                         auto_show_delay_ms = 200,
-                        -- window = {
-                        --     border = "rounded",
-                        -- }
+                        window = {
+                            -- border = "single",
+                        }
                     },
                     ghost_text = {
                         enabled = true,
