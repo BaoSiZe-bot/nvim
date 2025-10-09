@@ -50,6 +50,7 @@ return {
                 },
                 left = {
                     { title = "Neotest Summary", ft = "neotest-summary" },
+                    { title = "Sidekick", ft = "sidekick_terminal", size = { width = 0.38 }}
                 },
                 right = {
                     { title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
@@ -72,13 +73,6 @@ return {
                         win:resize("height", -2)
                     end,
                 },
-            }
-            local pos = {
-                filesystem = "left",
-                buffers = "top",
-                git_status = "right",
-                document_symbols = "bottom",
-                diagnostics = "bottom",
             }
             -- trouble
             for _, pos in ipairs({ "top", "bottom", "left", "right" }) do

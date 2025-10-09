@@ -4,6 +4,16 @@ return {
         opts = {
             -- add any options here
             cli = {
+
+                layout = "left", ---@type "float"|"left"|"bottom"|"top"|"right"
+                float = {
+                    width = 0.9,
+                    height = 0.9,
+                },
+                split = {
+                    width = 40,
+                    height = 20,
+                },
                 mux = {
                     backend = "tmux",
                     enabled = true,
