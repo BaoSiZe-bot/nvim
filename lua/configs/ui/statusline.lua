@@ -330,14 +330,31 @@ vim.opt.showcmdloc = "statusline"
 
 local EdgyGroup = {
     provider = function()
-        if Abalone.lazy.has("edgy-group") then
+        if Abalone.lazy.has("edgy-group.nvim") then
             local stl = require('edgy-group.stl')
             local bottom_line = stl.get_statusline('bottom')
             return table.concat(bottom_line)
         else
             return ""
         end
-    end
+    end,
+    update = { "BufEnter" },
+}
+
+local EdgyStatusLine = {
+    condition = function()
+        return vim.bo.ft == "trouble"
+            or vim.bo.ft == "snacks_terminal"
+            or vim.bo.ft == "quickfix"
+            or vim.bo.ft == "sidekick_terminal"
+            or vim.bo.ft == "grug-far"
+            or vim.bo.ft == "toggleterm"
+            or vim.bo.ft == "noice"
+            or vim.bo.ft == "help"
+    end,
+    Align,
+    EdgyGroup,
+    Align
 }
 
 local DefaultStatusline = {
@@ -380,7 +397,7 @@ local SpecialStatusline = {
                 buftype = { "nofile", "prompt", "help", "quickfix" },
                 filetype = { "^git.*", "fugitive" },
             }) and
-            (not (vim.bo.ft == "neotree" or vim.bo.ft == "yazi" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "edgy" or vim.bo.ft == "terminal"))
+            (not (vim.bo.ft == "trouble" or vim.bo.ft == "neotree" or vim.bo.ft == "yazi" or vim.bo.ft == "snacks_terminal" or vim.bo.ft == "edgy" or vim.bo.ft == "terminal"))
     end,
 
     FileType,
@@ -424,6 +441,7 @@ local StatusLines = {
     -- the first statusline with no condition, or which condition returns true is used.
     -- think of it as a switch case with breaks to stop fallthrough.
     fallthrough = false,
+    EdgyStatusLine,
     SpecialStatusline,
     TerminalStatusline,
     InactiveStatusline,

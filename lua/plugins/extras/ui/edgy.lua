@@ -146,42 +146,42 @@ return {
                 function()
                     require("edgy-group").open_group_offset("right", 1)
                 end,
-                desc = "Edgy Group Next Left",
+                desc = "Edgy Group Next Right",
             },
             {
                 "<leader>ueL",
                 function()
                     require("edgy-group").open_group_offset("right", -1)
                 end,
-                desc = "Edgy Group Prev Left",
+                desc = "Edgy Group Prev Right",
             },
             {
                 "<leader>uek",
                 function()
                     require("edgy-group").open_group_offset("top", 1)
                 end,
-                desc = "Edgy Group Next Left",
+                desc = "Edgy Group Next Top",
             },
             {
                 "<leader>ueK",
                 function()
                     require("edgy-group").open_group_offset("top", -1)
                 end,
-                desc = "Edgy Group Prev Left",
+                desc = "Edgy Group Prev Top",
             },
             {
                 "<leader>uej",
                 function()
                     require("edgy-group").open_group_offset("bottom", 1)
                 end,
-                desc = "Edgy Group Next Left",
+                desc = "Edgy Group Next Bottom",
             },
             {
                 "<leader>ueJ",
                 function()
                     require("edgy-group").open_group_offset("bottom", -1)
                 end,
-                desc = "Edgy Group Prev Left",
+                desc = "Edgy Group Prev Bottom",
             },
             {
                 "<leader>ueg",
@@ -206,7 +206,7 @@ return {
                     { icon = "", titles = { "Terminal" } },
                     { icon = "󰍡", titles = { "Noice" } },
                     { icon = "󰋗", titles = { "Help" } },
-                    { icon = "󱖫", titles = { "QuickFix", "Loclist", "Qflist", "Neotest Output" }}
+                    { icon = "󱖫", titles = { "Diagnostics", "QuickFix", "Loclist", "Qflist", "Neotest Output" }}
                 },
                 top = {
                     { icon = "", titles = { "Terminal" } }
