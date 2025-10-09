@@ -30,6 +30,12 @@ if not vim.g.vscode then
         {
             import = "plugins.extras.mini-hipatterns",
         },
+        {
+            import = "plugins.extras.yazi"
+        },
+        {
+            import = "plugins.extras.rainbow"
+        },
         -- {
         --    import = "plugins.extras.gemini"
         -- },
