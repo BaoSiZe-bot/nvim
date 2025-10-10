@@ -196,7 +196,7 @@ return {
             { "<leader>gg",      function() Snacks.terminal({ "gitui" }) end,                                     desc = "GitUI (cwd)", },
             { "<leader>gG",      function() Snacks.terminal({ "gitui" }, { cwd = Abalone.root.get() }) end,       desc = "GitUI (Root Dir)", },
             { "<leader>gl",      function() Snacks.terminal({ "lazygit" }) end,                                   desc = "LazyGit (cwd)", },
-            { "<leader>gL",      function() Snacks.terminal({ "lazygit"}, { cwd = Abalone.root.get() }) end,     desc = "LazyGit (Root Dir)", },
+            { "<leader>gL",      function() Snacks.terminal({ "lazygit" }, { cwd = Abalone.root.get() }) end,     desc = "LazyGit (Root Dir)", },
             { '<leader>s"',      function() Snacks.picker.registers() end,                                        desc = "Registers", },
             { "<leader>sa",      function() Snacks.picker.autocmds() end,                                         desc = "Auto Commands", },
             { "<leader>sb",      function() Snacks.picker.lines() end,                                            desc = "Buffer", },
@@ -228,16 +228,9 @@ return {
             { "<leader>.",       function() Snacks.scratch() end,                                                 desc = "Toggle Scratch Buffer" },
             { "<leader>S",       function() Snacks.scratch.select() end,                                          desc = "Select Scratch Buffer" },
             { "<leader>dps",     function() Snacks.profiler.scratch() end,                                        desc = "Profiler Scratch Buffer" },
-            { "<space>ft",       function() Snacks.terminal(nil, {cwd = Abalone.root.get()}) end,                 desc = "Open Terminal"},
-            {
-                "<leader>z",
-                function()
-                    Snacks.zen()
-                    vim.cmd([[TWToggle]])
-                end,
-                desc = "Zen mode"
-            },
-            { "<leader>cl", function() Snacks.picker.lsp_config() end, desc = "Lsp Info" },
+            { "<space>ft",       function() Snacks.terminal(nil, { cwd = Abalone.root.get() }) end,               desc = "Open Terminal" },
+            { "<leader>z",       function() Snacks.zen() end,                                                     desc = "Zen mode" },
+            { "<leader>cl",      function() Snacks.picker.lsp_config() end,                                       desc = "Lsp Info" },
         },
     },
     {

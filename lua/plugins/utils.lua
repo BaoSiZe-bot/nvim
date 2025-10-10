@@ -195,6 +195,7 @@ return {
     {
         "cpea2506/relative-toggle.nvim",
         event = "LazyFile",
+        enabled = false,
         opts = {},
     },
     {
@@ -235,14 +236,6 @@ return {
             "nvim-treesitter/nvim-treesitter",
         },
         opts = {},
-    },
-    {
-        "3rd/image.nvim",
-        event = "UIEnter",
-        enabled = false,
-        opts = {
-            backend = "ueberzug",
-        }
     },
     {
         "axieax/urlview.nvim",
