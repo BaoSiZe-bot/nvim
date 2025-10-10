@@ -290,6 +290,10 @@ return {
         end
     },
     {
+        "boltlessengineer/sense.nvim",
+        event = "UIEnter"
+    },
+    {
         "LudoPinelli/comment-box.nvim",
         event = "VeryLazy",
     }
