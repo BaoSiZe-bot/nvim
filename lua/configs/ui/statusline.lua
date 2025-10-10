@@ -330,27 +330,24 @@ vim.opt.showcmdloc = "statusline"
 
 local EdgyGroup = {
     provider = function()
-        if Abalone.lazy.has("edgy-group.nvim") then
-            local stl = require('edgy-group.stl')
-            local bottom_line = stl.get_statusline('bottom')
-            return table.concat(bottom_line)
-        else
-            return ""
-        end
+        local stl = require('edgy-group.stl')
+        local bottom_line = stl.get_statusline('bottom')
+        return table.concat(bottom_line)
     end,
-    update = { "BufEnter" },
+    -- update = { "BufEnter" },
 }
 
 local EdgyStatusLine = {
     condition = function()
-        return vim.bo.ft == "trouble"
-            or vim.bo.ft == "snacks_terminal"
-            or vim.bo.ft == "quickfix"
-            or vim.bo.ft == "sidekick_terminal"
-            or vim.bo.ft == "grug-far"
-            or vim.bo.ft == "toggleterm"
-            or vim.bo.ft == "noice"
-            or vim.bo.ft == "help"
+        return Abalone.lazy.has("edgy-group.nvim") and
+            (vim.bo.ft == "trouble"
+                or vim.bo.ft == "snacks_terminal"
+                or vim.bo.ft == "quickfix"
+                or vim.bo.ft == "sidekick_terminal"
+                or vim.bo.ft == "grug-far"
+                or vim.bo.ft == "toggleterm"
+                or vim.bo.ft == "noice"
+                or vim.bo.ft == "help")
     end,
     Align,
     EdgyGroup,

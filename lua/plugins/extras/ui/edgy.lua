@@ -31,15 +31,16 @@ return {
                     },
                     {
                         ft = "noice",
+                        title = "Noice",
                         size = { height = 0.4 },
                         filter = function(buf, win)
                             return vim.api.nvim_win_get_config(win).relative == ""
                         end,
                     },
-                    "Trouble",
                     { ft = "qf",                title = "QuickFix" },
                     {
                         ft = "help",
+                        title = "Help",
                         size = { height = 20 },
                         -- don't open help files in edgy that we're editing
                         filter = function(buf)
@@ -123,7 +124,7 @@ return {
     },
     {
         "lucobellic/edgy-group.nvim",
-        -- enabled = false,
+        enabled = false,
         event = "VeryLazy",
         dependencies = { "folke/edgy.nvim" },
         keys = {
@@ -187,6 +188,7 @@ return {
                 "<leader>ueg",
                 function()
                     require("edgy-group.stl").pick()
+                    vim.cmd("redrawstatus")
                 end,
                 desc = "Edgy Group Pick",
             },
@@ -196,11 +198,11 @@ return {
                 right = {
                     { icon = "", titles = { "Outline", "Symbols", "References" } },
                     { icon = "󱎸", titles = { "Grug Far" } },
-                    { icon = "", titles = { "Terminal" } }
+                    -- { icon = "", titles = { "Terminal" } }
                 },
                 left = {
                     { icon = "󰚩", titles = { "Sidekick" } },
-                    { icon = "", titles = { "Terminal" } }
+                    -- { icon = "", titles = { "Terminal" } }
                 },
                 bottom = {
                     { icon = "", titles = { "Terminal" } },
@@ -209,7 +211,7 @@ return {
                     { icon = "󱖫", titles = { "Diagnostics", "QuickFix", "Loclist", "Qflist", "Neotest Output" }}
                 },
                 top = {
-                    { icon = "", titles = { "Terminal" } }
+                    -- { icon = "", titles = { "Terminal" } }
                 }
             },
             statusline = {
