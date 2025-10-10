@@ -168,5 +168,10 @@ return {
                 },
             })
         end,
-    }
+    },
+    {
+        "levouh/tint.nvim",
+        event = "UIEnter",
+        opts = {}
+    },
 }
