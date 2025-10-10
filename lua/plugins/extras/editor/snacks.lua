@@ -13,8 +13,9 @@ return {
         "folke/snacks.nvim",
         -- lazy = true,
         -- enabled = false,
-        priority = 1000,
-        lazy = false,
+        -- priority = 1000,
+        -- lazy = false,
+        event = "UIEnter",
         config = function(_, opts)
             local notify = vim.notify
             Snacks.setup(opts)
