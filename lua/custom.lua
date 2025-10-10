@@ -141,7 +141,7 @@ local mixcolors = mix
 local colors = {
     white = "#D9E0EE",
     darker_black = "#232634",
-    black = "#303446", --  nvim bg
+    black = "#303447", --  nvim bg
     black2 = "#292c3c",
     one_bg = "#2d2c3c", -- real bg of onedark
     one_bg2 = "#363545",
@@ -175,7 +175,7 @@ local colors = {
 local theme = {
     base00 = "#232634",
     base01 = "#292c3c",
-    base02 = "#303446",
+    base02 = "#303447",
     base03 = "#414559",
     base04 = "#51576d",
     base05 = "#bfc6d4",
@@ -191,7 +191,7 @@ local theme = {
     base0F = "#e78284",
 }
 local highlights = {
-    BlinkCmpMenu = { bg = "#303446" },
+    BlinkCmpMenu = { bg = "#303447" },
     BlinkCmpMenuBorder = { fg = "#51576d" },
     BlinkCmpMenuSelection = { link = "PmenuSel", bold = true },
     BlinkCmpScrollBarThumb = { bg = "#414559" },
@@ -203,11 +203,11 @@ local highlights = {
     BlinkCmpLabelDescription = { fg = "#737994" },
     BlinkCmpSource = { fg = "#51576d" },
     BlinkCmpGhostText = { fg = "#51576d" },
-    BlinkCmpDoc = { bg = "#303446" },
+    BlinkCmpDoc = { bg = "#303447" },
     BlinkCmpDocBorder = { fg = "#51576d" },
     BlinkCmpDocSeparator = { fg = "#414559" },
     BlinkCmpDocCursorLine = { bg = "#2d2c3c" },
-    BlinkCmpSignatureHelp = { bg = "#303446" },
+    BlinkCmpSignatureHelp = { bg = "#303447" },
     BlinkCmpSignatureHelpBorder = { fg = "#51576d" },
     BlinkCmpSignatureHelpActiveParameter = { fg = "#89B4FA", bold = true },
     Added = { fg = colors.green },
@@ -329,7 +329,7 @@ for kind, _ in pairs(kinds) do
     local fg = highlights[hl_name] and highlights[hl_name].fg or "#d9e0f9"
     highlights[hl_name] = {
         fg = fg,
-        bg = mixcolors(fg, "#303446", 70),
+        bg = mixcolors(fg, "#303447", 70),
     }
 end
 
