@@ -50,6 +50,9 @@ if not vim.g.vscode then
 			import = "plugins.extras.editor.undo",
 		},
 		{
+			import = "plugins.extras.editor.refactoring",
+		},
+		{
 			import = "plugins.extras.ui.bqf",
 		},
 		{
