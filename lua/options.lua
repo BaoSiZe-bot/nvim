@@ -72,5 +72,5 @@ if vim.g.neovide then
     g.neovide_opacity = 0.8
     g.neovide_normal_opacity = 0.8
     g.neovide_cursor_vfx_mode = "ripple"
-    g.neovide_input_ime = nil
+    g.neovide_input_ime = 0
 end
