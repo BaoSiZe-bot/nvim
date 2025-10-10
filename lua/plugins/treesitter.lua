@@ -12,7 +12,7 @@ return {
             TS.update(nil, { summary = true })
         end,
         lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
-        event = { "LazyFile", "VeryLazy" },
+        event = "UIEnter",
         cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
         opts = {
             indent = { enable = true },
@@ -114,7 +114,7 @@ return {
 
     {
         "nvim-treesitter/nvim-treesitter-context",
-        event = "LazyFile",
+        event = "VeryLazy",
         opts = {},
     },
 }
