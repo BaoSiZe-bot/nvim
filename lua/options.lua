@@ -11,7 +11,7 @@ if not vim.g.vscode then
     o.showmode = false
     o.number = true
     o.relativenumber = true
-    -- o.clipboard = "unnamedplus"
+    o.clipboard = "unnamedplus"
     o.cursorline = true
     o.cursorlineopt = "number"
     o.expandtab = true
