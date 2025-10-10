@@ -4,7 +4,7 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd({ "InsertLeave", "TextChanged" }, {
 	pattern = { "*" },
 	callback = function()
-		if vim.b.buftype ~= "nofile" then
+		if vim.b.buftype ~= "nofile" and vim.o.filetype ~= "oil" then
 			vim.cmd("silent! wall")
 		end
 	end,
@@ -66,6 +66,7 @@ autocmd("FileType", {
 		"spectre_panel",
 		"startuptime",
 		"tsplayground",
+		"oil",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
