@@ -17,6 +17,7 @@
  * [X] rime-ls
  * [X] 添加多光标
  * [X] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
+ * [ ] 添加更多的 AI 功能
  * [ ] 使用 fennel
  * [ ] edgy-group
  * [X] 显示图片
