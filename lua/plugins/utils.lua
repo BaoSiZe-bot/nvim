@@ -291,4 +291,8 @@ return {
             -- vim.keymap.set('n', '<leader>w', ":lua require'jieba_nvim'.select_w()<CR>", { noremap = false, silent = true })
         end
     },
+    {
+        "LudoPinelli/comment-box.nvim",
+        event = "VeryLazy",
+    }
 }
