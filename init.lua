@@ -70,6 +70,9 @@ if not vim.g.vscode then
 		{
 			import = "plugins.extras.editor.snacks"
 		},
+		{
+			import = "plugins.extras.editor.oil",
+		},
 		-- {
 		--    import = "plugins.extras.gemini"
 		-- },
