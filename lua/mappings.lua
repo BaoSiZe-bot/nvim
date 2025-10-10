@@ -1,5 +1,4 @@
 local map = vim.keymap.set
-map({"n", "v"}, "<space>ft", function() Snacks.terminal(nil, {cwd = Abalone.root.get()}) end, {desc = "Open Terminal"})
 map({"n", "i", "v"}, "<C-s>", "<cmd> w <cr>", {desc = "Save Buffer"})
 map("n", "<C-h>", "<C-w>h", {desc = "Go to Left Window", remap = true})
 map("n", "<C-j>", "<C-w>j", {desc = "Go to Lower Window", remap = true})
@@ -21,8 +20,12 @@ map("n", "[b", "<cmd>bprevious<cr>", {desc = "Prev Buffer"})
 map("n", "]b", "<cmd>bnext<cr>", {desc = "Next Buffer"})
 map("n", "<leader>bb", "<cmd>e #<cr>", {desc = "Switch to Other Buffer"})
 map("n", "<leader>`", "<cmd>e #<cr>", {desc = "Switch to Other Buffer"})
+if Abalone.lazy.has("snacks.nvim") then
 map("n", "<space>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
 map("n", "<space>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+else
+map("n", "<space>bd", "<cmd>bd", { silent = true, desc = "Delete Buffer" })
+end
 map("n", "<leader>bD", "<cmd>:bd<cr>", {desc = "Delete Buffer and Window"})
 local function _6_()
   vim.cmd("noh")

@@ -332,13 +332,14 @@ return {
                     map_split(buf_id, opts.mappings and opts.mappings.go_in_vertical_plus or "<C-w>V", "vertical", true)
                 end,
             })
-
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "MiniFilesActionRename",
-                callback = function(event)
-                    Snacks.rename.on_rename_file(event.data.from, event.data.to)
-                end,
-            })
+            if Abalone.lazy.has("snacks.nvim") then
+                vim.api.nvim_create_autocmd("User", {
+                    pattern = "MiniFilesActionRename",
+                    callback = function(event)
+                        Snacks.rename.on_rename_file(event.data.from, event.data.to)
+                    end,
+                })
+            end
         end,
     },
     {

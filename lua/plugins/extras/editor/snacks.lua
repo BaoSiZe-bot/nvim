@@ -32,7 +32,7 @@ return {
             toggle = { enabled = true },
             words = { enabled = true },
             bigfile = { enabled = true },
-            quickfile = { enabled = true },
+            -- quickfile = { enabled = true },
             zen = { enabled = true },
             animate = { enabled = true },
             dim = { enabled = true },
@@ -227,6 +227,7 @@ return {
             { "<leader>.",       function() Snacks.scratch() end,                                                 desc = "Toggle Scratch Buffer" },
             { "<leader>S",       function() Snacks.scratch.select() end,                                          desc = "Select Scratch Buffer" },
             { "<leader>dps",     function() Snacks.profiler.scratch() end,                                        desc = "Profiler Scratch Buffer" },
+            { "<space>ft",       function() Snacks.terminal(nil, {cwd = Abalone.root.get()}) end,                 desc = "Open Terminal"},
             {
                 "<leader>z",
                 function()

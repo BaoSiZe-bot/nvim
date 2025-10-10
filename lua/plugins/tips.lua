@@ -123,14 +123,22 @@ return {
                 name = "close buffer",
                 inputs = { gesture.left(), gesture.right() },
                 action = function()
-                    Snacks.bufdelete()
+                    if Abalone.lazy.has("snacks.nvim") then
+                        Snacks.bufdelete()
+                    else
+                        vim.cmd("bdelete")
+                    end
                 end,
             })
             gesture.register({
                 name = "close buffer",
                 inputs = { gesture.down(), gesture.right() },
                 action = function()
-                    Snacks.bufdelete()
+                    if Abalone.lazy.has("snacks.nvim") then
+                        Snacks.bufdelete()
+                    else
+                        vim.cmd("bdelete")
+                    end
                 end,
             })
             gesture.register({
@@ -199,10 +207,9 @@ return {
     {
         "v1nh1shungry/cppman.nvim",
         cmd = "Cppman",
-        dependencies = {
-            "folke/snacks.nvim",      -- optional for snacks picker
-        },
-        opts = { picker = "snacks" }, -- required, `setup()` must be called
+        opts = function()
+            return Abalone.lazy.has("snacks.nvim") and {} or { picker = "snacks" }
+        end
     },
     {
         "ja-ford/delaytrain.nvim",
