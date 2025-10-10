@@ -18,8 +18,9 @@
  * [X] 添加多光标
  * [X] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
  * [ ] 使用 fennel
- * [-] edgy-group
+ * [ ] edgy-group
  * [X] 显示图片
+ * [ ] 使用 rocks.nvim
  * [ ] 音乐播放器
  * [ ] powermode
  * [ ] eaf&exwm
