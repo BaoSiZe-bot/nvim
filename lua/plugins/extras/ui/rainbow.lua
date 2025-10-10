@@ -61,13 +61,13 @@ return
             style = {
                 -- vim.api.nvim_get_hl(0, { name = "Whitespace" }),
 
-                "#E78285",
-                "#E5C891",
-                "#8CAAEF",
-                "#EF9F77",
-                "#A6D18A",
-                "#CA9EE7",
-                "#81C8BF",
+                "#E78284",
+                "#E5C890",
+                "#8CAAEE",
+                "#EF9F76",
+                "#A6D189",
+                "#CA9EE6",
+                "#81C8BE",
             },
         },
         blank = {
