@@ -86,4 +86,5 @@ return {
         end,
     },
     "GustavoPrietoP/doom-themes.nvim",
+    "NTBBloodbath/sweetie.nvim"
 }
