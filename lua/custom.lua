@@ -14,102 +14,6 @@ end
 local rgb2hex = function(r, g, b)
     return string.format("#%02x%02x%02x", math.floor(r), math.floor(g), math.floor(b))
 end
-local hsl2rgb_helper = function(p, q, a)
-  if a < 0 then
-    a = a + 6
-  end
-  if a >= 6 then
-    a = a - 6
-  end
-  if a < 1 then
-    return (q - p) * a + p
-  elseif a < 3 then
-    return q
-  elseif a < 4 then
-    return (q - p) * (4 - a) + p
-  else
-    return p
-  end
-end
-
-local hsl2rgb = function(h, s, l)
-  local t1, t2, r, g, b
-
-  h = h / 60
-  if l <= 0.5 then
-    t2 = l * (s + 1)
-  else
-    t2 = l + s - (l * s)
-  end
-
-  t1 = l * 2 - t2
-  r = hsl2rgb_helper(t1, t2, h + 2) * 255
-  g = hsl2rgb_helper(t1, t2, h) * 255
-  b = hsl2rgb_helper(t1, t2, h - 2) * 255
-
-  return r, g, b
-end
-
-local rgb2hsl = function(r, g, b)
-  local min, max, l, s, maxcolor, h
-  r, g, b = r / 255, g / 255, b / 255
-
-  min = math.min(r, g, b)
-  max = math.max(r, g, b)
-  maxcolor = 1 + (max == b and 2 or (max == g and 1 or 0))
-
-  if maxcolor == 1 then
-    h = (g - b) / (max - min)
-  elseif maxcolor == 2 then
-    h = 2 + (b - r) / (max - min)
-  elseif maxcolor == 3 then
-    h = 4 + (r - g) / (max - min)
-  end
-
-  if not rawequal(type(h), "number") then
-    h = 0
-  end
-
-  h = h * 60
-
-  if h < 0 then
-    h = h + 360
-  end
-
-  l = (min + max) / 2
-
-  if min == max then
-    s = 0
-  else
-    if l < 0.5 then
-      s = (max - min) / (max + min)
-    else
-      s = (max - min) / (2 - max - min)
-    end
-  end
-
-  return h, s, l
-end
-
-local hex2hsl = function(hex)
-    local r, g, b = hex2rgb(hex)
-    return rgb2hsl(r, g, b)
-end
-local hsl2hex = function(h, s, l)
-    local r, g, b = hsl2rgb(h, s, l)
-    return rgb2hex(r, g, b)
-end
-local lighten = function(hex, percent)
-    local h, s, l = hex2hsl(hex)
-    l = l + (percent / 100)
-    if l > 1 then
-        l = 1
-    end
-    if l < 0 then
-        l = 0
-    end
-    return hsl2hex(h, s, l)
-end
 
 local mix = function(first, second, strength)
     if strength == nil then
@@ -221,12 +125,8 @@ local highlights = {
     Comment = { fg = colors.light_grey },
     CursorLineNr = { fg = colors.white },
     LineNr = { fg = colors.grey },
-    -- FloatBorder = { fg = colors.blue },
-    -- FloatTitle = { fg = colors.white, bg = colors.grey },
-    -- NormalFloat = { bg = colors.darker_black },
     NvimInternalError = { fg = colors.red },
     WinSeparator = { fg = colors.line },
-    -- Normal = { fg = theme.base05, bg = theme.base00 },
     DevIconDefault = { fg = colors.red },
     Debug = { fg = theme.base08 },
     Directory = { fg = theme.base0D },
@@ -252,7 +152,6 @@ local highlights = {
     Title = { fg = theme.base0D },
     Conceal = { bg = "NONE" },
     Cursor = { fg = theme.base00, bg = theme.base05 },
-    -- NonText = { fg = theme.base03 },
     SignColumn = { fg = theme.base03 },
     ColorColumn = { bg = colors.black2 },
     CursorColumn = { bg = theme.base01 },
@@ -261,30 +160,6 @@ local highlights = {
     healthSuccess = { bg = colors.green, fg = colors.black },
     WinBar = { bg = "NONE" },
     WinBarNC = { bg = "NONE" },
-
-    -- lazy.nvim
-    -- LazyH1 = { bg = colors.green, fg = colors.black },
-    -- LazyButton = { bg = colors.one_bg, fg = lighten(colors.light_grey, vim.o.bg == "dark" and 10 or -20) },
-    -- LazyH2 = { fg = colors.red, bold = true, underline = true },
-    -- LazyReasonPlugin = { fg = colors.red },
-    -- LazyValue = { fg = colors.teal },
-    -- LazyDir = { fg = theme.base05 },
-    -- LazyUrl = { fg = theme.base05 },
-    -- LazyCommit = { fg = colors.green },
-    -- LazyNoCond = { fg = colors.red },
-    -- LazySpecial = { fg = colors.blue },
-    -- LazyReasonFt = { fg = colors.purple },
-    -- LazyOperator = { fg = colors.white },
-    -- LazyReasonKeys = { fg = colors.teal },
-    -- LazyTaskOutput = { fg = colors.white },
-    -- LazyCommitIssue = { fg = colors.pink },
-    -- LazyReasonEvent = { fg = colors.yellow },
-    -- LazyReasonStart = { fg = colors.white },
-    -- LazyReasonRuntime = { fg = colors.nord_blue },
-    -- LazyReasonCmd = { fg = colors.sun },
-    -- LazyReasonSource = { fg = colors.cyan },
-    -- LazyReasonImport = { fg = colors.white },
-    -- LazyProgressDone = { fg = colors.green },
 }
 
 local kinds = {

@@ -20,6 +20,7 @@ return {
             disabled_plugins = {
                 "2html_plugin",
                 "tohtml",
+                "editorconfig",
                 "getscript",
                 "getscriptPlugin",
                 "gzip",

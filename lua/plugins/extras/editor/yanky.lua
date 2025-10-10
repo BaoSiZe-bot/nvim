@@ -1,6 +1,6 @@
 return {
     "gbprod/yanky.nvim",
-    event = "LazyFile",
+    event = "UIEnter",
     opts = {
         highlight = { timer = 150 },
     },

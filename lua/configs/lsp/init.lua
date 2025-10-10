@@ -83,7 +83,6 @@ local lsps = {
     "lua",
     "json",
     "python",
-    "fennel",
 }
 
 for _, lsp_name in ipairs(lsps) do

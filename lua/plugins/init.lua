@@ -1,7 +1,7 @@
 return {
     {
         "stevearc/conform.nvim",
-        event = "LazyFile", -- uncomment for format on save
+        -- event = "LazyFile", -- uncomment for format on save
         keys = {
             {
                 "<leader>cF",

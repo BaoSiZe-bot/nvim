@@ -151,7 +151,7 @@ return {
     },
     {
         "lewis6991/gitsigns.nvim",
-        event = "LazyFile",
+        event = "UIEnter",
         opts = {
             signs = {
                 add = { text = "▎" },
@@ -223,5 +223,5 @@ return {
     --         vim.g.blamer_delay = 300
     --     end,
     -- },
-    { "akinsho/git-conflict.nvim", opts = {}, event = "LazyFile"},
+    -- { "akinsho/git-conflict.nvim", opts = {}, event = "LazyFile"},
 }

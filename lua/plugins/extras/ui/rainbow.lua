@@ -4,18 +4,17 @@ return
     dependencies = {
         {
             "nmac427/guess-indent.nvim",
-            event = "LazyFile",
+            event = "InsertCharPre",
             opts = {}
         },
         {
             "hiphish/rainbow-delimiters.nvim",
-            event = "LazyFile",
+            event = "UIEnter",
             config = function()
-                local rainbow_delimiters = require("rainbow-delimiters")
-                require("rainbow-delimiters.setup").setup({
+                vim.g.rainbow_delimiters = {
                     strategy = {
-                        [""] = rainbow_delimiters.strategy["global"],
-                        vim = rainbow_delimiters.strategy["local"],
+                        [""] = 'rainbow-delimiters.strategy.global',
+                        vim = 'rainbow-delimiters.strategy.local',
                     },
                     query = {
                         [""] = "rainbow-delimiters",
@@ -34,11 +33,11 @@ return
                         "RainbowDelimiterViolet",
                         "RainbowDelimiterCyan",
                     },
-                })
+                }
             end,
         },
     },
-    event = { "BufReadPre", "BufNewFile" },
+    event = "UIEnter",
     opts = {
         line_num = {
             enable = true,

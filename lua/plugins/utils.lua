@@ -28,7 +28,7 @@ return {
     { "nvim-lua/plenary.nvim" },
     {
         "folke/persistence.nvim",
-        event = "BufReadPre",
+        event = "VimLeavePre",
         opts = {},
         keys = {
             {
@@ -199,7 +199,7 @@ return {
     -- },
     {
         "cpea2506/relative-toggle.nvim",
-        event = "InsertEnter",
+        event = "LazyFile",
         opts = {},
     },
     {

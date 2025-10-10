@@ -237,7 +237,7 @@ return {
     -- },
     {
         "neovim/nvim-lspconfig",
-        event = "BufReadPre",
+        event = "LazyFile",
         config = vim.schedule_wrap(function(_, opts)
             require("configs.lsp")
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
@@ -256,7 +256,7 @@ return {
     {
         "rachartier/tiny-inline-diagnostic.nvim",
         -- lazy = false,
-        event = "LazyFile",
+        event = "UIEnter",
         priority = 1919810, -- needs to be loaded in first
         opts = {
             preset = "modern",
@@ -340,7 +340,7 @@ return {
     },
     {
         "kosayoda/nvim-lightbulb",
-        event = "LazyFile",
+        event = "UIEnter",
         opts = {
             autocmd = { enabled = true },
             float = { enabled = false },

@@ -1,30 +1,5 @@
 return {
     {
-        "smartinellimarco/nvcheatsheet.nvim",
-        keys = {
-            {
-                "<f1>",
-                function()
-                    require("nvcheatsheet").toggle()
-                end,
-                mode = { "n", "i", "x" },
-                desc = "Cheat Sheet",
-            },
-        },
-        opts = {
-            header = {
-                "                                      ",
-                "                                      ",
-                "                                      ",
-                "█▀▀ █░█ █▀▀ ▄▀█ ▀█▀ █▀ █░█ █▀▀ █▀▀ ▀█▀",
-                "█▄▄ █▀█ ██▄ █▀█ ░█░ ▄█ █▀█ ██▄ ██▄ ░█░",
-                "                                      ",
-                "                                      ",
-                "                                      ",
-            },
-        },
-    },
-    {
         "nvzone/showkeys",
         cmd = "ShowkeysToggle",
         opts = {
@@ -84,7 +59,7 @@ return {
     },
     {
         "dstein64/nvim-scrollview",
-        event = "LazyFile",
+        event = "UIEnter",
     },
     {
         "notomo/gesture.nvim",

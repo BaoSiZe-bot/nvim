@@ -2,9 +2,7 @@ local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 local function setup_colors()
     return {
-        bright_fg = utils.get_highlight("Folded").fg,
         red = utils.get_highlight("DiagnosticError").fg,
-        dark_red = utils.get_highlight("DiffDelete").bg,
         green = utils.get_highlight("String").fg,
         blue = utils.get_highlight("Function").fg,
         gray = utils.get_highlight("NonText").fg,

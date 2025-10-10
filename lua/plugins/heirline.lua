@@ -1,6 +1,6 @@
 return {
     "rebelot/heirline.nvim",
-    event = "LazyFile",
+    event = "UIEnter",
     opts = function()
         return require("configs.ui.heirline")
     end,
