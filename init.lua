@@ -59,6 +59,9 @@ if not vim.g.vscode then
 			import = "plugins.extras.lang.json",
 		},
 		{
+			import = "plugins.extras.lang.markdown",
+		},
+		{
 			import = "plugins.extras.dap.core",
 		},
 		{

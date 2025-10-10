@@ -165,11 +165,6 @@ return {
         end,
     },
     {
-        "SCJangra/table-nvim",
-        ft = "markdown",
-        opts = {},
-    },
-    {
         "JuanZoran/Trans.nvim",
         enabled = false,
         build = function()
