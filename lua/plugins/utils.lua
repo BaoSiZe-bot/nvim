@@ -301,5 +301,10 @@ return {
     {
         "LudoPinelli/comment-box.nvim",
         event = "VeryLazy",
-    }
+    },
+    {
+        "chentoast/marks.nvim",
+        event = "VeryLazy",
+        opts = {},
+    },
 }
