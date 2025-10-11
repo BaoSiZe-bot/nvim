@@ -355,10 +355,28 @@ return {
     },
     {
         "kosayoda/nvim-lightbulb",
-        event = "UIEnter",
+        event = "LspAttach",
         opts = {
             autocmd = { enabled = true },
-            float = { enabled = false },
+            float = {
+                -- fucking border!
+                enabled = false,
+                text = " ",
+                lens_text = " ",
+            },
+            status_text = {
+                enabled = true,
+                text = " ",
+                lens_text = " ",
+            },
+            sign = {
+                enabled = true,
+                text = " ",
+                lens_text = " ",
+            },
+            number = {
+                enabled = true,
+            },
             code_lenses = true,
         },
     },
