@@ -54,6 +54,9 @@ if not vim.g.vscode then
             import = "plugins.extras.editor.refactoring",
         },
         {
+            import = "plugins.extras.editor.splitjoin",
+        },
+        {
             import = "plugins.extras.ui.bqf",
         },
         {
