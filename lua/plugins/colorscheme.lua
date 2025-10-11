@@ -38,7 +38,16 @@ return {
                 treesitter = true,
                 treesitter_context = true,
                 which_key = true,
+                dap = true,
+                dap_ui = true,
+                neogit = true,
+                octo = true,
+                overseer = true,
+                window_picker = true,
+                rainbow_delimiters = true,
             },
+            default_integrations = false,
+            auto_integrations = false,
         },
         config = function(_, opts)
             require("catppuccin").setup(opts)

@@ -44,7 +44,7 @@ local mixcolors = mix
 
 local colors = {
     white = "#D9E0EE",
-    black = "#303447", --  nvim bg
+    black = "#303447",  --  nvim bg
     black2 = "#292c3c",
     one_bg = "#414559", -- real bg of onedark
     grey = "#414559",
@@ -135,7 +135,6 @@ local highlights = {
     SignColumn = { fg = theme.base03 },
     ColorColumn = { bg = colors.black2 },
     CursorColumn = { bg = theme.base01 },
-    CursorLine = { bg = colors.black2 },
     QuickFixLine = { bg = theme.base01 },
     healthSuccess = { bg = colors.green, fg = colors.black },
     WinBar = { bg = "NONE" },
@@ -196,4 +195,27 @@ highlights = vim.tbl_deep_extend("force", highlights, {
 
 for group, opts in pairs(highlights) do
     vim.api.nvim_set_hl(0, group, opts)
+end
+
+local hl = {}
+local C = require("catppuccin.palettes").get_palette(require("catppuccin").flavour)
+hl["RainbowRed"] = { blend = 0, fg = C.red }
+hl["RainbowYellow"] = { blend = 0, fg = C.yellow }
+hl["RainbowBlue"] = { blend = 0, fg = C.blue }
+hl["RainbowOrange"] = { blend = 0, fg = C.peach }
+hl["RainbowGreen"] = { blend = 0, fg = C.green }
+hl["RainbowViolet"] = { blend = 0, fg = C.mauve }
+hl["RainbowCyan"] = { blend = 0, fg = C.teal }
+local scopehl = {
+    link = "CursorLine"
+    -- bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false, create = false }).bg,
+    -- underline = false
+}
+
+for i = 1, 7, 1 do
+    hl["@ibl.scope.underline." .. i] = scopehl
+end
+
+for group, opt in pairs(hl) do
+    vim.api.nvim_set_hl(0, group, opt)
 end
