@@ -307,4 +307,10 @@ return {
         event = "VeryLazy",
         opts = {},
     },
+    {
+        'tomiis4/Hypersonic.nvim',
+        event = "CmdlineEnter",
+        cmd = "Hypersonic",
+        opts = {}
+    },
 }
