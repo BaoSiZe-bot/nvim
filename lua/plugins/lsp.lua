@@ -46,13 +46,6 @@ return {
         },
         dependencies = {
             "rafamadriz/friendly-snippets",
-            {
-                "windwp/nvim-autopairs",
-                opts = {
-                    fast_wrap = {},
-                    disable_filetype = { "TelescopePrompt", "vim" },
-                },
-            },
         },
         event = { "LspAttach", "CmdlineEnter" },
         ---@module 'blink.cmp'
@@ -387,8 +380,8 @@ return {
         opts = {
             library = {
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                { path = "snacks.nvim", words = { "Snacks" } },
-                { path = "lazy.nvim", words = { "Abalone" } },
+                { path = "snacks.nvim",        words = { "Snacks" } },
+                { path = "lazy.nvim",          words = { "Abalone" } },
             },
         },
     },

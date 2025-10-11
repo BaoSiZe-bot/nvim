@@ -134,89 +134,96 @@ return {
             end)
         end,
     },
+    -- {
+    --     "cohama/lexima.vim",
+    --     event = "InsertEnter",
+    --     config = function ()
+    --         vim.g.lexima_enable_basic_rules = 1
+    --         vim.g.lexima_enable_newline_rules = 1
+    --         vim.g.lexima_enable_endwise_rules = 1
+    --     end
+    -- },
+    {
+        "RRethy/nvim-treesitter-endwise",
+        event = "InsertEnter",
+    },
+    -- {
+    --     'altermo/ultimate-autopair.nvim',
+    --     event = { 'InsertEnter', 'CmdlineEnter' },
+    --     branch = 'v0.6', --recommended as each new version will have breaking changes
+    --     opts = {
+    --         --Config goes here
+    --     },
+    -- },
     {
         'windwp/nvim-autopairs',
-        event = "InsertEnter",
-        opts = {
-            enabled = function(bufnr) return true end,     -- control if auto-pairs should be enabled when attaching to a buffer
-            disable_filetype = { "TelescopePrompt", "spectre_panel", "snacks_picker_input" },
-            disable_in_macro = true,                       -- disable when recording or executing a macro
-            disable_in_visualblock = false,                -- disable when insert after visual block mode
-            disable_in_replace_mode = true,
-            ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
-            enable_moveright = true,
-            enable_afterquote = true,             -- add bracket pairs after quote
-            enable_check_bracket_line = true,     --- check bracket in same line
-            enable_bracket_in_quote = true,       --
-            enable_abbr = false,                  -- trigger abbreviation
-            break_undo = true,                    -- switch for basic rule break undo sequence
-            check_ts = false,
-            map_cr = true,
-            map_bs = true,       -- map the <BS> key
-            map_c_h = false,     -- Map the <C-h> key to delete a pair
-            map_c_w = false,     -- map <c-w> to delete a pair if possible
-        }
+        event = 'InsertEnter',
+        config = function()
+            require("configs.npairs")
+        end
         -- use opts = {} for passing setup options
         -- this is equivalent to setup({}) function
     },
-    -- {
-    --     "nvim-mini/mini.pairs",
-    --     event = "InsertEnter",
-    --     opts = {
-    --         modes = { insert = true, command = true, terminal = false },
-    --         -- skip autopair when next character is one of these
-    --         skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
-    --         -- skip autopair when the cursor is inside these treesitter nodes
-    --         skip_ts = { "string" },
-    --         -- skip autopair when next character is closing pair
-    --         -- and there are more closing pairs than opening pairs
-    --         skip_unbalanced = true,
-    --         -- better deal with markdown code blocks
-    --         markdown = true,
-    --     },
-    --     config = function(_, opts)
-    --         ---@param opts {skip_next: string, skip_ts: string[], skip_unbalanced: boolean, markdown: boolean}
-    --         local function mypairs(opts)
-    --             local pairs = require("mini.pairs")
-    --             pairs.setup(opts)
-    --             local open = pairs.open
-    --             pairs.open = function(pair, neigh_pattern)
-    --                 if vim.fn.getcmdline() ~= "" then
-    --                     return open(pair, neigh_pattern)
-    --                 end
-    --                 local o, c = pair:sub(1, 1), pair:sub(2, 2)
-    --                 local line = vim.api.nvim_get_current_line()
-    --                 local cursor = vim.api.nvim_win_get_cursor(0)
-    --                 local next = line:sub(cursor[2] + 1, cursor[2] + 1)
-    --                 local before = line:sub(1, cursor[2])
-    --                 if opts.markdown and o == "`" and vim.bo.filetype == "markdown" and before:match("^%s*``") then
-    --                     return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
-    --                 end
-    --                 if opts.skip_next and next ~= "" and next:match(opts.skip_next) then
-    --                     return o
-    --                 end
-    --                 if opts.skip_ts and #opts.skip_ts > 0 then
-    --                     local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1,
-    --                         math.max(cursor[2] - 1, 0))
-    --                     for _, capture in ipairs(ok and captures or {}) do
-    --                         if vim.tbl_contains(opts.skip_ts, capture.capture) then
-    --                             return o
-    --                         end
-    --                     end
-    --                 end
-    --                 if opts.skip_unbalanced and next == c and c ~= o then
-    --                     local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), "")
-    --                     local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), "")
-    --                     if count_close > count_open then
-    --                         return o
-    --                     end
-    --                 end
-    --                 return open(pair, neigh_pattern)
-    --             end
-    --         end
-    --         mypairs(opts)
-    --     end,
-    -- },
+
+    {
+        "nvim-mini/mini.pairs",
+        event = "CmdlineEnter",
+        opts = {
+            modes = { insert = false, command = true, terminal = false },
+            -- skip autopair when next character is one of these
+            skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+            -- skip autopair when the cursor is inside these treesitter nodes
+            skip_ts = { "string" },
+            -- skip autopair when next character is closing pair
+            -- and there are more closing pairs than opening pairs
+            skip_unbalanced = true,
+            -- better deal with markdown code blocks
+            markdown = true,
+        },
+        config = function(_, opts)
+            ---@param opts {skip_next: string, skip_ts: string[], skip_unbalanced: boolean, markdown: boolean}
+            local function mypairs(opts)
+                local pairs = require("mini.pairs")
+                pairs.setup(opts)
+                local open = pairs.open
+                pairs.open = function(pair, neigh_pattern)
+                    if vim.fn.getcmdline() ~= "" then
+                        return open(pair, neigh_pattern)
+                    end
+                    local o, c = pair:sub(1, 1), pair:sub(2, 2)
+                    local line = vim.api.nvim_get_current_line()
+                    local cursor = vim.api.nvim_win_get_cursor(0)
+                    local next = line:sub(cursor[2] + 1, cursor[2] + 1)
+                    local before = line:sub(1, cursor[2])
+                    if opts.markdown and o == "`" and vim.bo.filetype == "markdown" and before:match("^%s*``") then
+                        return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
+                    end
+                    if opts.skip_next and next ~= "" and next:match(opts.skip_next) then
+                        return o
+                    end
+                    if opts.skip_ts and #opts.skip_ts > 0 then
+                        local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1,
+                            math.max(cursor[2] - 1, 0))
+                        for _, capture in ipairs(ok and captures or {}) do
+                            if vim.tbl_contains(opts.skip_ts, capture.capture) then
+                                return o
+                            end
+                        end
+                    end
+                    if opts.skip_unbalanced and next == c and c ~= o then
+                        local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), "")
+                        local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), "")
+                        if count_close > count_open then
+                            return o
+                        end
+                    end
+                    return open(pair, neigh_pattern)
+                end
+            end
+            mypairs(opts)
+        end,
+    },
+
     {
         "nvim-mini/mini.surround",
         recommended = true,
@@ -348,12 +355,8 @@ return {
 
                     map_split(buf_id, opts.mappings and opts.mappings.go_in_horizontal or "<C-w>s", "horizontal", false)
                     map_split(buf_id, opts.mappings and opts.mappings.go_in_vertical or "<C-w>v", "vertical", false)
-                    map_split(
-                        buf_id,
-                        opts.mappings and opts.mappings.go_in_horizontal_plus or "<C-w>S",
-                        "horizontal",
-                        true
-                    )
+                    map_split(buf_id, opts.mappings and opts.mappings.go_in_horizontal_plus or "<C-w>S", "horizontal",
+                        true)
                     map_split(buf_id, opts.mappings and opts.mappings.go_in_vertical_plus or "<C-w>V", "vertical", true)
                 end,
             })
@@ -370,5 +373,6 @@ return {
     {
         "nvim-mini/mini.bracketed",
         event = "LazyFile",
+        opts = {}
     }
 }

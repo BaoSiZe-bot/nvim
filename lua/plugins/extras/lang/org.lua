@@ -1,6 +1,7 @@
 return {
     "nvim-orgmode/orgmode",
     ft = { "org" },
+    keys = { "<leader>va", "<leader>vn"},
     config = function()
         -- Setup orgmode
         require("orgmode").setup({

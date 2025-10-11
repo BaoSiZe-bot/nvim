@@ -27,13 +27,13 @@ local on_attach = function(client, bufnr)
         })
     end
 
-    if
-        client:supports_method("textDocument/inlayHints")
-        and vim.api.nvim_buf_is_valid(bufnr)
-        and vim.bo[bufnr].buftype == ""
-    then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end
+    -- if
+    --     client:supports_method("textDocument/inlayHints")
+    --     and vim.api.nvim_buf_is_valid(bufnr)
+    --     and vim.bo[bufnr].buftype == ""
+    -- then
+    --     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    -- end
 
     if client:supports_method("textDocument/foldingRange") then
         vim.o.foldmethod = "expr"
