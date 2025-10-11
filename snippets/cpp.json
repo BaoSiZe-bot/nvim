@@ -113,6 +113,36 @@
             "}"
         ]
     },
+    "oistarter": {
+        "prefix": "oi",
+        "body": [
+            "#include <cstdio>",
+            "",
+            "namespace Fujiwara",
+            "{",
+            "using ll = long long;",
+            "",
+            "static void solve()",
+            "{",
+            "    $2",
+            "}",
+            "static int Azusa()",
+            "{",
+            "    int t = 1;",
+            "    // scanf(\"%d\", &t);",
+            "    while (t--)",
+            "        solve();",
+            "    return 0;",
+            "}",
+            "}  // namespace Fujiwara",
+            "int main()",
+            "{",
+            "    freopen(\"${1:filename}.in\", \"r\", stdin);",
+            "    freopen(\"$1.out\", \"w\", stdout);",
+            "    return Fujiwara::Azusa();",
+            "}"
+        ]
+    },
     "quickread": {
         "prefix": "qr",
         "body": [
