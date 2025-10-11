@@ -192,7 +192,7 @@ local WinBars = {
     { -- An inactive winbar for regular files
         condition = function()
             return not conditions.is_active() and
-                not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
+                not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal") and vim.bo.buftype ~= "nofile"
         end,
         { hl = { fg = "gray", force = true }, MyFileNameBlock },
         {
@@ -204,7 +204,7 @@ local WinBars = {
     },
     {
         condition = function()
-            return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
+            return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal") and vim.bo.buftype ~= "nofile"
         end,
         -- A winbar for regular files
         MyFileNameBlock,
