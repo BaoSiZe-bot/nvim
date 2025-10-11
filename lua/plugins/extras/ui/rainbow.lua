@@ -35,6 +35,7 @@ return
                     },
                 }
             end,
+        event = "User FilePost",
         },
     },
     event = "UIEnter",

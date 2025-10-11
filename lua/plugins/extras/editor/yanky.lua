@@ -1,6 +1,6 @@
 return {
     "gbprod/yanky.nvim",
-    event = "UIEnter",
+    event = "User FilePost",
     opts = {
         highlight = { timer = 150 },
     },

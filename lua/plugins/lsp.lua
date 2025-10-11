@@ -237,11 +237,11 @@ return {
     -- },
     {
         "neovim/nvim-lspconfig",
-        event = "LazyFile",
+        event = "User FilePost",
         config = vim.schedule_wrap(function(_, opts)
             require("configs.lsp")
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-        end)
+        end),
     },
     {
         "smjonas/inc-rename.nvim",
@@ -256,7 +256,7 @@ return {
     {
         "rachartier/tiny-inline-diagnostic.nvim",
         -- lazy = false,
-        event = "UIEnter",
+        event = "User FilePost",
         priority = 1919810, -- needs to be loaded in first
         opts = {
             preset = "modern",
