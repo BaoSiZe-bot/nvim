@@ -86,9 +86,9 @@ local lsps = {
 }
 
 for _, lsp_name in ipairs(lsps) do
-    require("configs.lsp." .. lsp_name).setup(on_attach, capabilities)
+    require("configs.lsp.servers." .. lsp_name).setup(on_attach, capabilities)
 end
 
 if vim.fn.has("nvim-0.12") == 1 then
-    require("configs.lsp.copilot").setup(on_attach, capabilities)
+    require("configs.lsp.servers.copilot").setup(on_attach, capabilities)
 end
