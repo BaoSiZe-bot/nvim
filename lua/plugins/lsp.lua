@@ -46,6 +46,13 @@ return {
         },
         dependencies = {
             "rafamadriz/friendly-snippets",
+            {
+                "windwp/nvim-autopairs",
+                opts = {
+                    fast_wrap = {},
+                    disable_filetype = { "TelescopePrompt", "vim" },
+                },
+            },
         },
         event = { "LspAttach", "CmdlineEnter" },
         ---@module 'blink.cmp'
@@ -99,18 +106,26 @@ return {
                                         ctx.label_detail = ""
                                         local label = ctx.label
                                         local highlights = {
-                                            { 0, #label, group = ctx.deprecated and 'BlinkCmpLabelDeprecated' or 'BlinkCmpLabel' },
+                                            {
+                                                0,
+                                                #label,
+                                                group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel",
+                                            },
                                         }
 
-                                        if vim.list_contains(ctx.self.treesitter, ctx.source_id) and not ctx.deprecated then
+                                        if
+                                            vim.list_contains(ctx.self.treesitter, ctx.source_id) and not ctx.deprecated
+                                        then
                                             -- add treesitter highlights
-                                            vim.list_extend(highlights,
-                                                require('blink.cmp.completion.windows.render.treesitter').highlight(ctx))
+                                            vim.list_extend(
+                                                highlights,
+                                                require("blink.cmp.completion.windows.render.treesitter").highlight(ctx)
+                                            )
                                         end
 
                                         -- characters matched on the label by the fuzzy matcher
                                         for _, idx in ipairs(ctx.label_matched_indices) do
-                                            table.insert(highlights, { idx, idx + 1, group = 'BlinkCmpLabelMatch' })
+                                            table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
                                         end
 
                                         return highlights
@@ -126,8 +141,8 @@ return {
                         },
                     },
                     -- keyword = {
-                    -- 	range = "prefix",
-                    -- 	regex = "[_,:\\?!]\\|[A-Za-z0-9]",
+                    --     range = "prefix",
+                    --     regex = "[_,:\\?!]\\|[A-Za-z0-9]",
                     -- },
                     list = {
                         selection = {
@@ -140,7 +155,7 @@ return {
                         auto_show_delay_ms = 200,
                         window = {
                             -- border = "single",
-                        }
+                        },
                     },
                     ghost_text = {
                         enabled = true,
