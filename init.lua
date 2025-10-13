@@ -52,6 +52,8 @@ if not vim.g.vscode then
         { import = "plugins.extras.editor.yanky" },
         { import = "plugins.extras.editor.yazi" },
 
+        { import = "plugins.extras.rime" },
+
         { import = "plugins.extras.ui.bqf" },
         { import = "plugins.extras.ui.edgy" },
         { import = "plugins.extras.ui.rainbow" },
