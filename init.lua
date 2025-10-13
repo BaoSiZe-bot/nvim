@@ -25,8 +25,14 @@ if not vim.g.vscode then
         { import = "plugins.extras.ai.sidekick" },
         -- { import = "plugins.extras.ai.copilot-native" },
 
+        { import = "plugins.extras.mini.ai" },
+        { import = "plugins.extras.mini.files" },
+        { import = "plugins.extras.mini.hipatterns" },
+        { import = "plugins.extras.mini.pairs" },
+        { import = "plugins.extras.mini.surround" },
+
+        { import = "plugins.extras.editor.autopairs" },
         { import = "plugins.extras.editor.dial" },
-        { import = "plugins.extras.editor.hipatterns" },
         { import = "plugins.extras.editor.imas" },
         { import = "plugins.extras.editor.oil" },
         { import = "plugins.extras.editor.refactoring" },

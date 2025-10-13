@@ -25,7 +25,6 @@ return {
             },
         },
     },
-    { "nvim-lua/plenary.nvim" },
     {
         "folke/persistence.nvim",
         event = "VimLeavePre",
@@ -86,72 +85,6 @@ return {
         },
     },
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = function()
-            require("lazy").load({ plugins = { "markdown-preview.nvim" } })
-            vim.fn["mkdp#util#install"]()
-        end,
-        keys = {
-            {
-                "<leader>cp",
-                ft = "markdown",
-                "<cmd>MarkdownPreviewToggle<cr>",
-                desc = "Markdown Preview",
-            },
-        },
-        config = function()
-            vim.cmd([[do FileType]])
-        end,
-    },
-    {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-            code = {
-                sign = true,
-                width = "block",
-                right_pad = 1,
-            },
-            heading = {
-                sign = true,
-                -- icons = {},
-            },
-            checkbox = {
-                enabled = true,
-            },
-        },
-        ft = { "markdown", "norg", "rmd", "org", "codecompanion" },
-    },
-    {
-        "stevearc/conform.nvim",
-        optional = true,
-        opts = {
-            formatters = {
-                ["markdown-toc"] = {
-                    condition = function(_, ctx)
-                        for _, line in ipairs(vim.api.nvim_buf_get_lines(ctx.buf, 0, -1, false)) do
-                            if line:find("<!%-%- toc %-%->") then
-                                return true
-                            end
-                        end
-                    end,
-                },
-                ["markdownlint-cli2"] = {
-                    condition = function(_, ctx)
-                        local diag = vim.tbl_filter(function(d)
-                            return d.source == "markdownlint"
-                        end, vim.diagnostic.get(ctx.buf))
-                        return #diag > 0
-                    end,
-                },
-            },
-            formatters_by_ft = {
-                ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
-                ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
-            },
-        },
-    },
-    {
         "azratul/live-share.nvim",
         cmd = { "LiveShareServer", "LiveShareJoin" },
         dependencies = {
@@ -182,16 +115,6 @@ return {
             -- your configuration there
         },
     },
-    -- {
-    --     "2kabhishek/nerdy.nvim",
-    --     cmd = "Nerdy",
-    --     keys = { {
-    --         "<leader>N",
-    --         mode = { "n" },
-    --         "<Cmd>Nerdy<CR>",
-    --         desc = "Pick Icons",
-    --     } }
-    -- },
     {
         "cpea2506/relative-toggle.nvim",
         event = "LazyFile",
@@ -211,21 +134,9 @@ return {
         },
     },
     {
-        "NStefan002/2048.nvim",
-        cmd = "Play2048",
-        opts = {},
-    },
-    {
         "iamyoki/buffer-reopen.nvim",
         event = "VeryLazy",
         opts = {},
-    },
-    {
-        "jim-fx/sudoku.nvim",
-        cmd = "Sudoku",
-        opts = {
-            -- configuration ...
-        }
     },
     {
         "joshuadanpeterson/typewriter",
@@ -251,31 +162,6 @@ return {
             has_breadcrumbs = true,
             bg_theme = "summer",
         },
-    },
-    {
-        'abecodes/tabout.nvim',
-        opts = {
-            tabkey = '<Tab>',             -- key to trigger tabout, set to an empty string to disable
-            backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
-            act_as_tab = true,            -- shift content if tab out is not possible
-            act_as_shift_tab = false,     -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-            default_tab = '<C-t>',        -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
-            default_shift_tab = '<C-d>',  -- reverse shift default action,
-            enable_backwards = true,      -- well ...
-            completion = false,           -- if the tabkey is used in a completion pum
-            tabouts = {
-                { open = "'", close = "'" },
-                { open = '"', close = '"' },
-                { open = '`', close = '`' },
-                { open = '(', close = ')' },
-                { open = '[', close = ']' },
-                { open = '{', close = '}' }
-            },
-            ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
-            exclude = {}         -- tabout will ignore these filetypes
-        },
-        event = 'InsertCharPre', -- Set the event to 'InsertCharPre' for better compatibility
-        priority = 1000,
     },
     {
         'noearc/jieba.nvim',

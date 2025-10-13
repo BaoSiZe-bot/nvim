@@ -140,11 +140,6 @@ return {
             },
         },
     },
-
-    {
-        "eandrju/cellular-automaton.nvim",
-        cmd = { "CellularAutomaton" },
-    },
     {
         "LuxVim/nvim-luxmotion",
         enabled = false, -- kill it because it cause matchit don't work, it cause I can't insert 'web' in select mode.
