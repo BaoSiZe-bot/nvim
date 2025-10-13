@@ -3,19 +3,12 @@ local M = {}
 local map = vim.keymap.set
 -- export on_attach & capabilities
 M.on_attach = function(client, bufnr)
-    local function opts(desc)
-        return { buffer = bufnr, desc = "LSP " .. desc }
-    end
     if Abalone.lazy.has("snacks.nvim") then
-        map("n", "gd", function() Snacks.picker.lsp_definitions() end, { desc = "Goto Definition" })
-        map("n", "gr", function() Snacks.picker.lsp_references() end, { nowait = true, desc = "References" })
-        map("n", "gI", function() Snacks.picker.lsp_implementations() end, { desc = "Goto Implementation" })
-        map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
+        map("n", "gd", function() Snacks.picker.lsp_definitions() end, { buffer = bufnr, desc = "Goto Definition" })
+        map("n", "gr", function() Snacks.picker.lsp_references() end, { buffer = bufnr, nowait = true, desc = "References" })
+        map("n", "gI", function() Snacks.picker.lsp_implementations() end, { buffer = bufnr, desc = "Goto Implementation" })
+        map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { buffer = bufnr, desc = "Goto T[y]pe Definition" })
     end
-
-    map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts("Add workspace folder"))
-    map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts("Remove workspace folder"))
-
 
     if
         client:supports_method("textDocument/codeLens")
@@ -43,8 +36,8 @@ M.on_attach = function(client, bufnr)
 
     vim.keymap.set("n", "<leader>cr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
-    end, { expr = true, desc = "Rename" })
-    map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts("Code action"))
+    end, { expr = true, buffer = bufnr, desc = "Rename" })
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 end
 
 M.capabilities = {
