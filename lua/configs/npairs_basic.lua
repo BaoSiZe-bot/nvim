@@ -3,15 +3,30 @@ local cond = require("nvim-autopairs.conds")
 local utils = require('nvim-autopairs.utils')
 
 local function not_regex(opt)
-    return function (opts)
-        local result = true
+    return function(opts)
+        local chkprv = true
+        local chknxt = true
         if opt.ignored_prev_char and #opt.ignored_prev_char > 1 then
-            result = result and cond.not_before_regex(opt.ignored_prev_char)(opts)
+            chkprv = cond.not_before_regex(opt.ignored_prev_char)(opts)
+            if chkprv ~= nil then
+                chkprv = false
+            else
+                chkprv = true
+            end
         end
         if opt.ignored_next_char and #opt.ignored_next_char > 1 then
-            result = result and cond.not_after_regex(opt.ignored_next_char)(opts)
+            chknxt = cond.not_after_regex(opt.ignored_next_char)(opts)
+            if chknxt ~= nil then
+                chknxt = false
+            else
+                chknxt = true
+            end
         end
-        return result
+        local result = chkprv and chknxt
+        if result == false then
+            return false
+        end
+        return nil
     end
 end
 
@@ -53,8 +68,10 @@ local function setup(opt)
         Rule("<!--", "-->", { "html", "markdown" }):with_cr(cond.none()),
         Rule("```", "```", { "markdown", "vimwiki", "rmarkdown", "rmd", "pandoc", "quarto", "typst" })
             :with_pair(cond.not_before_char('`', 3)),
-        Rule("```.*$", "```", { "markdown", "vimwiki", "rmarkdown", "rmd", "pandoc", "quarto", "typst" }):only_cr():use_regex(true),
-        Rule('"""', '"""', { "python", "elixir", "julia", "kotlin", "scala","sbt" }):with_pair(cond.not_before_char('"', 3)),
+        Rule("```.*$", "```", { "markdown", "vimwiki", "rmarkdown", "rmd", "pandoc", "quarto", "typst" }):only_cr()
+            :use_regex(true),
+        Rule('"""', '"""', { "python", "elixir", "julia", "kotlin", "scala", "sbt" }):with_pair(cond.not_before_char('"',
+            3)),
         Rule("'''", "'''", { "python" }):with_pair(cond.not_before_char("'", 3)),
         quote("'", "'", { "-rust", "-nix" })
             :with_pair(function(opts)
