@@ -1,4 +1,5 @@
 local npairs = require('nvim-autopairs')
+local basic = require("configs.npairs_basic")
 local Rule = require('nvim-autopairs.rule')
 local cond = require('nvim-autopairs.conds')
 
@@ -10,10 +11,11 @@ npairs.setup({
     fast_wrap = {},
     disable_in_replace_mode = true,
     ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
+    ignored_prev_char = [=[[%%\\]]=],
     enable_moveright = true,
     enable_afterquote = true,         -- add bracket pairs after quote
-    enable_check_bracket_line = true, --- check bracket in same line
-    enable_bracket_in_quote = true,   --
+    enable_check_bracket_line = true, -- check bracket in same line
+    enable_bracket_in_quote = false,   --
     enable_abbr = false,              -- trigger abbreviation
     break_undo = true,                -- switch for basic rule break undo sequence
     check_ts = true,
@@ -22,9 +24,13 @@ npairs.setup({
     map_c_h = false, -- Map the <C-h> key to delete a pair
     map_c_w = false, -- map <c-w> to delete a pair if possible
 })
+
+npairs.config.rules = basic.setup(npairs.config)
+
 npairs.add_rules(require('nvim-autopairs.rules.endwise-elixir'))
 npairs.add_rules(require('nvim-autopairs.rules.endwise-lua'))
 npairs.add_rules(require('nvim-autopairs.rules.endwise-ruby'))
+
 -- for _, i in ipairs(npairs.config.rules) do
 --     i.key_map = nil
 -- end
@@ -62,49 +68,11 @@ local get_closing_for_line = function(line)
     return clo
 end
 
--- npairs.remove_rule('(')
--- npairs.remove_rule('{')
--- npairs.remove_rule('[')
--- npairs.remove_rule('\"')
--- npairs.remove_rule('`')
--- npairs.remove_rule('\'')
-
--- npairs.add_rules{
---   -- 示例：针对括号 () 在 Lua 中的规则
---   Rule("(", ")")
---     :with_pair(cond.not_before_regex("[\\\\%%]"))  -- 忽略前一个字符是 \（regex 中用 \\ 转义）
---     :with_del(cond.not_before_regex("[\\\\%%]")),  -- 同时忽略删除配对
---
---   -- 示例：针对引号 "" 在 Lua 中的规则
---   Rule("\"", "\"")
---     :with_pair(cond.not_before_regex("[\\\\%%]"))  -- 忽略前一个字符是 %
---     :with_del(cond.not_before_regex("[\\\\%%]")),
---
---   -- 组合规则：同时忽略 \ 和 %（针对多个符号）
---   Rule("[", "]")
---     :with_pair(cond.not_before_regex("[\\\\%%]")) -- regex 匹配 \ 或 %
---     :with_del(cond.not_before_regex("[\\\\%%]")),
---
---   -- 针对其他常见配对，如 {} 或 ''
---   Rule("{", "}")
---     :with_pair(cond.not_before_regex("[\\\\%%]"))
---     :with_del(cond.not_before_regex("[\\\\%%]")),
---
---   Rule("'", "'")
---     :with_pair(cond.not_before_regex("[\\\\%%]"))
---     :with_del(cond.not_before_regex("[\\\\%%]")),
---
---   Rule("`", "`")
---     :with_pair(cond.not_before_regex("[\\\\%%]"))
---     :with_del(cond.not_before_regex("[\\\\%%]")),
--- }
-
-
 npairs.add_rule(Rule("[%(%{%[]", "")
     :use_regex(true)
-    :replace_endpair(function(opts)
-        return get_closing_for_line(opts.line)
-    end)
+    -- :replace_endpair(function(opts)
+    --     return get_closing_for_line(opts.line)
+    -- end)
     :end_wise(function(opts)
         -- Do not endwise if there is no closing
         return get_closing_for_line(opts.line) ~= ""
@@ -128,6 +96,7 @@ for _, bracket in pairs(brackets) do
             :replace_map_cr(function(_) return '<C-c>2xi<CR><C-c>O' end)
     }
 end
+
 npairs.add_rule(
     Rule("```", "```")
     :with_pair(function(opts)
@@ -187,30 +156,3 @@ npairs.add_rules({
     Rule("'", "',", "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
     Rule('"', '",', "lua"):with_pair(ts_conds.is_ts_node({ "table_constructor" })),
 })
---
--- npairs.remove_rule("[")
--- npairs.add_rule(
---     Rule("%[%=*%[", "", "lua")
---     :use_regex(true)
---     :with_pair(function(opts)
---         local current_line = opts.line
---         -- 尝试匹配用户输入的前面部分，以捕获等号的数量
---         -- 模式：开头的 '[' 后跟零个或多个 '='，再跟一个 '['
---         local num_equals = current_line:match(".*%[(=*)")
---
---         if num_equals then
---             -- 捕获到了等号，返回闭合字符串
---             return true
---         end
---         -- 如果没有匹配到长字符串模式，则不自动匹配
---         return false
---     end)
---     :replace_endpair(function(opts)
---         local current_line = opts.line
---         local num_equals = current_line:match(".*%[(=*)")
---         local close_tag = "]" .. num_equals .. "]"
---         return close_tag
---     end)
---     :with_move(cond.none())
---     :with_del(cond.none())
--- )
