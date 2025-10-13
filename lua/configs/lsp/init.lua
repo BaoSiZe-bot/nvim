@@ -36,7 +36,7 @@ M.on_attach = function(client, bufnr)
 
     vim.keymap.set("n", "<leader>cr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
-    end, { expr = true, buffer = bufnr, desc = "Rename" })
+    end, { desc = "Rename" })
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 end
 

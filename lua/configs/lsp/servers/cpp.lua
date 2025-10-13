@@ -37,6 +37,8 @@ M.setup = function()
         },
     }
     vim.lsp.config("clangd", clangd_flags)
+    clangd_flags = vim.lsp.config["clangd"]
+    require("clangd_extensions").setup(vim.tbl_deep_extend("force", Abalone.lazy.opts("clangd_extensions") or {}, { server = clangd_flags }))
     vim.lsp.enable("clangd")
 end
 
