@@ -1,7 +1,8 @@
 -- load defaults i.e lua_lsp
+local M = {}
 local map = vim.keymap.set
 -- export on_attach & capabilities
-local on_attach = function(client, bufnr)
+M.on_attach = function(client, bufnr)
     local function opts(desc)
         return { buffer = bufnr, desc = "LSP " .. desc }
     end
@@ -40,16 +41,13 @@ local on_attach = function(client, bufnr)
         vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
     end
 
-    -- map("n", "<space>wl", function()
-    --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    -- end, opts("List workspace folders"))
     vim.keymap.set("n", "<leader>cr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
     end, { expr = true, desc = "Rename" })
     map({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts("Code action"))
 end
 
-local capabilities = {
+M.capabilities = {
     offsetEncoding = { "utf-16" },
     workspace = {
         fileOperations = {
@@ -78,17 +76,14 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
     return orig_util_open_floating_preview(contents, syntax, opts)
 end
 
-local lsps = {
-    "cpp",
-    "lua",
-    "json",
-    "python",
-}
-
-for _, lsp_name in ipairs(lsps) do
-    require("configs.lsp.servers." .. lsp_name).setup(on_attach, capabilities)
+M.setup = function(lsps)
+    vim.lsp.config("*", {
+        on_attach = M.on_attach,
+        capabilities = M.capabilities,
+    })
+    for _, lsp_name in ipairs(lsps) do
+        require("configs.lsp.servers." .. lsp_name).setup()
+    end
 end
 
-if vim.fn.has("nvim-0.12") == 1 then
-    require("configs.lsp.servers.copilot").setup(on_attach, capabilities)
-end
+return M

@@ -3,6 +3,7 @@ vim.g.mapleader = " "
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
     local repo = "https://github.com/folke/lazy.nvim.git"
+    print("Bootstrapping lazy.nvim plugins manager...")
     vim.fn.system({ "git", "clone", repo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
@@ -19,95 +20,41 @@ require("options")
 require("autocmds")
 if not vim.g.vscode then
     lazy.setup({
-        {
-            import = "plugins",
-        },
-        {
-            -- cond = vim.fn.has("nvim-0.12") == 1,
-            import = "plugins.extras.ai.sidekick",
-        },
-        {
-            import = "plugins.extras.editor.mini-hipatterns",
-        },
-        {
-            import = "plugins.extras.editor.yazi",
-        },
-        {
-            import = "plugins.extras.ui.rainbow",
-        },
-        {
-            import = "plugins.extras.linting.linter",
-        },
-        {
-            import = "plugins.extras.lang.org",
-        },
-        {
-            import = "plugins.extras.editor.trouble",
-        },
-        {
-            import = "plugins.extras.editor.yanky",
-        },
-        {
-            import = "plugins.extras.editor.undo",
-        },
-        {
-            import = "plugins.extras.editor.refactoring",
-        },
-        {
-            import = "plugins.extras.editor.splitjoin",
-        },
-        {
-            import = "plugins.extras.ui.bqf",
-        },
-        {
-            import = "plugins.extras.lang.clangd",
-        },
-        {
-            import = "plugins.extras.lang.json",
-        },
-        {
-            import = "plugins.extras.lang.markdown",
-        },
-        {
-            import = "plugins.extras.dap.core",
-        },
-        {
-            import = "plugins.extras.ui.edgy",
-        },
-        {
-            import = "plugins.extras.git",
-        },
-        {
-            import = "plugins.extras.editor.snacks"
-        },
-        {
-            import = "plugins.extras.editor.oil",
-        },
-        {
-            import = "plugins.extras.editor.dial",
-        },
-        -- {
-        --    import = "plugins.extras.gemini"
-        -- },
-        -- {
-        --    import = "plugins.extras.spacevim"
-        -- },
-        {
-            "Old-Farmer/im-autoswitch.nvim",
-            event = "LazyFile",
-            opts = {
-                cmd = {
-                    -- default im
-                    default_im = "1",
-                    -- get current im
-                    get_im_cmd = "fcitx5-remote",
-                    -- cmd to switch im. the plugin will put an im name in "{}"
-                    -- or
-                    -- cmd to switch im between active/inactive
-                    switch_im_cmd = "fcitx5-remote -t",
-                },
-            },
-        },
+        { import = "plugins" },
+
+        { import = "plugins.extras.ai.sidekick" },
+        -- { import = "plugins.extras.ai.copilot-native" },
+
+        { import = "plugins.extras.editor.dial" },
+        { import = "plugins.extras.editor.hipatterns" },
+        { import = "plugins.extras.editor.imas" },
+        { import = "plugins.extras.editor.oil" },
+        { import = "plugins.extras.editor.refactoring" },
+        { import = "plugins.extras.editor.snacks" },
+        { import = "plugins.extras.editor.splitjoin" },
+        { import = "plugins.extras.editor.trouble" },
+        { import = "plugins.extras.editor.undo" },
+        { import = "plugins.extras.editor.yanky" },
+        { import = "plugins.extras.editor.yazi" },
+
+        { import = "plugins.extras.ui.bqf" },
+        { import = "plugins.extras.ui.edgy" },
+        { import = "plugins.extras.ui.rainbow" },
+
+        { import = "plugins.extras.linting.core" },
+
+        { import = "plugins.extras.lang.cpp" },
+        { import = "plugins.extras.lang.json" },
+        { import = "plugins.extras.lang.markdown" },
+        { import = "plugins.extras.lang.org" },
+        { import = "plugins.extras.lang.python" },
+
+        { import = "plugins.extras.dap.core" },
+
+        { import = "plugins.extras.git" },
+
+        -- { import = "plugins.extras.gemini" },
+        -- { import = "plugins.extras.spacevim" },
     }, lazy_config)
     require("mappings")
     require("custom")

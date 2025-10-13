@@ -25,12 +25,8 @@ local fennel_language_server = {
     },
 }
 
-M.setup = function(on_attach, capabilities)
+M.setup = function()
     vim.lsp.fennel_language_server = fennel_language_server
-    vim.lsp.config("fennel_language_server", {
-        on_attach = on_attach,
-        capabilities = capabilities,
-    })
     vim.lsp.enable("fennel_language_server")
 end
 

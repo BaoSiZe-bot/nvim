@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(on_attach, capabilities)
+M.setup = function()
     local clangd_flags = {
         keys = { {
             "<leader>ch",
@@ -8,8 +8,6 @@ M.setup = function(on_attach, capabilities)
             desc = "Switch Source/Header (C/C++)",
             mode = "n"
         } },
-        on_attach = on_attach,
-        capabilities = capabilities,
         root_markers = {
             "compile_commands.json",
             "compile_flags.txt",
@@ -38,10 +36,6 @@ M.setup = function(on_attach, capabilities)
             clangdFileStatus = true,
         },
     }
-    if Abalone.lazy.has("clangd_extensions.nvim") then
-    require("clangd_extensions").setup(vim.tbl_deep_extend("force", Abalone.lazy.opts("clangd_extensions.nvim") or {},
-        { server = clangd_flags }))
-    end
     vim.lsp.config("clangd", clangd_flags)
     vim.lsp.enable("clangd")
 end

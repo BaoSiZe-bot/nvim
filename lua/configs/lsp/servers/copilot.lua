@@ -8,10 +8,11 @@ local on_attach = function(client, bufnr)
         { desc = "Prev Copilot Suggestion", buffer = bufnr })
 end
 
-M.setup = function(_, capabilities)
+M.setup = function()
     vim.schedule(function()
         vim.lsp.inline_completion.enable()
     end)
+
     -- Accept inline suggestions or next edits
     -- LazyVim.cmp.actions.ai_accept = function()
     --   return vim.lsp.inline_completion.get()
@@ -19,8 +20,8 @@ M.setup = function(_, capabilities)
 
     vim.lsp.config("copilot", {
         on_attach = on_attach,
-        capabilities = capabilities,
     })
+
     if not Abalone.lazy.has_extra("ai.sidekick") then
         vim.lsp.config("copilot", {
             handlers = {

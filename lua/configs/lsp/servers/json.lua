@@ -1,8 +1,6 @@
 local M = {}
-M.setup = function(on_attach, capabilities)
+M.setup = function()
     vim.lsp.config('jsonls', {
-        on_attach = on_attach,
-        capabilities = capabilities,
         -- lazy-load schemastore when needed
         filetypes = { "json", "jsonc", "json5" },
         before_init = function(_, new_config)

@@ -1,9 +1,7 @@
 local M = {}
 
-M.setup = function(on_attach, capabilities)
+M.setup = function()
     vim.lsp.config("lua_ls", {
-        on_attach = on_attach,
-        capabilities = capabilities,
         filetypes = { "lua" },
         settings = {
             Lua = {
