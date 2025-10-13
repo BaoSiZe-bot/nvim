@@ -15,7 +15,7 @@ npairs.setup({
     enable_moveright = true,
     enable_afterquote = true,         -- add bracket pairs after quote
     enable_check_bracket_line = true, -- check bracket in same line
-    enable_bracket_in_quote = false,   --
+    enable_bracket_in_quote = false,  --
     enable_abbr = false,              -- trigger abbreviation
     break_undo = true,                -- switch for basic rule break undo sequence
     check_ts = true,
@@ -35,55 +35,7 @@ npairs.add_rules(require('nvim-autopairs.rules.endwise-ruby'))
 --     i.key_map = nil
 -- end
 
--- require("ultimate-autopair").setup({})
-
-local get_closing_for_line = function(line)
-    local i = -1
-    local clo = ''
-
-    while true do
-        i, _ = string.find(line, "[%(%)%{%}%[%]]", i + 1)
-        if i == nil then break end
-        local ch = string.sub(line, i, i)
-        local st = string.sub(clo, 1, 1)
-
-        if ch == '{' then
-            clo = '}' .. clo
-        elseif ch == '}' then
-            if st ~= '}' then return '' end
-            clo = string.sub(clo, 2)
-        elseif ch == '(' then
-            clo = ')' .. clo
-        elseif ch == ')' then
-            if st ~= ')' then return '' end
-            clo = string.sub(clo, 2)
-        elseif ch == '[' then
-            clo = ']' .. clo
-        elseif ch == ']' then
-            if st ~= ']' then return '' end
-            clo = string.sub(clo, 2)
-        end
-    end
-
-    return clo
-end
-
-npairs.add_rule(Rule("[%(%{%[]", "")
-    :use_regex(true)
-    -- :replace_endpair(function(opts)
-    --     return get_closing_for_line(opts.line)
-    -- end)
-    :end_wise(function(opts)
-        -- Do not endwise if there is no closing
-        return get_closing_for_line(opts.line) ~= ""
-    end))
-
 local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
-
---          ╭─────────────────────────────────────────────────────────╮
---          │   For each pair of brackets we will add another rule    │
---          ╰─────────────────────────────────────────────────────────╯
-
 for _, bracket in pairs(brackets) do
     npairs.add_rules {
         -- Each of these rules is for a pair with left-side '( ' and right-side ' )' for each bracket type
@@ -97,39 +49,21 @@ for _, bracket in pairs(brackets) do
     }
 end
 
-npairs.add_rule(
-    Rule("```", "```")
-    :with_pair(function(opts)
-        return opts.line:match("``")
-    end)
-    :with_move(cond.none())
-    :with_del(cond.none())
-    :replace_map_cr(function(_)
-        return '<cr><cr>'
-    end)
-)
-npairs.add_rule(
-    Rule("\"\"\"", "\"\"\"")
-    :with_pair(function(opts)
-        return opts.line:match("\\\"\\\"")
-    end)
-    :with_move(cond.none())
-    :with_del(cond.none())
-    :replace_map_cr(function(_)
-        return '<cr><cr>'
-    end)
-)
-npairs.add_rule(
-    Rule("'''", "'''")
-    :with_pair(function(opts)
-        return opts.line:match("''")
-    end)
-    :with_move(cond.none())
-    :with_del(cond.none())
-    :replace_map_cr(function(_)
-        return '<cr><cr>'
-    end)
-)
+local quotes = { "`", "\"", "'", }
+for _, quote in pairs(quotes) do
+    local tr = quote .. quote .. quote
+    npairs.add_rule(
+        Rule(tr, tr)
+        :with_pair(function(opts)
+            return opts.line:match("``")
+        end)
+        :with_move(cond.none())
+        :with_del(cond.none())
+        :replace_map_cr(function(_)
+            return '<cr><cr>'
+        end)
+    )
+end
 
 local function rule2(a1, ins, a2, lang)
     npairs.add_rule(
