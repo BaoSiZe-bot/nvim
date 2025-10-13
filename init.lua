@@ -21,6 +21,8 @@ require("autocmds")
 if not vim.g.vscode then
     lazy.setup({
         { import = "plugins" },
+        { import = "plugins.extras.git" },
+        { import = "plugins.extras.sudo" },
 
         { import = "plugins.extras.ai.sidekick" },
         -- { import = "plugins.extras.ai.copilot-native" },
@@ -31,8 +33,15 @@ if not vim.g.vscode then
         { import = "plugins.extras.mini.pairs" },
         { import = "plugins.extras.mini.surround" },
 
+        { import = "plugins.extras.dap.core" },
+
+        { import = "plugins.extras.diagnostic.tiny" },
+        { import = "plugins.extras.diagnostic.sense" },
+
         { import = "plugins.extras.editor.autopairs" },
         { import = "plugins.extras.editor.dial" },
+        { import = "plugins.extras.editor.flash" },
+        { import = "plugins.extras.editor.grug-far" },
         { import = "plugins.extras.editor.imas" },
         { import = "plugins.extras.editor.oil" },
         { import = "plugins.extras.editor.refactoring" },
@@ -55,11 +64,8 @@ if not vim.g.vscode then
         { import = "plugins.extras.lang.org" },
         { import = "plugins.extras.lang.python" },
 
-        { import = "plugins.extras.dap.core" },
 
-        { import = "plugins.extras.git" },
-
-        -- { import = "plugins.extras.gemini" },
+        -- { import = "plugins.extras.nyaovim" },
         -- { import = "plugins.extras.spacevim" },
     }, lazy_config)
     require("mappings")
