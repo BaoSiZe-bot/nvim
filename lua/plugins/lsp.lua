@@ -42,12 +42,14 @@ return {
         "neovim/nvim-lspconfig",
         event = "User FilePost",
         opts = {
-            lsps = { "lua", },
+            lsps = { "lua" },
         },
         config = vim.schedule_wrap(function(_, opts)
-            require("configs.lsp").setup(opts.lsps)
+            for _, lsp_name in ipairs(opts.lsps) do
+                require("configs.lsp.servers." .. lsp_name).setup()
+            end
             vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-        end),
+        end)
     },
 
     {

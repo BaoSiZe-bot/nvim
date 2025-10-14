@@ -15,6 +15,10 @@ function M.on_attach(on_attach, name)
   })
 end
 
+local lsp_conf = require("configs.lsp")
+M._capabilities = lsp_conf.capabilities
+M._on_attach = lsp_conf.on_attach
+
 ---@type table<string, table<vim.lsp.Client, table<number, boolean>>>
 M._supports_method = {}
 

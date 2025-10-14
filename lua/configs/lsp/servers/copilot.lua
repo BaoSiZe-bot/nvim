@@ -20,6 +20,7 @@ M.setup = function()
 
     vim.lsp.config("copilot", {
         on_attach = on_attach,
+        capabilities = Abalone.lsp._capabilities,
     })
 
     if not Abalone.lazy.has_extra("ai.sidekick") then

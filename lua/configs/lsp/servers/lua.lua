@@ -20,6 +20,8 @@ M.setup = function()
                 },
             },
         },
+        on_attach = Abalone.lsp._on_attach,
+        capabilities = Abalone.lsp._capabilities,
     })
     vim.lsp.enable("lua_ls")
 end

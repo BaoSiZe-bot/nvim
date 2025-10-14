@@ -4,10 +4,14 @@ local map = vim.keymap.set
 -- export on_attach & capabilities
 M.on_attach = function(client, bufnr)
     if Abalone.lazy.has("snacks.nvim") then
-        map("n", "gd", function() Snacks.picker.lsp_definitions() end, { buffer = bufnr, desc = "Goto Definition" })
-        map("n", "gr", function() Snacks.picker.lsp_references() end, { buffer = bufnr, nowait = true, desc = "References" })
-        map("n", "gI", function() Snacks.picker.lsp_implementations() end, { buffer = bufnr, desc = "Goto Implementation" })
-        map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { buffer = bufnr, desc = "Goto T[y]pe Definition" })
+        map("n", "gd", function() Snacks.picker.lsp_definitions() end,
+            { buffer = bufnr, desc = "Goto Definition" })
+        map("n", "gr", function() Snacks.picker.lsp_references() end,
+            { buffer = bufnr, nowait = true, desc = "References" })
+        map("n", "gI", function() Snacks.picker.lsp_implementations() end,
+            { buffer = bufnr, desc = "Goto Implementation" })
+        map("n", "gy", function() Snacks.picker.lsp_type_definitions() end,
+            { buffer = bufnr, desc = "Goto T[y]pe Definition" })
     end
 
     if
@@ -36,8 +40,8 @@ M.on_attach = function(client, bufnr)
 
     vim.keymap.set("n", "<leader>cr", function()
         return ":IncRename " .. vim.fn.expand("<cword>")
-    end, { desc = "Rename", expr = true, })
-    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+    end, { desc = "Rename", buffer = bufnr, expr = true, })
+    map({ "n", "v" }, "<leader>ca", function() vim.lsp.buf.code_action() end, { desc = "Code action", buffer = bufnr })
 end
 
 M.capabilities = {
@@ -67,16 +71,6 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
     opts = opts or {}
     opts.border = "rounded"
     return orig_util_open_floating_preview(contents, syntax, opts)
-end
-
-M.setup = function(lsps)
-    vim.lsp.config("*", {
-        on_attach = M.on_attach,
-        capabilities = M.capabilities,
-    })
-    for _, lsp_name in ipairs(lsps) do
-        require("configs.lsp.servers." .. lsp_name).setup()
-    end
 end
 
 return M

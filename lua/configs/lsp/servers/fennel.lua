@@ -22,6 +22,8 @@ local fennel_language_server = {
                 },
             },
         },
+        on_attach = Abalone.lsp._on_attach,
+        capabilities = Abalone.lsp._capabilities,
     },
 }
 

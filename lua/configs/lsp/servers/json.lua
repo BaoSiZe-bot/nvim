@@ -15,6 +15,8 @@ M.setup = function()
                 validate = { enable = true },
             },
         },
+        on_attach = Abalone.lsp._on_attach,
+        capabilities = Abalone.lsp._capabilities,
     })
     vim.lsp.enable("jsonls")
 end
