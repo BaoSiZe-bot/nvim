@@ -17,6 +17,10 @@ return {
         end,
     },
     {
+        "dstein64/nvim-scrollview",
+        event = "UIEnter",
+    },
+    {
         "sphamba/smear-cursor.nvim",
         event = "CursorMoved",
         cond = vim.g.neovide == nil,
@@ -60,25 +64,16 @@ return {
         end,
     },
     {
+        "rainbowhxch/beacon.nvim",
+        event = "CursorMoved",
+        cond = function()
+            -- Don't load in neovide
+            return not vim.g.neovide
+        end,
+    },
+    {
         "levouh/tint.nvim",
         event = "UIEnter",
         opts = {}
     },
-    {
-        "tiagovla/scope.nvim",
-        event = "UIEnter",
-        keys = {
-            {
-                "<leader>sf",
-                mode = { "n" },
-                function()
-                    vim.cmd("ScopeMoveBuf")
-                end,
-                desc = "Find all buffers",
-            },
-        },
-        opts = {
-
-        }
-    }
 }

@@ -61,6 +61,7 @@ return {
     },
     {
         "benomahony/oil-git.nvim",
+        enabled = false,
         dependencies = { "stevearc/oil.nvim" },
         cmd = "Oil",
     },
@@ -68,7 +69,7 @@ return {
         "JezerM/oil-lsp-diagnostics.nvim",
         dependencies = { "stevearc/oil.nvim" },
         cmd = "Oil",
-        opts = {}
+        opts = {},
     },
     -- {
     --     "folke/edgy.nvim",

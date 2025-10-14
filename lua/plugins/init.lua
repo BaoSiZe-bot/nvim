@@ -1,7 +1,7 @@
 return {
     {
         "stevearc/conform.nvim",
-        -- event = "LazyFile", -- uncomment for format on save
+        event = "LazyFile", -- uncomment for format on save
         keys = {
             {
                 "<leader>cF",
@@ -15,16 +15,16 @@ return {
         opts = {
             formatters_by_ft = {
                 lua = { "stylua" },
-                cpp = { "clang_format" },
+                -- cpp = { "clang_format" },
                 -- css = { "prettier" },
                 -- html = { "prettier" },
             },
 
-            -- format_on_save = {
-            --     -- These options will be passed to conform.format()
-            --     timeout_ms = 10000000,
-            --     lsp_format = "fallback",
-            -- },
+            format_on_save = {
+                -- These options will be passed to conform.format()
+                timeout_ms = 1000,
+                lsp_format = "never",
+            },
         },
     },
     {

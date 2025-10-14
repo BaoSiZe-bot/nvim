@@ -23,6 +23,22 @@ return {
     {
         "axieax/urlview.nvim",
         cmd = { "UrlView" },
+        keys = {
+            {
+                "<leader>fl",
+                function ()
+                    require("urlview").search("lazy")
+                end,
+                desc = "Find plugins urls",
+            },
+            {
+                "<leader>su",
+                function ()
+                    require("urlview").search()
+                end,
+                desc = "Urls in buffer",
+            }
+        },
         opts = {}
     },
     {

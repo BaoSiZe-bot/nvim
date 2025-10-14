@@ -43,6 +43,7 @@ if not vim.g.vscode then
         { import = "plugins.extras.editor.flash" },
         { import = "plugins.extras.editor.grug-far" },
         { import = "plugins.extras.editor.imas" },
+        { import = "plugins.extras.editor.mc" },
         { import = "plugins.extras.editor.oil" },
         { import = "plugins.extras.editor.refactoring" },
         { import = "plugins.extras.editor.snacks" },
@@ -50,13 +51,14 @@ if not vim.g.vscode then
         { import = "plugins.extras.editor.trouble" },
         { import = "plugins.extras.editor.undo" },
         { import = "plugins.extras.editor.yanky" },
-        { import = "plugins.extras.editor.yazi" },
+        -- { import = "plugins.extras.editor.yazi" },
 
         { import = "plugins.extras.rime" },
 
         { import = "plugins.extras.ui.bqf" },
         { import = "plugins.extras.ui.edgy" },
         { import = "plugins.extras.ui.rainbow" },
+        { import = "plugins.extras.ui.statuscol" },
 
         { import = "plugins.extras.linting.core" },
 

@@ -63,7 +63,9 @@ end, { desc = "Quickfix List" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map({ "n", "v" }, "<leader>cf", function() return vim.lsp.buf.format() end, { desc = "Format" })
+
+map({ "n", "v" }, "<leader>cf", function() return require("conform").format({ lsp_format = "prefer" }) end, { desc = "Format" })
+
 local show_float_if_diagnostic = function()
   local diags = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
   if #diags > 0 then
