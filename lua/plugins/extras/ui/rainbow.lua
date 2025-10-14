@@ -92,6 +92,7 @@ return {
 				char = "│" --[[, highlight = "IblChar"]],
 			},
 			scope = {
+				enabled = false,
 				char = "│" --[[, highlight = "IblScopeChar"]],
 			},
 		},
@@ -120,15 +121,15 @@ return {
 				hl["RainbowGreen"] = { blend = 0, fg = C.green }
 				hl["RainbowViolet"] = { blend = 0, fg = C.mauve }
 				hl["RainbowCyan"] = { blend = 0, fg = C.teal }
-				local scopehl = {
-					link = "CursorLine",
-					-- bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false, create = false }).bg,
-					-- underline = false
-				}
+				-- local scopehl = {
+				-- 	link = "CursorLine",
+				-- 	-- bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false, create = false }).bg,
+				-- 	-- underline = false
+				-- }
 
-				for i = 1, 7, 1 do
-					hl["@ibl.scope.underline." .. i] = scopehl
-				end
+				-- for i = 1, 7, 1 do
+				-- 	hl["@ibl.scope.underline." .. i] = scopehl
+				-- end
 
 				for group, opt in pairs(hl) do
 					vim.api.nvim_set_hl(0, group, opt)
