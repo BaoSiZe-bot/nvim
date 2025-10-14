@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "Save Buffer" })
+map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "Save Buffer", remap = true })
 map("i", "<C-y>", "<C-r>+", { desc = "Yank" })
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height", silent = true })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height", silent = true })

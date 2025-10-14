@@ -61,6 +61,9 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.ui.rainbow" },
 		{ import = "plugins.extras.ui.statuscol" },
 
+		{ import = "plugins.extras.win.picker" },
+		{ import = "plugins.extras.win.shift" },
+
 		{ import = "plugins.extras.linting.core" },
 
 		{ import = "plugins.extras.lang.cpp" },
