@@ -38,7 +38,7 @@ return {
 		event = "User FilePost",
 		opts = {
 			line_num = {
-				enable = true,
+				enable = false,
 				duration = 150,
 				delay = 100,
 				-- ...
