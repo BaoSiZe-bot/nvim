@@ -51,6 +51,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.editor.surround" },
 		{ import = "plugins.extras.editor.splitjoin" },
 		{ import = "plugins.extras.editor.trouble" },
+		{ import = "plugins.extras.editor.ufo" },
 		{ import = "plugins.extras.editor.undo" },
 		{ import = "plugins.extras.editor.yanky" },
 		-- { import = "plugins.extras.editor.yazi" },
