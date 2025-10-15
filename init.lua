@@ -63,6 +63,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.ui.modicator" },
 		{ import = "plugins.extras.ui.rainbow" },
 		{ import = "plugins.extras.ui.statuscol" },
+		{ import = "plugins.extras.ui.ts_context_vt" },
 
 		{ import = "plugins.extras.win.picker" },
 		{ import = "plugins.extras.win.shift" },
