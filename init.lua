@@ -40,6 +40,7 @@ if not vim.g.vscode then
 
 		{ import = "plugins.extras.editor.autopairs" },
 		{ import = "plugins.extras.editor.dial" },
+		{ import = "plugins.extras.editor.exchange" },
 		{ import = "plugins.extras.editor.flash" },
 		{ import = "plugins.extras.editor.grug-far" },
 		{ import = "plugins.extras.editor.imas" },
