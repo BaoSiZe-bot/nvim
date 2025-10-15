@@ -60,6 +60,7 @@ if not vim.g.vscode then
 
 		{ import = "plugins.extras.ui.bqf" },
 		{ import = "plugins.extras.ui.edgy" },
+		{ import = "plugins.extras.ui.modicator" },
 		{ import = "plugins.extras.ui.rainbow" },
 		{ import = "plugins.extras.ui.statuscol" },
 
