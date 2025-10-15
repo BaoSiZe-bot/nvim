@@ -25,7 +25,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.sudo" },
 
 		{ import = "plugins.extras.ai.sidekick" },
-		-- { import = "plugins.extras.ai.copilot-native" },
+		{ import = "plugins.extras.ai.copilot-native" },
 
 		{ import = "plugins.extras.mini.ai" },
 		{ import = "plugins.extras.mini.files" },
