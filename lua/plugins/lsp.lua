@@ -8,6 +8,69 @@ return {
 		},
 	},
 	{
+		"mizlan/delimited.nvim",
+		event = "LspAttach",
+		keys = {
+			{
+				"[d",
+				function()
+					require("delimited").goto_prev()
+				end,
+				desc = "Diagnostic backward",
+			},
+			{
+				"[e",
+				function()
+					require("delimited").goto_prev({
+						severity = vim.diagnostic.severity.ERROR,
+					})
+				end,
+				desc = "Error backward",
+			},
+			{
+				"[w",
+				function()
+					require("delimited").goto_prev({
+						severity = vim.diagnostic.severity.WARN,
+					})
+				end,
+			},
+			{
+				"]d",
+				function()
+					require("delimited").goto_next()
+				end,
+				desc = "Diagnostic forward",
+			},
+			{
+				"]e",
+				function()
+					require("delimited").goto_next({
+						severity = vim.diagnostic.severity.ERROR,
+					})
+				end,
+				desc = "Error forward",
+			},
+			{
+				"]w",
+				function()
+					require("delimited").goto_next({
+						severity = vim.diagnostic.severity.WARN,
+					})
+				end,
+				desc = "Warning forward",
+			},
+		},
+		opts = {
+			pre = function()
+				-- do something here
+			end,
+			post = function()
+				-- do something here
+			end,
+		},
+	},
+	{
 		"Fildo7525/pretty_hover",
 		event = "LspAttach",
 		opts = {},
