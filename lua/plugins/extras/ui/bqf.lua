@@ -1,5 +1,15 @@
-return
-{
-    { "kevinhwang91/nvim-bqf",  ft = "qf" },
-    { "yorickpeterse/nvim-pqf", ft = "qf" },
+return {
+	{ "kevinhwang91/nvim-bqf", ft = "qf", opts = {} },
+	{
+		"yorickpeterse/nvim-pqf",
+		ft = "qf",
+		opts = {
+			signs = {
+				error = { text = "󰅙 ", hl = "DiagnosticSignError" },
+				warning = { text = " ", hl = "DiagnosticSignWarn" },
+				info = { text = "󰋼 ", hl = "DiagnosticSignInfo" },
+				hint = { text = "󰋼 ", hl = "DiagnosticSignHint" },
+			},
+		},
+	},
 }

@@ -1,6 +1,5 @@
 local map = vim.keymap.set
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "Save Buffer", remap = true })
-map("i", "<C-y>", "<C-r>+", { desc = "Yank" })
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height", silent = true })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height", silent = true })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width", silent = true })
@@ -15,6 +14,8 @@ map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Switch to Next Buffer" })
+map("n", "<leader>bp", "<cmd>bprev<cr>", { desc = "Switch to Prev Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 if Abalone.lazy.has("snacks.nvim") then
@@ -28,11 +29,10 @@ else
 	map("n", "<space>bd", "<cmd>bd", { silent = true, desc = "Delete Buffer" })
 end
 map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
-local function _6_()
+map({ "i", "n", "s" }, "<esc>", function()
 	vim.cmd("noh")
 	return "<esc>"
-end
-map({ "i", "n", "s" }, "<esc>", _6_, { expr = true, desc = "Escape and Clear hlsearch" })
+end, { expr = true, desc = "Escape and Clear hlsearch" })
 map(
 	"n",
 	"<leader>ur",
@@ -125,20 +125,18 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 if vim.fn.has("nvim-0.11") == false then
-	local function _12_()
+	map({ "i", "s" }, "<Tab>", function()
 		if vim.snippet.active({ direction = 1 }) then
 			return "<cmd>lua vim.snippet.jump(1)<cr>"
 		else
 			return "<Tab>"
 		end
-	end
-	map({ "i", "s" }, "<Tab>", _12_, { expr = true, desc = "Jump Next" })
-	local function _14_()
+	end, { expr = true, desc = "Jump Next" })
+	map({ "i", "s" }, "<S-Tab>", function()
 		if vim.snippet.active({ direction = -1 }) then
 			return "<cmd>lua vim.snippet.jump(-1)<cr>"
 		else
 			return "<S-Tab>"
 		end
-	end
-	map({ "i", "s" }, "<S-Tab>", _14_, { expr = true, desc = "Jump Previous" })
+	end, { expr = true, desc = "Jump Previous" })
 end
