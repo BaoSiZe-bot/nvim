@@ -30,6 +30,7 @@ return {
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
+		cond = vim.g.started_by_firenvim ~= true,
 		opts = {
 			notify = {
 				enabled = false,
