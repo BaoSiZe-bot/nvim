@@ -12,17 +12,16 @@
 * Todos
  先后顺序大致代表优先级
  * [X] 补充截图
- * [X] 等待 <https://github.com/pwntester/octo.nvim/issues/809>
- * [X] 等待 <https://github.com/stevearc/overseer.nvim/discussions/399>
  * [X] rime-ls
  * [X] 添加多光标
  * [X] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
- * [ ] 添加更多的 AI 功能
- * [ ] 各种pairs的具体优化
+ * [-] 接近 cursor&zed 的 AI 体验
+ * [X] 一个高效的 pairing 方案
+ * [ ] 一个舒适的文档编写环境
  * [ ] 使用 fennel
- * [ ] edgy-group
+ * [ ] 寻找一个合适的 edgy 分组方案
  * [X] 显示图片
- * [ ] 使用 rocks.nvim
+ * [ ] 测试 rocks.nvim
  * [ ] 音乐播放器
  * [ ] powermode
  * [ ] eaf&exwm
