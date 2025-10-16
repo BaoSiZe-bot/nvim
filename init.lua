@@ -24,7 +24,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.git" },
 		{ import = "plugins.extras.sudo" },
 
-		-- { import = "plugins.extras.ai.sidekick" },
+		{ import = "plugins.extras.ai.sidekick" },
 		{ import = "plugins.extras.ai.avante" },
 		{ import = "plugins.extras.ai.copilot-native" },
 
@@ -47,6 +47,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.editor.imas" },
 		{ import = "plugins.extras.editor.mc" },
 		{ import = "plugins.extras.editor.oil" },
+		{ import = "plugins.extras.editor.overseer" },
 		{ import = "plugins.extras.editor.refactoring" },
 		{ import = "plugins.extras.editor.snacks" },
 		{ import = "plugins.extras.editor.surround" },
