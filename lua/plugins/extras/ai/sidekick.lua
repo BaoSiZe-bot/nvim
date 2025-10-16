@@ -1,6 +1,7 @@
 return {
 	{
 		"folke/sidekick.nvim",
+		event = "User FilePost",
 		opts = {
 			-- add any options here
 			cli = {
