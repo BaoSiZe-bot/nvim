@@ -24,7 +24,8 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.git" },
 		{ import = "plugins.extras.sudo" },
 
-		{ import = "plugins.extras.ai.sidekick" },
+		-- { import = "plugins.extras.ai.sidekick" },
+		{ import = "plugins.extras.ai.avante" },
 		{ import = "plugins.extras.ai.copilot-native" },
 
 		{ import = "plugins.extras.mini.ai" },
@@ -35,7 +36,7 @@ if not vim.g.vscode then
 
 		{ import = "plugins.extras.dap.core" },
 
-		{ import = "plugins.extras.diagnostic.tiny" },
+		-- { import = "plugins.extras.diagnostic.tiny" },
 		{ import = "plugins.extras.diagnostic.sense" },
 
 		{ import = "plugins.extras.editor.autopairs" },
@@ -60,6 +61,7 @@ if not vim.g.vscode then
 
 		{ import = "plugins.extras.ui.bqf" },
 		{ import = "plugins.extras.ui.edgy" },
+		{ import = "plugins.extras.ui.firenvim" },
 		{ import = "plugins.extras.ui.modicator" },
 		{ import = "plugins.extras.ui.rainbow" },
 		{ import = "plugins.extras.ui.statuscol" },

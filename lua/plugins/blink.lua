@@ -129,9 +129,9 @@ return {
 						--, "minuet",
 					},
 					per_filetype = {
-						typst = { inherit_defaults = true, "dictionary" },
-						markdown = { inherit_defaults = true, "dictionary" },
-						text = { inherit_defaults = true, "dictionary" },
+						-- typst = { inherit_defaults = true, "dictionary" },
+						-- markdown = { inherit_defaults = true, "dictionary" },
+						-- text = { inherit_defaults = true, "dictionary" },
 						["dap-repl"] = { inherit_defaults = true, "dap" },
 						["dapui_hover"] = { inherit_defaults = true, "dap" },
 						["dapui_watches"] = { inherit_defaults = true, "dap" },
@@ -148,13 +148,13 @@ return {
 								return items
 							end,
 						},
-						dictionary = {
-							module = "blink-cmp-dictionary",
-							min_keyword_length = 3,
-							opts = {
-								dictionary_files = { vim.fn.expand("~/.config/nvim/lua/dict.txt") },
-							},
-						},
+						-- dictionary = {
+						-- 	module = "blink-cmp-dictionary",
+						-- 	min_keyword_length = 3,
+						-- 	opts = {
+						-- 		dictionary_files = { vim.fn.expand("~/.config/nvim/lua/dict.txt") },
+						-- 	},
+						-- },
 						markdown = {
 							name = "RenderMarkdown",
 							module = "render-markdown.integ.blink",
