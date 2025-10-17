@@ -24,9 +24,10 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.git" },
 		{ import = "plugins.extras.sudo" },
 
-		{ import = "plugins.extras.ai.sidekick" },
 		{ import = "plugins.extras.ai.avante" },
-		{ import = "plugins.extras.ai.copilot-native" },
+		{ import = "plugins.extras.ai.copilot" },
+		{ import = "plugins.extras.ai.sidekick" },
+		-- { import = "plugins.extras.ai.copilot-native" },
 
 		{ import = "plugins.extras.mini.ai" },
 		{ import = "plugins.extras.mini.files" },
@@ -36,7 +37,7 @@ if not vim.g.vscode then
 
 		{ import = "plugins.extras.dap.core" },
 
-		-- { import = "plugins.extras.diagnostic.tiny" },
+		{ import = "plugins.extras.diagnostic.tiny" },
 		{ import = "plugins.extras.diagnostic.sense" },
 
 		{ import = "plugins.extras.editor.autopairs" },
@@ -73,7 +74,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.win.shift" },
 
 		{ import = "plugins.extras.linting.core" },
-
+		--
 		{ import = "plugins.extras.lang.cpp" },
 		{ import = "plugins.extras.lang.json" },
 		{ import = "plugins.extras.lang.markdown" },
