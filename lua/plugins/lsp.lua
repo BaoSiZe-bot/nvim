@@ -94,7 +94,7 @@ return {
 		},
 	},
 	{
-		"baosize-bot/lsp-lens.nvim",
+		"oribarilan/lensline.nvim",
 		opts = {},
 		event = "LspAttach",
 	},
