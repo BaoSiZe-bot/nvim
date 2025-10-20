@@ -22,7 +22,7 @@
  * [ ] 寻找一个合适的 edgy 分组方案
  * [X] 显示图片
  * [ ] 测试 rocks.nvim
- * [ ] 音乐播放器
+ * [X] 音乐播放器
  * [ ] powermode
  * [ ] eaf&exwm
 * Known Issues
