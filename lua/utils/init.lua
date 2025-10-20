@@ -72,7 +72,7 @@ local M = {
             Calendar      = "",
             Watch         = "󰥔",
             Package       = "",
-            Copilot       = "",
+            Copilot       = "",
             Codeium       = "",
             TabNine       = "",
             BladeNav      = "",
@@ -80,56 +80,56 @@ local M = {
             Collapsed     = "",
         },
     },
-    ---@type table<string, string[]|boolean>?
-    kind_filter = {
-        default = {
-            "Class",
-            "Constructor",
-            "Enum",
-            "Field",
-            "Function",
-            "Interface",
-            "Method",
-            "Module",
-            "Namespace",
-            "Package",
-            "Property",
-            "Struct",
-            "Trait",
-        },
-        markdown = false,
-        help = false,
-        -- you can specify a different filter for each filetype
-        lua = {
-            "Class",
-            "Constructor",
-            "Enum",
-            "Field",
-            "Function",
-            "Interface",
-            "Method",
-            "Module",
-            "Namespace",
-            -- "Package", -- remove package since luals uses it for control flow structures
-            "Property",
-            "Struct",
-            "Trait",
-        },
-    },
+	---@type table<string, string[]|boolean>?
+	kind_filter = {
+		default = {
+			"Class",
+			"Constructor",
+			"Enum",
+			"Field",
+			"Function",
+			"Interface",
+			"Method",
+			"Module",
+			"Namespace",
+			"Package",
+			"Property",
+			"Struct",
+			"Trait",
+		},
+		markdown = false,
+		help = false,
+		-- you can specify a different filter for each filetype
+		lua = {
+			"Class",
+			"Constructor",
+			"Enum",
+			"Field",
+			"Function",
+			"Interface",
+			"Method",
+			"Module",
+			"Namespace",
+			-- "Package", -- remove package since luals uses it for control flow structures
+			"Property",
+			"Struct",
+			"Trait",
+		},
+	},
 }
 
 setmetatable(M, {
-    __index = function(t, k)
-        if LazyUtil[k] then
-            return LazyUtil[k]
-        end
-        t[k] = require("utils." .. k)
-        return t[k]
-    end,
+	__index = function(t, k)
+		if LazyUtil[k] then
+			return LazyUtil[k]
+		end
+		t[k] = require("utils." .. k)
+		return t[k]
+	end,
 })
 
 function M.is_win()
-    return vim.uv.os_uname().sysname:find("Windows") ~= nil
+	return vim.uv.os_uname().sysname:find("Windows") ~= nil
 end
 
 return M
