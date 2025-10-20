@@ -15,9 +15,9 @@
  * [X] rime-ls
  * [X] 添加多光标
  * [X] 结构化插件配置，类似于 Spacemacs 的层，或是 Lazyvim 的 Extras
- * [-] 接近 cursor&zed 的 AI 体验
+ * [X] 接近 cursor&zed 的 AI 体验
  * [X] 一个高效的 pairing 方案
- * [ ] 一个舒适的文档编写环境
+ * [-] 一个舒适的文档编写环境
  * [ ] 使用 fennel
  * [ ] 寻找一个合适的 edgy 分组方案
  * [X] 显示图片
@@ -26,4 +26,4 @@
  * [ ] powermode
  * [ ] eaf&exwm
 * Known Issues
-暂无
+ * [ ] rime-ls 若开启，会导致大量的内存泄露，使得 nvim 进程的内存占用极其恐怖，因此请在确保你的机器足够支撑 8G 的 nvim 的进程的情况下谨慎使用。
