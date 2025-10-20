@@ -47,7 +47,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.editor.grug-far" },
 		{ import = "plugins.extras.editor.imas" },
 		{ import = "plugins.extras.editor.mc" },
-		{ import = "plugins.extras.editor.oil" },
+		-- { import = "plugins.extras.editor.oil" },
 		{ import = "plugins.extras.editor.overseer" },
 		{ import = "plugins.extras.editor.refactoring" },
 		{ import = "plugins.extras.editor.snacks" },
@@ -70,6 +70,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.ui.ts_context_vt" },
 
 		{ import = "plugins.extras.trans" },
+		{ import = "plugins.extras.qalc" },
 		{ import = "plugins.extras.win.picker" },
 		{ import = "plugins.extras.win.shift" },
 
