@@ -66,11 +66,11 @@ return {
 			})
 		end,
 	},
-	{
-		"rainbowhxch/beacon.nvim",
-		cond = vim.g.started_by_firenvim ~= true and not vim.g.neovide,
-		event = "CursorMoved",
-	},
+	-- {
+	-- 	"rainbowhxch/beacon.nvim",
+	-- 	cond = vim.g.started_by_firenvim ~= true and not vim.g.neovide,
+	-- 	event = "CursorMoved",
+	-- },
 	{
 		"levouh/tint.nvim",
 		event = "UIEnter",
