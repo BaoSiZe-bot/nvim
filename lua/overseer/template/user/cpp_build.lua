@@ -11,8 +11,8 @@ return {
 				{
 					"on_output_quickfix",
 					open_on_exit = "failure",
-					focus_on_open = true,
 				},
+				"on_complete_notify",
 				"default",
 			},
 		}
