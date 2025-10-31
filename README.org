@@ -9,6 +9,10 @@
 [[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114620.png]]
 [[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114932.png]]
 [[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_115532.png]]
+
+建议终端：Kitty
+建议GUI：Neovide
+
 * Todos
  先后顺序大致代表优先级
  * [X] 补充截图
