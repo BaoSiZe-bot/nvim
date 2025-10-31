@@ -38,7 +38,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.dap.core" },
 
 		{ import = "plugins.extras.diagnostic.tiny" },
-		{ import = "plugins.extras.diagnostic.sense" },
+		-- { import = "plugins.extras.diagnostic.sense" },
 
 		{ import = "plugins.extras.editor.autopairs" },
 		{ import = "plugins.extras.editor.dial" },
@@ -67,9 +67,10 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.ui.modicator" },
 		{ import = "plugins.extras.ui.rainbow" },
 		{ import = "plugins.extras.ui.statuscol" },
-		{ import = "plugins.extras.ui.ts_context_vt" },
+		{ import = "plugins.extras.ui.ts_context" },
+		-- { import = "plugins.extras.ui.ts_context_vt" },
 
-		{ import = "plugins.extras.trans" },
+		-- { import = "plugins.extras.trans" },
 		{ import = "plugins.extras.qalc" },
 		{ import = "plugins.extras.win.picker" },
 		{ import = "plugins.extras.win.shift" },
