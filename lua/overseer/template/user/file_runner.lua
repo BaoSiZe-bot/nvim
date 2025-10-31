@@ -3,6 +3,7 @@ return {
 	builder = function()
 		return {
 			cmd = { "/tmp/" .. vim.fn.expand("%:t:e") .. "-" .. vim.fn.expand("%:t:r") },
+			cwd = vim.fn.expand("%:p:h"),
 			components = {
 				{
 					"dependencies",
