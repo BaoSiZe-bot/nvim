@@ -13,7 +13,7 @@ return {
 		opts = {
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
 			---@type Provider
-			provider = "gemini", -- The provider used in Aider mode or in the planning phase of Cursor Planning Mode
+			provider = "gemini-cli", -- The provider used in Aider mode or in the planning phase of Cursor Planning Mode
 			---@alias Mode "agentic" | "legacy"
 			---@type Mode
 			mode = "agentic", -- The default mode for interaction. "agentic" uses tools to automatically generate code, "legacy" uses the old planning method to generate code.
@@ -61,12 +61,12 @@ return {
 				gemini = {
 					endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
 					model = "gemini-2.5-flash-lite",
-					timeout = 30000, -- Timeout in milliseconds
+					timeout = 50000, -- Timeout in milliseconds
 					context_window = 1048576,
 					use_ReAct_prompt = true,
 					extra_request_body = {
 						generationConfig = {
-							temperature = 0.75,
+							temperature = 0.8,
 						},
 					},
 				},
