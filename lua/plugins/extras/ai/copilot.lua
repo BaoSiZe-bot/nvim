@@ -43,7 +43,7 @@ return {
 							end
 							return items
 						end,
-						score_offset = 100,
+						-- score_offset = 100,
 						async = true,
 					},
 				},
