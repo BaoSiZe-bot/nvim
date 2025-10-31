@@ -71,9 +71,9 @@ return {
 	-- 	cond = vim.g.started_by_firenvim ~= true and not vim.g.neovide,
 	-- 	event = "CursorMoved",
 	-- },
-	{
-		"levouh/tint.nvim",
-		event = "UIEnter",
-		opts = {},
-	},
+	-- {
+	-- 	"levouh/tint.nvim",
+	-- 	event = "UIEnter",
+	-- 	opts = {},
+	-- },
 }
