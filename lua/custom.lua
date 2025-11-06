@@ -53,7 +53,7 @@ local colors = {
 	line = "#414559", -- for lines like vertsplit
 	green = "#ABE9B3",
 	yellow = "#e5c890",
-	pmenu_bg = "#ca9ee6",
+	pmenu_bg = "#8caaee",
 }
 
 local theme = {
@@ -99,7 +99,7 @@ local highlights = {
 	Changed = { fg = colors.yellow },
 	MatchWord = { bg = colors.grey, fg = colors.white },
 	PmenuSbar = { bg = colors.one_bg },
-	PmenuSel = { bg = colors.pmenu_bg, fg = colors.black },
+	PmenuSel = { bg = colors.pmenu_bg, fg = colors.grey },
 	PmenuThumb = { bg = colors.grey },
 	MatchParen = { link = "MatchWord" },
 	Comment = { fg = colors.light_grey },
@@ -206,6 +206,8 @@ hl["RainbowOrange"] = { blend = 0, fg = C.peach }
 hl["RainbowGreen"] = { blend = 0, fg = C.green }
 hl["RainbowViolet"] = { blend = 0, fg = C.mauve }
 hl["RainbowCyan"] = { blend = 0, fg = C.teal }
+hl["Comment"] = { fg = "#737994", italic = true }
+
 -- local scopehl = {
 -- 	link = "CursorLine",
 -- 	-- bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false, create = false }).bg,
