@@ -7,7 +7,11 @@ return {
 		vim.o.foldcolumn = "1" -- '0' is not bad
 		vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 		vim.o.foldlevelstart = 99
-		vim.o.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldinner: ,foldclose:"
+		if vim.fn.has("nvim-0.12") ~= 0 then
+			vim.o.fillchars = "diff:╱,eob: ,fold: ,foldopen:,foldsep: ,foldinner: ,foldclose:"
+		else
+			vim.o.fillchars = "diff:╱,eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
+		end
 		local handler = function(virtText, lnum, endLnum, width, truncate)
 			local newVirtText = {}
 			local suffix = (" 󰁂 %d "):format(endLnum - lnum)
