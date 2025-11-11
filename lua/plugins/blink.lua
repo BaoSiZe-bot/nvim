@@ -76,7 +76,7 @@ return {
 									text = function(ctx)
 										local icons = vim.tbl_extend("force", {}, Abalone.icons.kinds)
 										local icon = (icons[ctx.kind] or "󰈚")
-										icon = " " .. icon .. " "
+										icon = " " .. icon .. ctx.icon_gap .. " "
 										return icon
 									end,
 								},
