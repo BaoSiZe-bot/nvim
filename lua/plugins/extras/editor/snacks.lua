@@ -36,7 +36,7 @@ return {
 			input = { enabled = true },
 			notifier = { enabled = true },
 			scope = { enabled = true },
-			scroll = { enabled = true },
+			scroll = { enabled = false },
 			words = { enabled = true },
 		},
 	},
@@ -101,16 +101,12 @@ return {
 						return Snacks.picker.pick(cmd, opts)()
 					end,
 					header = [[
-         (   )              (   )                                 .-.
-  .---.   | |.-.     .---.   | |    .--.    ___ .-.    ___  ___  ( __)  ___ .-. .-.
- / .-, \  | /   \   / .-, \  | |   /    \  (   )   \  (   )(   ) (''") (   )   '   \
-(__) ; |  |  .-. | (__) ; |  | |  |  .-. ;  |  .-. .   | |  | |   | |   |  .-.  .-. ;
-  .'`  |  | |  | |   .'`  |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | |
- / .'| |  | |  | |  / .'| |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | |
-| /  | |  | |  | | | /  | |  | |  | |  | |  | |  | |   | |  | |   | |   | |  | |  | |
-; |  ; |  | '  | | ; |  ; |  | |  | '  | |  | |  | |   ' '  ; '   | |   | |  | |  | |
-' `-'  |  ' `-' ;  ' `-'  |  | |  '  `-' /  | |  | |    \ `' /    | |   | |  | |  | |
-`.__.'_.   `.__.   `.__.'_. (___)  `.__.'  (___)(___)    '_.'    (___) (___)(___)(___)
+ █████╗ ██████╗  █████╗ ██╗      ██████╗ ███╗   ██╗██╗   ██╗██╗███╗   ███╗
+██╔══██╗██╔══██╗██╔══██╗██║     ██╔═══██╗████╗  ██║██║   ██║██║████╗ ████║
+███████║██████╔╝███████║██║     ██║   ██║██╔██╗ ██║╚██╗ ██╔╝██║██╔████╔██║
+██╔══██║██╔══██╗██╔══██║██║     ██║   ██║██║╚██╗██║ ╚████╔╝ ██║██║╚██╔╝██║
+██║  ██║██████╔╝██║  ██║███████╗╚██████╔╝██║ ╚████║  ╚██╔╝  ██║██║ ╚═╝ ██║
+╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝     ╚═╝
                 ]],
 					keys = {
 						{
@@ -225,7 +221,7 @@ return {
             { "<leader>.",       function() Snacks.scratch() end,                                                 desc = "Toggle Scratch Buffer" },
             { "<leader>S",       function() Snacks.scratch.select() end,                                          desc = "Select Scratch Buffer" },
             { "<leader>dps",     function() Snacks.profiler.scratch() end,                                        desc = "Profiler Scratch Buffer" },
-            { "<space>ft",       function() Snacks.terminal(nil, { cwd = Abalone.root.get() }) end,               desc = "Open Terminal" },
+            { "<space>ft",       function() Snacks.terminal(nil, { cwd = Abalone.root.get() }) end,               desc = "Open Terminal Horizontal" },
             { "<leader>z",       function() Snacks.zen() end,                                                     desc = "Zen mode" },
             { "<leader>cl",      function() Snacks.picker.lsp_config() end,                                       desc = "Lsp Info" },
         },
