@@ -18,6 +18,7 @@ map("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Switch to Next Buffer" })
 map("n", "<leader>bp", "<cmd>bprev<cr>", { desc = "Switch to Prev Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+map("n", "<leader>fT", "<cmd>vs<cr><cmd>te<cr>", { desc = "Open Terminal Vertical" })
 if Abalone.lazy.has("snacks.nvim") then
 	map("n", "<space>bd", function()
 		Snacks.bufdelete()
