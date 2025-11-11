@@ -10,7 +10,7 @@
 [[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_114932.png]]
 [[https://raw.githubusercontent.com/BaoSiZe-bot/assets/main/swappy-20251009_115532.png]]
 
-建议终端：Kitty
+建议终端：Kitty/Ghostty
 建议GUI：Neovide
 
 * Todos
@@ -27,7 +27,8 @@
  * [X] 显示图片
  * [ ] 测试 rocks.nvim
  * [X] 音乐播放器
- * [ ] powermode
  * [ ] eaf&exwm
+不再尝试在 neovim 中实现 powermode, 如有需求，请使用 ghostty 的自定义 shaders 功能    
+
 * Known Issues
  * [ ] rime-ls 若开启，会导致大量的内存泄露，使得 nvim 进程的内存占用极其恐怖，因此请在确保你的机器足够支撑 8G 的 nvim 的进程的情况下谨慎使用。
