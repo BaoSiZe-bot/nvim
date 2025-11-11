@@ -2,7 +2,18 @@ return {
 	{
 		"xeluxee/competitest.nvim",
 		event = "User FilePost",
-		opts = {},
+		opts = {
+			testcases_use_single_file = true,
+			start_receiving_persistently_on_setup = true,
+			compile_command = {
+				c = { exec = "clang", args = { "$(FNAME)", "-o", "/tmp/c-$(FNOEXT)", "-O2", "-std=c17", "-g" } },
+				cpp = { exec = "clang++", args = { "$(FNAME)", "-o", "/tmp/cpp-$(FNOEXT)", "-O2", "-std=c++20", "-g" } },
+			},
+			run_command = {
+				c = { exec = "/tmp/c-$(FNOEXT)" },
+				cpp = { exec = "/tmp/cpp-$(FNOEXT)" },
+			},
+		},
 		config = function(_, opts)
 			require("competitest").setup(opts)
 			require("which-key").add({
