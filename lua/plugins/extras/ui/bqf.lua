@@ -11,5 +11,8 @@ return {
 				hint = { text = "󰋼 ", hl = "DiagnosticSignHint" },
 			},
 		},
+		config = function(_, opts)
+			require("pqf").setup(opts)
+		end,
 	},
 }
