@@ -1,5 +1,14 @@
 return {
 	{
+		"folke/snacks.nvim",
+		keys = { -- disable conflicting keymaps
+			{ "<leader>gi", false },
+			{ "<leader>gI", false },
+			{ "<leader>gp", false },
+			{ "<leader>gP", false },
+		},
+	},
+	{
 		"pwntester/octo.nvim",
 		cmd = "Octo",
 		event = { { event = "BufReadCmd", pattern = "octo://*" } },

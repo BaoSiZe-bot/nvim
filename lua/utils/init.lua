@@ -13,7 +13,9 @@ local M = {
             dots = "󰇘",
         },
         ft = {
-            octo = "",
+            octo = " ",
+            gh = " ",
+            ["markdown.gh"] = " ",
         },
         dap = {
             Stopped             = { "󰁕", "DiagnosticWarn", "DapStoppedLine" },
