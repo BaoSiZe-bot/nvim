@@ -484,4 +484,5 @@ return {
 			},
 		},
 	},
+	{ import = "plugins.extras.editor.imas" },
 }
