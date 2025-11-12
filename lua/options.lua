@@ -54,7 +54,7 @@ if not g.vscode then
 	g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 else
 	-- o.showmode = false
-	-- o.clipboard = "unnamedplus"
+	o.clipboard = "unnamedplus"
 	-- o.relativenumber = true
 	-- o.number = true
 	-- o.numberwidth = 2
