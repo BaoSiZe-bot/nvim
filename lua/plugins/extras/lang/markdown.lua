@@ -22,33 +22,6 @@ return {
 		},
 	},
 	{
-		"nfrid/markdown-togglecheck",
-		dependencies = { "nfrid/treesitter-utils" },
-		ft = { "markdown" },
-		keys = {
-			-- toggle checked / create checkbox if it doesn't exist
-			{
-				"<leader>ct",
-				function()
-					vim.go.operatorfunc = "v:lua.require'markdown-togglecheck'.toggle"
-					return "g@l"
-				end,
-				desc = "toggle Checkmark",
-				ft = "markdown",
-			},
-			-- toggle checkbox (it doesn't remember toggle state and always creates [ ])
-			-- {
-			--     "<leader>ct",
-			--     function()
-			--         vim.go.operatorfunc = "v:lua.require'markdown-togglecheck'.togglebox"
-			--         return 'g@l'
-			--     end,
-			--     desc = "toggle Checkbox",
-			--     ft = "markdown"
-			-- }
-		},
-	},
-	{
 		"jubnzv/mdeval.nvim",
 		ft = { "markdown", "org", "norg" },
 		keys = {
@@ -66,19 +39,39 @@ return {
 		opts = {},
 	},
 	{
-		"AckslD/nvim-FeMaco.lua",
+		"jmbuhr/otter.nvim",
 		ft = { "markdown", "org", "norg" },
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		opts = {
+			buffers = {
+				set_filetype = true,
+				write_to_disk = true,
+			},
+		},
 		keys = {
 			{
 				"<leader>cb",
 				function()
-					require("femaco.edit").edit_code_block()
+					require("otter").activate()
 				end,
-				desc = "Extract Code Block",
+				desc = "Active Lsp in Code Block",
+				ft = { "markdown", "org", "norg" },
+			},
+			{
+				"<leader>cB",
+				function()
+					require("otter").deactivate()
+				end,
+				desc = "Deactivate Lsp in Code Block",
 				ft = { "markdown", "org", "norg" },
 			},
 		},
-		opts = {},
+		config = function(_, opts)
+			local otter = require("otter")
+			otter.setup(opts)
+		end,
 	},
 	{
 		"iamcco/markdown-preview.nvim",
