@@ -156,7 +156,6 @@ return {
 						"path",
 						"snippets",
 						"buffer",
-						"markdown",
 						--, "minuet",
 					},
 					per_filetype = {
@@ -186,11 +185,6 @@ return {
 						-- 		dictionary_files = { vim.fn.expand("~/.config/nvim/lua/dict.txt") },
 						-- 	},
 						-- },
-						markdown = {
-							name = "RenderMarkdown",
-							module = "render-markdown.integ.blink",
-							fallbacks = { "lsp" },
-						},
 						dap = {
 							name = "dap",
 							module = "blink.compat.source",
@@ -271,13 +265,13 @@ return {
 			return opts
 		end,
 		config = function(_, opts)
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "BlinkCmpMenuOpen",
-				callback = function()
-					require("copilot.suggestion").dismiss()
-					vim.b.copilot_suggestion_hidden = true
-				end,
-			})
+			-- vim.api.nvim_create_autocmd("User", {
+			-- 	pattern = "BlinkCmpMenuOpen",
+			-- 	callback = function()
+			-- 		require("copilot.suggestion").dismiss()
+			-- 		vim.b.copilot_suggestion_hidden = true
+			-- 	end,
+			-- })
 
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "BlinkCmpMenuClose",

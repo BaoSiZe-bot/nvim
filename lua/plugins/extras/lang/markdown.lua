@@ -99,24 +99,85 @@ return {
 			vim.cmd([[do FileType]])
 		end,
 	},
+
+	-- For `plugins/markview.lua` users.
 	{
-		"MeanderingProgrammer/render-markdown.nvim",
-		opts = {
-			code = {
-				sign = true,
-				width = "block",
-				right_pad = 1,
+		"OXY2DEV/markview.nvim",
+		lazy = false,
+		config = function()
+			local presets = require("markview.presets")
+			require("markview").setup({
+				---@diagnostic disable-next-line: missing-fields
+				markdown = {
+					enable = true,
+					headings = presets.headings.glow_center,
+					horizontal_rules = presets.horizontal_rules.thin,
+					tables = presets.tables.rounded,
+				},
+				latex = {
+					enable = false,
+					subscripts = { enable = true, fake_preview = false },
+				},
+				preview = {
+					icon_provider = "mini",
+					enable_hybrid_mode = true,
+					hybrid_modes = { "n", "no", "c", "i", "v" },
+					modes = { "n", "no", "c", "i", "v" },
+					filetypes = {
+						"markdown",
+						"quarto",
+						"typst",
+						"norg",
+						"rmd",
+						"org",
+						"codecompanion",
+						"Avante",
+					},
+				},
+			})
+			require("markview.extras.checkboxes").setup({
+				--- Default checkbox state(used when adding checkboxes).
+				---@type string
+				default = " ",
+
+				--- Changes how checkboxes are removed.
+				---@type
+				---| "disable" Disables the checkbox.
+				---| "checkbox" Removes the checkbox.
+				---| "list_item" Removes the list item markers too.
+				remove_style = "checkbox",
+
+				--- Various checkbox states.
+				---
+				--- States are in sets to quickly change between them
+				--- when there are a lot of states.
+				---@type string[][]
+				states = {
+					{ " ", "/", "X" },
+					{ "<", ">" },
+					{ "?", "!", "*" },
+					{ '"' },
+					{ "l", "b", "i" },
+					{ "S", "I" },
+					{ "p", "c" },
+					{ "f", "k", "w" },
+					{ "u", "d" },
+				},
+			})
+			-- require("markview.extras.editor").setup()
+		end,
+		dependencies = { "catppuccin/nvim" },
+		keys = {
+			{
+				"<leader>ct",
+				"<cmd>Checkbox toggle<cr>",
+				desc = "toggle Checkmark",
+				ft = "markdown",
+				mode = { "n", "v" },
 			},
-			heading = {
-				sign = true,
-				-- icons = {},
-			},
-			checkbox = {
-				enabled = true,
-			},
-			file_types = { "markdown", "norg", "rmd", "org", "codecompanion", "Avante" },
 		},
-		ft = { "markdown", "norg", "rmd", "org", "codecompanion", "Avante" },
+		-- Completion for `blink.cmp`
+		-- dependencies = { "saghen/blink.cmp" },
 	},
 	{
 		"stevearc/conform.nvim",

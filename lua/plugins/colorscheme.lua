@@ -18,6 +18,7 @@ return {
 				lsp_trouble = true,
 				mason = true,
 				markdown = true,
+				markview = true,
 				diffview = true,
 				fidget = true,
 				mini = true,

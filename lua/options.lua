@@ -4,9 +4,10 @@ local o = vim.o
 local g = vim.g
 _G.Abalone = require("utils")
 if not g.vscode then
-	opt.sidescrolloff = 8
 	opt.scrolloff = 4
 	opt.iskeyword = "_,49-57,A-Z,a-z"
+	opt.wrap = false
+	opt.sidescrolloff = 36
 	g.snacks_animate = true
 	opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 	opt.guifont = "JetbrainsMono Nerd Font:h14"
@@ -77,3 +78,5 @@ if g.neovide then
 	g.neovide_cursor_vfx_mode = "ripple"
 	g.neovide_input_ime = 0
 end
+
+require("configs.lsp.hover").setup()

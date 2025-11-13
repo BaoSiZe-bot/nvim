@@ -180,7 +180,7 @@ return {
 			windows = {
 				---@type "right" | "left" | "top" | "bottom"
 				position = "right", -- the position of the sidebar
-				wrap = true, -- similar to vim.o.wrap
+				wrap = false, -- similar to vim.o.wrap
 				width = 30, -- default % based on available width
 				sidebar_header = {
 					enabled = true, -- true, false to enable/disable the header
@@ -282,8 +282,6 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"folke/snacks.nvim", -- for input provider snacks
-			-- Make sure to set this up properly if you have lazy=true
-			"MeanderingProgrammer/render-markdown.nvim",
 		},
 	},
 
