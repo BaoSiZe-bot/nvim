@@ -1,13 +1,5 @@
 return {
 	{
-		"lewis6991/hover.nvim",
-		opts = {
-			init = function()
-				require("hover.providers.lsp")
-			end,
-		},
-	},
-	{
 		"mizlan/delimited.nvim",
 		event = "LspAttach",
 		keys = {
@@ -71,28 +63,15 @@ return {
 		},
 	},
 	{
-		"Fildo7525/pretty_hover",
-		event = "LspAttach",
-		opts = {},
-	},
-	{
 		"soulis-1256/eagle.nvim",
 		event = "LspAttach",
 		opts = {},
+		config = function(_, opts)
+			vim.o.mousemoveevent = true
+			require("eagle").setup(opts)
+		end,
 	},
 
-	{
-		"dnlhc/glance.nvim",
-		event = "LspAttach",
-		keymap = {
-			{
-				"<leader>cp",
-				"<cmd>Glance<cr>",
-				mode = { "n" },
-				desc = "Lsp Peek",
-			},
-		},
-	},
 	{
 		"oribarilan/lensline.nvim",
 		opts = {},
@@ -119,7 +98,6 @@ return {
 		opts = {
 			autocmd = { enabled = true },
 			float = {
-				-- fucking border!
 				enabled = false,
 				text = " ",
 				lens_text = " ",
@@ -146,10 +124,4 @@ return {
 		cmd = "IncRename",
 		opts = {},
 	},
-
-	-- {
-	--     "m-demare/hlargs.nvim",
-	--     event = "LspAttach",
-	--     opts = {},
-	-- },
 }
