@@ -23,7 +23,7 @@ return {
 			{ "<leader>gI", "<cmd>Octo issue search<CR>", desc = "Search Issues (Octo)" },
 			{ "<leader>gp", "<cmd>Octo pr list<CR>", desc = "List PRs (Octo)" },
 			{ "<leader>gP", "<cmd>Octo pr search<CR>", desc = "Search PRs (Octo)" },
-			{ "<leader>gr", "<cmd>Octo repo list<CR>", desc = "List Repos (Octo)" },
+			{ "<leader>gR", "<cmd>Octo repo list<CR>", desc = "List Repos (Octo)" },
 			{ "<leader>gS", "<cmd>Octo search<CR>", desc = "Search (Octo)" },
 			{ "<localleader>a", "", desc = "+assignee (Octo)", ft = "octo" },
 			{ "<localleader>c", "", desc = "+comment/code (Octo)", ft = "octo" },
@@ -91,7 +91,7 @@ return {
 			-- "ascii"   is the graph the git CLI generates
 			-- "unicode" is the graph like https://kkgithub.com/rbong/vim-flog
 			-- "kitty"   is the graph like https://kkgithub.com/isakbm/gitgraph.nvim - use https://kkgithub.com/rbong/flog-symbols if you don't use Kitty
-			graph_style = "unicode",
+			graph_style = "kitty",
 			-- Set to false if you want to be responsible for creating _ALL_ keymappings
 			use_default_keymaps = true,
 			-- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
@@ -168,6 +168,7 @@ return {
 					hidden = false,
 				},
 			},
+			integrations = { diffview = true, snacks = true },
 		},
 	},
 	{
