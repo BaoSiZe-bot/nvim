@@ -249,13 +249,14 @@ return {
 			end,
 		},
 	},
-	-- {
-	-- 	"APZelos/blamer.nvim",
-	-- 	event = "LazyFile",
-	-- 	config = function()
-	-- 		vim.g.blamer_enabled = true
-	-- 		vim.g.blamer_delay = 300
-	-- 	end,
-	-- },
+	{
+		"APZelos/blamer.nvim",
+		event = "User FilePost",
+		config = function()
+			vim.g.blamer_enabled = true
+			vim.g.blamer_delay = 300
+			vim.g.blamer_show_in_insert_modes = 0
+		end,
+	},
 	{ "akinsho/git-conflict.nvim", opts = {}, event = "LazyFile" },
 }
