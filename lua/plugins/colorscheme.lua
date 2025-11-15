@@ -20,6 +20,7 @@ return {
 			},
 			integrations = {
 				blink_cmp = { style = "bordered" },
+				-- blink_indent = true,
 				flash = true,
 				fzf = true,
 				grug_far = true,
@@ -30,7 +31,10 @@ return {
 				markview = true,
 				diffview = true,
 				fidget = true,
-				mini = true,
+				mini = {
+					enabled = true,
+					indentscope_color = "text",
+				},
 				native_lsp = {
 					enabled = true,
 					underlines = {
@@ -48,14 +52,20 @@ return {
 				neotree = true,
 				noice = true,
 				semantic_tokens = true,
-				snacks = true,
+				snacks = {
+					enabled = true,
+					indentscope_color = "text",
+				},
 				telescope = true,
 				treesitter = true,
 				treesitter_context = true,
 				which_key = true,
+				ufo = true,
+				nvim_surround = true,
 				dap = true,
 				dap_ui = true,
 				neogit = true,
+				gitgraph = true,
 				octo = true,
 				overseer = true,
 				window_picker = true,
