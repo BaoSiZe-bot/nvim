@@ -98,7 +98,7 @@ return {
 			-- Disabling `auto_refresh` will make it so you have to manually refresh the status after you open it.
 			auto_refresh = true,
 			-- Change the default way of opening neogit
-			kind = "tab",
+			kind = "floating",
 			-- The time after which an output console is shown for slow running commands
 			console_timeout = 10000,
 			-- Automatically show console if a command takes more than console_timeout milliseconds
@@ -111,6 +111,18 @@ return {
 				show_staged_diff = true,
 				staged_diff_split_kind = "auto",
 				spell_check = true,
+			},
+			commit_select_view = {
+				kind = "floating",
+			},
+			log_view = {
+				kind = "floating",
+			},
+			stash = {
+				kind = "floating",
+			},
+			refs_view = {
+				kind = "floating",
 			},
 			preview_buffer = {
 				kind = "floating_console",
