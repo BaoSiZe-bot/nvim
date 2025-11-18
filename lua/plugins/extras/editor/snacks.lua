@@ -30,7 +30,7 @@ return {
 				fps = 100,
 			},
 			bigfile = { enabled = true },
-			explorer = { enabled = true },
+			explorer = { enabled = false },
 			image = { enabled = true },
 			-- indent = { enabled = true },
 			input = { enabled = true },
@@ -53,42 +53,6 @@ return {
 					},
 				},
 			},
-		},
-	},
-	{
-		"folke/snacks.nvim",
-		opts = {
-			picker = {
-				sources = {
-					explorer = {
-						layout = {
-							layout = {
-								width = 0.2,
-								height = 0.2,
-								position = "right",
-							},
-						},
-					},
-				},
-			},
-		},
-		keys = {
-			{
-				"<leader>fe",
-				function()
-					Snacks.explorer({ cwd = Abalone.root.get() })
-				end,
-				desc = "Explorer Snacks (root dir)",
-			},
-			{
-				"<leader>fE",
-				function()
-					Snacks.explorer()
-				end,
-				desc = "Explorer Snacks (cwd)",
-			},
-			{ "<leader>e", "<leader>fe", desc = "Explorer Snacks (root dir)", remap = true },
-			{ "<leader>E", "<leader>fE", desc = "Explorer Snacks (cwd)", remap = true },
 		},
 	},
 	{
