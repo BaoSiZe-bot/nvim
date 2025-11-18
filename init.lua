@@ -25,15 +25,9 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.sudo" },
 
 		{ import = "plugins.extras.ai.avante" },
-		{ import = "plugins.extras.ai.copilot" },
 		{ import = "plugins.extras.ai.sidekick" },
+		{ import = "plugins.extras.ai.copilot" },
 		-- { import = "plugins.extras.ai.copilot-native" },
-
-		{ import = "plugins.extras.mini.ai" },
-		{ import = "plugins.extras.mini.files" },
-		{ import = "plugins.extras.mini.hipatterns" },
-		{ import = "plugins.extras.mini.pairs" },
-		-- { import = "plugins.extras.mini.surround" },
 
 		{ import = "plugins.extras.dap.core" },
 
@@ -41,6 +35,7 @@ if not vim.g.vscode then
 		-- { import = "plugins.extras.diagnostic.sense" },
 
 		{ import = "plugins.extras.editor.autopairs" },
+		{ import = "plugins.extras.editor.buffon" },
 		{ import = "plugins.extras.editor.dial" },
 		{ import = "plugins.extras.editor.exchange" },
 		{ import = "plugins.extras.editor.flash" },
@@ -59,27 +54,37 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.editor.yanky" },
 		-- { import = "plugins.extras.editor.yazi" },
 
+		{ import = "plugins.extras.mini.ai" },
+		-- { import = "plugins.extras.mini.files" },
+		{ import = "plugins.extras.mini.hipatterns" },
+		{ import = "plugins.extras.mini.pairs" },
+		-- { import = "plugins.extras.mini.surround" },
+
 		{ import = "plugins.extras.rime" },
 		{ import = "plugins.extras.nvzone.triforce" },
 
 		{ import = "plugins.extras.ui.bqf" },
 		{ import = "plugins.extras.ui.edgy" },
-		{ import = "plugins.extras.ui.firenvim" },
-		{ import = "plugins.extras.ui.modicator" },
+		-- { import = "plugins.extras.ui.firenvim" },
+		-- { import = "plugins.extras.ui.modicator" },
 		{ import = "plugins.extras.ui.rainbow" },
+		{ import = "plugins.extras.ui.reactive" },
 		{ import = "plugins.extras.ui.statuscol" },
 		{ import = "plugins.extras.ui.ts_context" },
+		{ import = "plugins.extras.ui.winsep" },
+
+		{ import = "plugins.extras.editor.fyler" },
 		-- { import = "plugins.extras.ui.ts_context_vt" },
 
 		-- { import = "plugins.extras.trans" },
-		{ import = "plugins.extras.qalc" },
+		-- { import = "plugins.extras.qalc" },
 		{ import = "plugins.extras.win.picker" },
-		{ import = "plugins.extras.win.shift" },
+		-- { import = "plugins.extras.win.shift" },
 
 		{ import = "plugins.extras.linting.core" },
 		--
 		{ import = "plugins.extras.lang.cpp" },
-		{ import = "plugins.extras.lang.json" },
+		-- { import = "plugins.extras.lang.json" },
 		{ import = "plugins.extras.lang.markdown" },
 		{ import = "plugins.extras.lang.org" },
 		{ import = "plugins.extras.lang.python" },
