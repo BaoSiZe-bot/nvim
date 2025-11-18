@@ -134,4 +134,16 @@ function M.is_win()
 	return vim.uv.os_uname().sysname:find("Windows") ~= nil
 end
 
+function M.shrink_format(num)
+	if num >= 1000000000 then
+		return string.format("%.1fB", num / 1000000000)
+	elseif num >= 1000000 then
+		return string.format("%.1fM", num / 1000000)
+	elseif num >= 1000 then
+		return string.format("%.1fK", num / 1000)
+	else
+		return tostring(num)
+	end
+end
+
 return M
