@@ -3,7 +3,6 @@ return {
 		"stevearc/overseer.nvim",
 		-- FIXME: ATTN: overseer.nvim will experience breaking changes soon. Pin to version v1.6.0 or earlier to avoid disruption. See: https://github.com/stevearc/overseer.nvim/pull/448
 		-- version = "v1.6.0",
-		branch = "stevearc-rewrite",
 		cmd = {
 			"OverseerOpen",
 			"OverseerClose",
