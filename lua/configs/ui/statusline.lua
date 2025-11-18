@@ -15,40 +15,40 @@ local ViMode = {
 	-- them at initialisation time.
 	static = {
 		mode_names = { -- change the strings if you like it vvvvverbose!
-			n = "N",
-			no = "N?",
-			nov = "N?",
-			noV = "N?",
-			["no\22"] = "N?",
-			niI = "Ni",
-			niR = "Nr",
-			niV = "Nv",
-			nt = "Nt",
-			v = "V",
-			vs = "Vs",
-			V = "V_",
-			Vs = "Vs",
-			["\22"] = "^V",
-			["\22s"] = "^V",
-			s = "S",
-			S = "S_",
-			["\19"] = "^S",
-			i = "I",
+			n = "󰰓 ",
+			no = "󰰔 ",
+			nov = "󰰔 ",
+			noV = "󰰔 ",
+			["no\22"] = "󰰔 ",
+			niI = "󰰅 ",
+			niR = "󰰠 ",
+			niV = "󰰪 ",
+			nt = " ",
+			v = "󰰫 ",
+			vs = "󰰬 ",
+			V = "󰬝 ",
+			Vs = "󰰪 ",
+			["\22"] = "󰬝 ",
+			["\22s"] = "󰰪 ",
+			s = "󰰣 ",
+			S = "󰰡 ",
+			["\19"] = "󰬚 ",
+			i = "󰰄 ",
 			ic = "Ic",
 			ix = "Ix",
-			R = "R",
+			R = "󰰟 ",
 			Rc = "Rc",
 			Rx = "Rx",
 			Rv = "Rv",
 			Rvc = "Rv",
 			Rvx = "Rv",
-			c = "C",
-			cv = "Ex",
+			c = "󰯲 ",
+			cv = "󰯱 ",
 			r = "...",
 			rm = "M",
 			["r?"] = "?",
 			["!"] = "!",
-			t = "T",
+			t = " ",
 		},
 		mode_colors = {
 			n = "blue",
@@ -89,6 +89,15 @@ local FileType = {
 	end,
 	hl = { fg = utils.get_highlight("Type").fg, bold = true },
 }
+
+local FileSize = {
+	provider = function()
+		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+		local buffer_content = table.concat(lines, "\n")
+		return Abalone.shrink_format(vim.fn.strchars(buffer_content))
+	end,
+}
+
 local Ruler = {
 	provider = "%l:%c %P",
 }
@@ -372,8 +381,9 @@ local DefaultStatusline = {
 	end,
 	ViMode,
 	Space,
-	CurrentFileIcon,
+	FileSize,
 	Space,
+	CurrentFileIcon,
 	Space,
 	WorkDir,
 	Space,
