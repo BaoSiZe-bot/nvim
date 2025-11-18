@@ -34,6 +34,12 @@ return {
 						relativenumber = true,
 						winhighlight = "Normal:FylerNormal,NormalNC:FylerNormalNC",
 						wrap = false,
+						sidescrolloff = 0,
+					},
+					kinds = {
+						split_right = {
+							width = "20%",
+						},
 					},
 				},
 			},
@@ -43,24 +49,30 @@ return {
 		{
 			"<leader>fp",
 			function()
-				require("fyler").open({
+				require("fyler").toggle({
 					dir = Abalone.root.get(), -- (Optional) Start in specific directory
-					kind = "split_right_most", -- (Optional) Use custom window layout
+					kind = "split_right", -- (Optional) Use custom window layout
 				})
+				vim.defer_fn(function()
+					vim.cmd("normal! 0")
+				end, 500)
 			end,
-			desc = "Open Fyler (Root dir)",
+			desc = "Toggle Fyler (Root dir)",
 		},
 		{
 			"<leader>fP",
 			function()
-				require("fyler").open({
+				require("fyler").toggle({
 					dir = vim.uv.cwd(),
-					kind = "split_right_most",
+					kind = "split_right",
 				})
+				vim.defer_fn(function()
+					vim.cmd("normal! 0")
+				end, 500)
 			end,
-			desc = "Open Fyler (cwd)",
+			desc = "Toggle Fyler (cwd)",
 		},
-		{ "<leader>e", "<leader>fp", desc = "Open Fyler (root dir)", remap = true },
-		{ "<leader>E", "<leader>fP", desc = "Open Fyler (cwd)", remap = true },
+		{ "<leader>e", "<leader>fp", desc = "Toggle Fyler (root dir)", remap = true },
+		{ "<leader>E", "<leader>fP", desc = "Toggle Fyler (cwd)", remap = true },
 	},
 }

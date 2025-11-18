@@ -57,7 +57,7 @@ return {
 				},
 				right = {
 					{ title = "Grug Far", ft = "grug-far", size = { width = 0.4 } },
-					{ title = "Project", ft = "fyler", size = { width = 0.25 } },
+					{ title = "Project", ft = "fyler", size = { width = 0.20 } },
 				},
 				keys = {
 					-- increase width
