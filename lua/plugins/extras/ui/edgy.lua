@@ -24,7 +24,7 @@ return {
 					{
 						ft = "toggleterm",
 						title = "Terminal",
-						size = { height = 0.4 },
+						size = { height = 0.2 },
 						filter = function(buf, win)
 							return vim.api.nvim_win_get_config(win).relative == ""
 						end,
@@ -32,7 +32,7 @@ return {
 					{
 						ft = "noice",
 						title = "Noice",
-						size = { height = 0.4 },
+						size = { height = 0.2 },
 						filter = function(buf, win)
 							return vim.api.nvim_win_get_config(win).relative == ""
 						end,
@@ -41,14 +41,14 @@ return {
 					{
 						ft = "help",
 						title = "Help",
-						size = { height = 20 },
+						size = { height = 0.2 },
 						-- don't open help files in edgy that we're editing
 						filter = function(buf)
 							return vim.bo[buf].buftype == "help"
 						end,
 					},
-					{ title = "Spectre", ft = "spectre_panel", size = { height = 0.4 } },
-					{ title = "Neotest Output", ft = "neotest-output-panel", size = { height = 15 } },
+					{ title = "Spectre", ft = "spectre_panel", size = { height = 0.2 } },
+					{ title = "Neotest Output", ft = "neotest-output-panel", size = { height = 0.2 } },
 				},
 				left = {
 					{ title = "Neotest Summary", ft = "neotest-summary" },
@@ -111,7 +111,7 @@ return {
 				opts[pos] = opts[pos] or {}
 				table.insert(opts[pos], {
 					ft = "snacks_terminal",
-					size = { height = 0.4 },
+					size = { height = 0.2, width = 0.2 },
 					title = "Terminal",
 					filter = function(_buf, win)
 						return vim.w[win].snacks_win
