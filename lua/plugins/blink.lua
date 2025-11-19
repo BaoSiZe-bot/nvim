@@ -200,7 +200,7 @@ return {
 					},
 				},
 				term = {
-					enabled = true,
+					enabled = false,
 					-- enabled = false,
 					keymap = { preset = "super-tab" }, -- Inherits from top level `keymap` config when not set
 					sources = {},
