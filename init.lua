@@ -20,6 +20,7 @@ require("options")
 require("autocmds")
 if not vim.g.vscode then
 	lazy.setup({
+
 		{ import = "plugins" },
 		{ import = "plugins.extras.git" },
 		{ import = "plugins.extras.sudo" },
@@ -53,6 +54,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.editor.origami" }, -- 折り紙
 		{ import = "plugins.extras.editor.undo" },
 		{ import = "plugins.extras.editor.yanky" },
+		{ import = "plugins.extras.editor.yarepl" },
 		-- { import = "plugins.extras.editor.yazi" },
 
 		{ import = "plugins.extras.mini.ai" },
