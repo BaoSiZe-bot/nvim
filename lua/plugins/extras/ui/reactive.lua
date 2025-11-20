@@ -6,9 +6,12 @@ return {
 			builtin = {
 				-- cursorline = true,
 				-- cursor = true,
-				modemsg = true,
+				-- modemsg = true,
 			},
-			load = { "catppuccin-frappe-cursor", "catppuccin-frappe-cursorline" },
+			load = {
+				"catppuccin-frappe-cursor",
+				"catppuccin-frappe-cursorline",
+			},
 		},
 	},
 }
