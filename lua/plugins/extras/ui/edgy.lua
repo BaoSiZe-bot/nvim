@@ -30,6 +30,13 @@ return {
 						end,
 					},
 					{
+						ft = "REPL",
+						size = { height = 0.2 },
+						filter = function(buf, win)
+							return vim.api.nvim_win_get_config(win).relative == ""
+						end,
+					},
+					{
 						ft = "noice",
 						title = "Noice",
 						size = { height = 0.2 },
