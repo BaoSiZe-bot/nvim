@@ -4,6 +4,7 @@ local LazyUtil = require("lazy.core.util")
 ---@field lsp abalone.utils.lsp
 ---@field lazy abalone.utils.lazy
 ---@field root abalone.utils.root
+---@field tabs abalone.utils.tabs
 ---@field treesitter abalone.utils.treesitter
 
 local M = {
