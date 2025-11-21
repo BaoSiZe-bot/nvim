@@ -22,21 +22,36 @@ return {
 		},
 	},
 	{
-		"jubnzv/mdeval.nvim",
-		ft = { "markdown", "org", "norg" },
+		"michaelb/sniprun",
+		branch = "master",
+		build = "sh install.sh 1",
+		-- do 'sh install.sh 1' if you want to force compile locally, 'sh install.sh' else
+		-- (instead of fetching a binary from the github release). Requires Rust >= 1.65
 		keys = {
 			{
 				"<leader>ce",
 				function()
-					require("mdeval").eval_code_block()
+					require("sniprun").run()
 				end,
-				silent = true,
-				noremap = true,
 				desc = "Eval Code Block",
+				mode = "n",
+				ft = { "markdown", "org", "norg" },
+			},
+			{
+				"<leader>ce",
+				function()
+					require("sniprun").run("v")
+				end,
+				desc = "Eval Code Block",
+				mode = "v",
 				ft = { "markdown", "org", "norg" },
 			},
 		},
-		opts = {},
+		opts = {
+			display = {
+				"VirtualLine",
+			},
+		},
 	},
 	{
 		"jmbuhr/otter.nvim",
