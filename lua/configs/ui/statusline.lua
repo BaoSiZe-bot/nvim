@@ -83,6 +83,41 @@ local ViMode = {
 	end,
 }
 
+local SearchCount = {
+	condition = function()
+		return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
+	end,
+	init = function(self)
+		local ok, search = pcall(vim.fn.searchcount)
+		if ok and search.total then
+			self.search = search
+		end
+	end,
+	provider = function(self)
+		local search = self.search
+		return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
+	end,
+	hl = { fg = "blue" },
+}
+
+local MacroRec = {
+	condition = function()
+		return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+	end,
+	provider = " ",
+	hl = { fg = "orange", bold = true },
+	utils.surround({ "[", "]" }, nil, {
+		provider = function()
+			return vim.fn.reg_recording()
+		end,
+		hl = { fg = "green", bold = true },
+	}),
+	update = {
+		"RecordingEnter",
+		"RecordingLeave",
+	},
+}
+
 local FileType = {
 	provider = function()
 		return string.upper(vim.bo.filetype)
@@ -91,6 +126,9 @@ local FileType = {
 }
 
 local FileSize = {
+	condition = function()
+		return vim.fn.reg_recording() == "" or vim.o.cmdheight > 0
+	end,
 	provider = function()
 		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 		local buffer_content = table.concat(lines, "\n")
@@ -382,12 +420,15 @@ local DefaultStatusline = {
 	ViMode,
 	Space,
 	FileSize,
+	MacroRec,
 	Space,
 	CurrentFileIcon,
 	Space,
 	WorkDir,
 	Space,
 	Ruler,
+	Align,
+	SearchCount,
 	Align,
 	LSPActive,
 	Space,
