@@ -67,6 +67,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.nvzone.triforce" },
 
 		{ import = "plugins.extras.ui.bqf" },
+		{ import = "plugins.extras.ui.dropbar" },
 		{ import = "plugins.extras.ui.edgy" },
 		-- { import = "plugins.extras.ui.firenvim" },
 		-- { import = "plugins.extras.ui.modicator" },

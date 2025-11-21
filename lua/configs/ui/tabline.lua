@@ -133,7 +133,7 @@ local TablineFileNameBlock = {
 	init = function(self)
 		self.filename = vim.api.nvim_buf_get_name(self.bufnr)
 	end,
-	update = { "BufFilePost", "BufEnter" },
+	update = { "BufFilePost", "BufEnter", "DiagnosticChanged" },
 	hl = function(self)
 		if self.is_active then
 			return "TabLineFill"
@@ -174,9 +174,6 @@ local TablineSplitLine = {
 
 -- a nice "x" button to close the buffer
 local TablineCloseButton = {
-	condition = function(self)
-		return not vim.api.nvim_get_option_value("modified", { buf = self.bufnr })
-	end,
 	{ provider = " " },
 	{
 		provider = "",

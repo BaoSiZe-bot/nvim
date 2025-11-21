@@ -3,6 +3,19 @@ local utils = require("heirline.utils")
 local Align = { provider = "%=" }
 local Space = { provider = " " }
 
+local dropbar = {
+	provider = function()
+		local bar = _G.dropbar
+		if bar == nil then
+			return ""
+		else
+			return bar()
+		end
+	end,
+	hl = { fg = "gray" },
+	update = "CursorMoved",
+}
+
 local FileType = {
 	provider = function()
 		return string.upper(vim.bo.filetype)
@@ -178,6 +191,9 @@ local MyFileNameBlock = utils.insert(
 	FileFlags,
 	{ provider = "%<" } -- this means that the statusline is cut here when there's not enough space
 )
+
+local DropBar = { flexible = 3, dropbar, MyFileNameBlock }
+
 local WinBars = {
 	fallthrough = false,
 	{ -- A special winbar for terminals
@@ -197,12 +213,19 @@ local WinBars = {
 				and not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
 				and vim.bo.buftype ~= "nofile"
 		end,
-		{ hl = { fg = "gray", force = true }, MyFileNameBlock },
+		{
+			hl = { fg = "gray", force = true },
+			condition = function()
+				return _G.dropbar == nil
+			end,
+			MyFileNameBlock,
+			Space,
+		},
 		{
 			condition = function()
 				return not (vim.bo.filetype == "yazi" or vim.bo.filetype == "snacks_terminal")
 			end,
-			Space,
+			DropBar,
 		},
 	},
 	{
@@ -211,7 +234,14 @@ local WinBars = {
 				and vim.bo.buftype ~= "nofile"
 		end,
 		-- A winbar for regular files
-		MyFileNameBlock,
+		{
+			condition = function()
+				return _G.dropbar == nil
+			end,
+			MyFileNameBlock,
+			Space,
+		},
+		DropBar,
 		Align,
 		RunCode,
 		Sidekick,
