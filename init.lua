@@ -49,7 +49,7 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.editor.snacks" },
 		{ import = "plugins.extras.editor.surround" },
 		{ import = "plugins.extras.editor.splitjoin" },
-		{ import = "plugins.extras.editor.symbols-overlay" },
+		{ import = "plugins.extras.editor.symbol-overlay" },
 		{ import = "plugins.extras.editor.trouble" },
 		-- { import = "plugins.extras.editor.ufo" },
 		{ import = "plugins.extras.editor.origami" }, -- 折り紙
