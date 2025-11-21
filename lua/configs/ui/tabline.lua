@@ -207,34 +207,8 @@ end, { TablineSplitLine, TablineFileNameBlock, TablineCloseButton })
 
 local buflist = Abalone.tabs.buflist_cache
 
--- setup an autocmd that updates the buflist_cache every time that buffers are added/removed
--- vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete", "BufFilePost" }, {
--- 	callback = function()
--- 		vim.schedule(function()
--- 			local buffers = get_bufs()
--- 			for i, v in ipairs(buffers) do
--- 				buflist[i] = v
--- 			end
--- 			for i = #buffers + 1, #buflist do
--- 				buflist[i] = nil
--- 			end
---
--- 			-- check how many buffers we have and set showtabline accordingly
--- 			if #buflist > 1 then
--- 				vim.o.showtabline = 2 -- always
--- 			elseif vim.o.showtabline ~= 1 then -- don't reset the option if it's already at default value
--- 				vim.o.showtabline = 1 -- only when #tabpages > 1
--- 			end
--- 		end)
--- 	end,
--- })
-
 local function update_showtabline()
-	if #buflist > 1 then
-		vim.o.showtabline = 2 -- always
-	elseif vim.o.showtabline ~= 1 then
-		vim.o.showtabline = 1
-	end
+	vim.o.showtabline = 2
 end
 -- [+] 跟踪*新*缓冲区，并将其添加到*末尾*
 vim.api.nvim_create_autocmd({ "BufAdd" }, {
