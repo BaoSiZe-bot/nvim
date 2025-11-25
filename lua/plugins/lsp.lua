@@ -73,12 +73,6 @@ return {
 	},
 
 	{
-		"oribarilan/lensline.nvim",
-		opts = {},
-		event = "LspAttach",
-	},
-
-	{
 		"neovim/nvim-lspconfig",
 		event = "User FilePost",
 		opts = {
