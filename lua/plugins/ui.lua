@@ -22,25 +22,25 @@ return {
 		event = "UIEnter",
 		cond = vim.g.started_by_firenvim ~= true,
 	},
-	{
-		"sphamba/smear-cursor.nvim",
-		event = "CursorMoved",
-		cond = vim.g.neovide == nil and vim.g.started_by_firenvim ~= true,
-		opts = {
-			hide_target_hack = true,
-			cursor_color = "none",
-		},
-		specs = {
-			-- disable mini.animate cursor
-			{
-				"nvim-mini/mini.animate",
-				optional = true,
-				opts = {
-					cursor = { enable = false },
-				},
-			},
-		},
-	},
+	-- {
+	-- 	"sphamba/smear-cursor.nvim",
+	-- 	event = "CursorMoved",
+	-- 	cond = vim.g.neovide == nil and vim.g.started_by_firenvim ~= true,
+	-- 	opts = {
+	-- 		hide_target_hack = true,
+	-- 		cursor_color = "none",
+	-- 	},
+	-- 	specs = {
+	-- 		-- disable mini.animate cursor
+	-- 		{
+	-- 			"nvim-mini/mini.animate",
+	-- 			optional = true,
+	-- 			opts = {
+	-- 				cursor = { enable = false },
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"LuxVim/nvim-luxmotion",
 		cond = vim.g.started_by_firenvim ~= true,
