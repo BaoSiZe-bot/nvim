@@ -56,62 +56,62 @@ return {
 			},
 		},
 	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = "User FilePost",
-		opts = {
-			indent = {
-				char = "│" --[[, highlight = "IblChar"]],
-			},
-			scope = {
-				enabled = false,
-				char = "│" --[[, highlight = "IblScopeChar"]],
-			},
-		},
-		config = function(_, opts)
-			-- dofile(vim.g.base46_cache .. "blankline")
-
-			local hooks = require("ibl.hooks")
-			local highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
-				"RainbowGreen",
-				"RainbowViolet",
-				"RainbowCyan",
-			}
-			opts.indent.highlight = highlight
-			-- hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
-			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-				local hl = {}
-				local C = require("catppuccin.palettes").get_palette(require("catppuccin").flavour)
-				hl["RainbowRed"] = { blend = 0, fg = C.red }
-				hl["RainbowYellow"] = { blend = 0, fg = C.yellow }
-				hl["RainbowBlue"] = { blend = 0, fg = C.blue }
-				hl["RainbowOrange"] = { blend = 0, fg = C.peach }
-				hl["RainbowGreen"] = { blend = 0, fg = C.green }
-				hl["RainbowViolet"] = { blend = 0, fg = C.mauve }
-				hl["RainbowCyan"] = { blend = 0, fg = C.teal }
-				-- local scopehl = {
-				-- 	link = "CursorLine",
-				-- 	-- bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false, create = false }).bg,
-				-- 	-- underline = false
-				-- }
-
-				-- for i = 1, 7, 1 do
-				-- 	hl["@ibl.scope.underline." .. i] = scopehl
-				-- end
-
-				for group, opt in pairs(hl) do
-					vim.api.nvim_set_hl(0, group, opt)
-				end
-			end)
-			require("ibl").setup(opts)
-
-			-- dofile(vim.g.base46_cache .. "blankline")
-		end,
-	},
+	-- {
+	-- 	"lukas-reineke/indent-blankline.nvim",
+	-- 	event = "User FilePost",
+	-- 	opts = {
+	-- 		indent = {
+	-- 			char = "│" --[[, highlight = "IblChar"]],
+	-- 		},
+	-- 		scope = {
+	-- 			enabled = false,
+	-- 			char = "│" --[[, highlight = "IblScopeChar"]],
+	-- 		},
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		-- dofile(vim.g.base46_cache .. "blankline")
+	--
+	-- 		local hooks = require("ibl.hooks")
+	-- 		local highlight = {
+	-- 			"RainbowRed",
+	-- 			"RainbowYellow",
+	-- 			"RainbowBlue",
+	-- 			"RainbowOrange",
+	-- 			"RainbowGreen",
+	-- 			"RainbowViolet",
+	-- 			"RainbowCyan",
+	-- 		}
+	-- 		opts.indent.highlight = highlight
+	-- 		-- hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+	-- 		hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+	-- 			local hl = {}
+	-- 			local C = require("catppuccin.palettes").get_palette(require("catppuccin").flavour)
+	-- 			hl["RainbowRed"] = { blend = 0, fg = C.red }
+	-- 			hl["RainbowYellow"] = { blend = 0, fg = C.yellow }
+	-- 			hl["RainbowBlue"] = { blend = 0, fg = C.blue }
+	-- 			hl["RainbowOrange"] = { blend = 0, fg = C.peach }
+	-- 			hl["RainbowGreen"] = { blend = 0, fg = C.green }
+	-- 			hl["RainbowViolet"] = { blend = 0, fg = C.mauve }
+	-- 			hl["RainbowCyan"] = { blend = 0, fg = C.teal }
+	-- 			-- local scopehl = {
+	-- 			-- 	link = "CursorLine",
+	-- 			-- 	-- bg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false, create = false }).bg,
+	-- 			-- 	-- underline = false
+	-- 			-- }
+	--
+	-- 			-- for i = 1, 7, 1 do
+	-- 			-- 	hl["@ibl.scope.underline." .. i] = scopehl
+	-- 			-- end
+	--
+	-- 			for group, opt in pairs(hl) do
+	-- 				vim.api.nvim_set_hl(0, group, opt)
+	-- 			end
+	-- 		end)
+	-- 		require("ibl").setup(opts)
+	--
+	-- 		-- dofile(vim.g.base46_cache .. "blankline")
+	-- 	end,
+	-- },
 	{
 		"catppuccin/nvim",
 		optional = true,
@@ -119,8 +119,45 @@ return {
 			integrations = {
 				indent_blankline = {
 					enabled = false,
-					scope_color = "overlay2", -- catppuccin color (eg. `lavender`) Default: text
+					scope_color = "text", -- catppuccin color (eg. `lavender`) Default: text
 					colored_indent_levels = true,
+				},
+				blink_indent = true,
+			},
+		},
+	},
+	{
+		"saghen/blink.indent",
+		--- @module 'blink.indent'
+		--- @type blink.indent.Config
+		event = "User FilePost",
+		opts = {
+			mappings = {
+				border = "",
+			},
+			static = {
+				priority = 999,
+				char = "│",
+				-- highlights = {
+				-- 	"BlinkIndentRed",
+				-- 	"BlinkIndentOrange",
+				-- 	"BlinkIndentYellow",
+				-- 	"BlinkIndentGreen",
+				-- 	"BlinkIndentViolet",
+				-- 	"BlinkIndentCyan",
+				-- },
+			},
+			scope = {
+				char = "│",
+				-- highlights = { "BlinkIndentScope" },
+				highlights = {
+					"BlinkIndentRed",
+					"BlinkIndentYellow",
+					"BlinkIndentBlue",
+					"BlinkIndentOrange",
+					"BlinkIndentGreen",
+					"BlinkIndentViolet",
+					"BlinkIndentCyan",
 				},
 			},
 		},
