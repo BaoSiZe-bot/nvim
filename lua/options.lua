@@ -10,7 +10,7 @@ if not g.vscode then
 	opt.sidescrolloff = 36
 	g.snacks_animate = true
 	opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
-	opt.guifont = "JetbrainsMono Nerd Font:h14"
+	opt.guifont = "ComicShannsMono Nerd Font:h14"
 	opt.laststatus = 3
 	opt.showmode = false
 	opt.number = true
