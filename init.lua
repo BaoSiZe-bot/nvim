@@ -26,18 +26,20 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.sudo" },
 
 		{ import = "plugins.extras.ai.avante" },
+		{ import = "plugins.extras.ai.codeium" },
 		{ import = "plugins.extras.ai.sidekick" },
-		{ import = "plugins.extras.ai.copilot" },
+		-- { import = "plugins.extras.ai.copilot" },
 		-- { import = "plugins.extras.ai.copilot-native" },
 
 		{ import = "plugins.extras.dap.core" },
 
 		{ import = "plugins.extras.diagnostic.tiny" },
-		-- { import = "plugins.extras.diagnostic.sense" },
+		{ import = "plugins.extras.diagnostic.sense" },
 
 		{ import = "plugins.extras.editor.autopairs" },
 		{ import = "plugins.extras.editor.buffon" },
 		{ import = "plugins.extras.editor.dial" },
+		{ import = "plugins.extras.editor.dmacro" },
 		{ import = "plugins.extras.editor.exchange" },
 		{ import = "plugins.extras.editor.flash" },
 		{ import = "plugins.extras.editor.grug-far" },
@@ -67,8 +69,9 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.rime" },
 		{ import = "plugins.extras.nvzone.triforce" },
 
-		{ import = "plugins.extras.ui.bqf" },
 		{ import = "plugins.extras.ui.dropbar" },
+		{ import = "plugins.extras.ui.bqf" },
+		{ import = "plugins.extras.ui.command_preview" },
 		{ import = "plugins.extras.ui.edgy" },
 		-- { import = "plugins.extras.ui.firenvim" },
 		-- { import = "plugins.extras.ui.modicator" },
@@ -93,6 +96,9 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.lang.markdown" },
 		{ import = "plugins.extras.lang.org" },
 		{ import = "plugins.extras.lang.python" },
+
+		{ import = "plugins.extras.games.sudoku" },
+		{ import = "plugins.extras.games.2048" },
 
 		-- { import = "plugins.extras.nyaovim" },
 		-- { import = "plugins.extras.spacevim" },
