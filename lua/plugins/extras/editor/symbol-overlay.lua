@@ -12,5 +12,7 @@ return {
         { "<leader>ht", function() require("symbol-overlay").toggle() end, desc = "Overlay: toggle current word" },
         { "<leader>h]", function() require("symbol-overlay").switch_forward() end, desc = "Overlay: switch to next nearby highlight" },
         { "<leader>h[", function() require("symbol-overlay").switch_backward() end, desc = "Overlay: switch to prev nearby highlight" },
+        -- add a hydra mode for symbol-overlay, which-key is needed
+        { "<leader>h<space>", function() require("which-key").show({ keys = "<leader>h", loop = true }) end, desc = "Symbol Overlay Hydra Mode" }
 	},
 }

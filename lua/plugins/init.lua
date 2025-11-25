@@ -189,11 +189,25 @@ return {
 				desc = "Buffer Keymaps (which-key)",
 			},
 			{
+				"<leader>b<space>",
+				function()
+					require("which-key").show({ keys = "<leader>b", loop = true })
+				end,
+				desc = "Buffer Hydra Mode",
+			},
+			{
+				"<leader><tab><space>",
+				function()
+					require("which-key").show({ keys = "<leader>b", loop = true })
+				end,
+				desc = "Tab Hydra Mode",
+			},
+			{
 				"<c-w><space>",
 				function()
 					require("which-key").show({ keys = "<c-w>", loop = true })
 				end,
-				desc = "Window Hydra Mode (which-key)",
+				desc = "Window Hydra Mode",
 			},
 		},
 		config = function(_, opts)
