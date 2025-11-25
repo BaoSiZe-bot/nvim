@@ -55,7 +55,6 @@ return {
 	},
 	{
 		"jmbuhr/otter.nvim",
-		ft = { "markdown", "org", "norg" },
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 		},
