@@ -14,13 +14,16 @@ return {
 		dependencies = {
 			"Exafunction/windsurf.nvim",
 		},
-		opts = {
-			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "codeium" },
-				providers = {
-					codeium = { name = "Codeium", module = "codeium.blink", async = true },
-				},
-			},
-		},
+		opts = function(_, opts)
+			opts.sources.default = opts.sources.default or {}
+			table.insert(opts.sources.default, "codeium")
+
+			opts.sources.providers = opts.sources.providers or {}
+			opts.sources.providers.codeium = {
+				name = "Codeium",
+				module = "codeium.blink",
+				async = true,
+			}
+		end,
 	},
 }
