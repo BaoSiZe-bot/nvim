@@ -9,6 +9,6 @@ return {
 		},
 	},
 	config = function(_, opts)
-		require("live_command").setup(opts)
+		require("live-command").setup(opts)
 	end,
 }
