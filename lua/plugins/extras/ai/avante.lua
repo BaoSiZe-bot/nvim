@@ -11,6 +11,7 @@ return {
 		---@module 'avante'
 		---@type avante.Config
 		opts = {
+			instructions_file = "CRUSH.md",
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
 			---@type Provider
 			provider = "gemini-cli", -- The provider used in Aider mode or in the planning phase of Cursor Planning Mode
@@ -105,10 +106,10 @@ return {
 				minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
 				enable_token_counting = true, -- Whether to enable token counting. Default to true.
 				auto_add_current_file = true, -- Whether to automatically add the current file when opening a new chat. Default to true.
-				auto_approve_tool_permissions = true, -- Default: auto-approve all tools (no prompts)
+				-- auto_approve_tool_permissions = true, -- Default: auto-approve all tools (no prompts)
 				-- Examples:
-				-- auto_approve_tool_permissions = false,                -- Show permission prompts for all tools
-				-- auto_approve_tool_permissions = {"bash", "replace_in_file"}, -- Auto-approve specific tools only
+				-- auto_approve_tool_permissions = false, -- Show permission prompts for all tools
+				auto_approve_tool_permissions = { "bash" }, -- Auto-approve specific tools only
 			},
 			prompt_logger = { -- logs prompts to disk (timestamped, for replay/debugging)
 				enabled = true, -- toggle logging entirely
