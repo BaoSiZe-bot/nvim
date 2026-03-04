@@ -21,7 +21,7 @@ return {
 				indentscope = {
 					enabled = not Abalone.lazy.has("blink.indent"),
 					group = "FylerIndentMarker",
-					marker = "│",
+					markers = "│",
 				},
 				win = {
 					win_opts = {
