@@ -26,9 +26,9 @@ if not vim.g.vscode then
 		{ import = "plugins.extras.sudo" },
 
 		{ import = "plugins.extras.ai.avante" },
-		{ import = "plugins.extras.ai.codeium" },
+		-- { import = "plugins.extras.ai.codeium" },
 		{ import = "plugins.extras.ai.sidekick" },
-		-- { import = "plugins.extras.ai.copilot" },
+		{ import = "plugins.extras.ai.copilot" },
 		-- { import = "plugins.extras.ai.copilot-native" },
 
 		{ import = "plugins.extras.dap.core" },
