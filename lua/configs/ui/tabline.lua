@@ -207,9 +207,21 @@ end, { TablineSplitLine, TablineFileNameBlock, TablineCloseButton })
 
 local buflist = Abalone.tabs.buflist_cache
 
-local function update_showtabline()
-	vim.o.showtabline = 2
+for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+	if vim.api.nvim_get_option_value("buflisted", { buf = bufnr }) then
+		if not vim.tbl_contains(buflist, bufnr) then
+			table.insert(buflist, bufnr)
+		end
+	end
 end
+
+local function update_showtabline()
+	if #buflist > 0 then
+		vim.o.showtabline = 2
+	end
+end
+update_showtabline()
+
 -- [+] 跟踪*新*缓冲区，并将其添加到*末尾*
 vim.api.nvim_create_autocmd({ "BufAdd" }, {
 	callback = function(args)

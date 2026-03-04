@@ -32,7 +32,6 @@ local TabLine = require("configs.ui.tabline")
 local WinBars = require("configs.ui.winbar")
 
 -- Yep, with heirline we're driving manual!
-vim.o.showtabline = 1
 vim.cmd([[au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif]])
 return {
 	statusline = StatusLines,

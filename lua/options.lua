@@ -52,6 +52,7 @@ if not g.vscode then
 	g.loaded_python3_provider = 0
 	g.loaded_perl_provider = 0
 	g.loaded_ruby_provider = 0
+	o.showtabline = 2
 	g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 else
 	-- o.showmode = false
