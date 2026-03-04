@@ -1,7 +1,8 @@
 return {
 	{
 		"saghen/blink.cmp",
-		build = "cargo build --release",
+        version = '1.*',
+		-- build = "cargo build --release",
 		opts_extend = {
 			"sources.completion.enabled_providers",
 			"sources.compat",
