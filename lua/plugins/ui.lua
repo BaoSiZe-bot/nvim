@@ -1,8 +1,6 @@
 return {
 	{
 		"Isrothy/neominimap.nvim",
-		version = "v3.x.x",
-		enabled = false,
 		cond = vim.g.started_by_firenvim ~= true,
 		event = "LazyFile",
 		priority = 1919810,
