@@ -1,20 +1,20 @@
 return {
-	{
-		"Isrothy/neominimap.nvim",
-		cond = vim.g.started_by_firenvim ~= true,
-		event = "LazyFile",
-		priority = 1919810,
-		init = function()
-			vim.opt.wrap = false
-			vim.opt.sidescrolloff = 36
-			vim.g.neominimap = {
-				auto_enable = true,
-				float = {
-					window_border = "none",
-				},
-			}
-		end,
-	},
+	-- {
+	-- 	"Isrothy/neominimap.nvim",
+	-- 	cond = vim.g.started_by_firenvim ~= true,
+	-- 	event = "LazyFile",
+	-- 	priority = 1919810,
+	-- 	init = function()
+	-- 		vim.opt.wrap = false
+	-- 		vim.opt.sidescrolloff = 36
+	-- 		vim.g.neominimap = {
+	-- 			auto_enable = true,
+	-- 			float = {
+	-- 				window_border = "none",
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
 	{
 		"dstein64/nvim-scrollview",
 		event = "UIEnter",
