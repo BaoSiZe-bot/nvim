@@ -35,6 +35,7 @@ return {
 
 		-- download prebuilt binaries from github releases
 		dependencies = "saghen/blink.download",
+		build = function() require('blink.pairs').build():pwait(60000) end,
 		-- OR build from source, requires nightly:
 		-- https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 		-- build = "cargo build --release",
