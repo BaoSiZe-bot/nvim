@@ -61,7 +61,7 @@ if not vim.g.vscode then
 		-- { import = "plugins.extras.editor.yazi" },
 
 		{ import = "plugins.extras.mini.ai" },
-		-- { import = "plugins.extras.mini.files" },
+		{ import = "plugins.extras.mini.files" },
 		{ import = "plugins.extras.mini.hipatterns" },
 		{ import = "plugins.extras.mini.pairs" },
 		-- { import = "plugins.extras.mini.surround" },
