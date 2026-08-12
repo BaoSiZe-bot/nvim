@@ -1,7 +1,7 @@
 return {
 	"milanglacier/yarepl.nvim",
 	keys = {
-		{ "<leader>or", "<Plug>(REPLStart)", noremap = false, mode = "n", desc = "Start REPL" },
+		{ "<leader>or", "<Plug>(yarepl-start)", noremap = false, mode = "n", desc = "Start REPL" },
 		{
 			"<leader>os",
 			function()
