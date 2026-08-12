@@ -1,13 +1,13 @@
 return {
-	"gisketch/triforce.nvim",
-	dependencies = {
-		"nvzone/volt",
-	},
-	keys = { "<leader>P" },
-	opts = {
-		-- Optional: Add your configuration here
-		keymap = {
-			show_profile = "<leader>P", -- Open profile with <leader>P
+	'gisketch/triforce.nvim',
+	dependencies = { 'nvzone/volt' },
+	keys = {
+		{
+			'<leader>P',
+			function()
+				require('triforce').show_profile()
+			end,
 		},
 	},
+	opts = {},
 }
